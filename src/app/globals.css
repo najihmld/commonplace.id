@@ -1,4 +1,7 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
 
 @theme {
     --color-primary: oklch(0.61 0.2 262.97 / 1);
@@ -18,9 +21,46 @@
     --color-background: oklch(1 0 0 / 1);
     --color-background-secondary: oklch(0.97 0 0);
     --color-background-tertiary: oklch(0.88 0.0027 286.34);
-    --color-background-disabled: oklch(0.93 0 286.35 / 1);
+    --color-background-disabled: oklch(0.93 0.0027 286.35);
 
-    --color-background-dark: oklch(0.32 0.07 255.4 / 1);
+    --color-background-dark: oklch(0.24 0 0 / 1);
     --color-background-dark-secondary: oklch(0.32 0 0 / 1);
     --color-background-dark-disabled: oklch(0.63 0 286.31 / 1);
+
+    --color-text: oklch(0.24 0 0 / 1);
+    --color-text-secondary: oklch(0.32 0 0);
+    --color-text-tertiary: oklch(0.82 0 286.34 / 1);
+}
+
+:root {
+    --sidebar: var(--color-background-secondary);
+    --sidebar-foreground: var(--color-text-secondary);
+    --sidebar-accent: var(--color-background);
+    --sidebar-accent-foreground: var(--color-text);
+    --sidebar-border: var(--color-background-tertiary);
+    --sidebar-ring: 217.2 91.2% 59.8%;
+}
+
+/* .dark {
+    --sidebar: var(--color-background-secondary);
+    --sidebar-foreground: var(--color-text-secondary);
+    --sidebar-accent: var(--color-background);
+    --sidebar-accent-foreground: var(--color-text);
+} */
+
+@theme inline {
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+    body {
+        @apply text-text-secondary;
+    }
 }

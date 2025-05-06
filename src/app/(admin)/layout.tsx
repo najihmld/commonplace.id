@@ -1,17 +1,23 @@
-import Siderbar from '@/components/layouts/Siderbar';
+import { AppSidebar } from '@/components/app-sidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { cookies } from 'next/headers';
 
-export default function AdminLayout({
+export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="flex min-h-screen bg-background-secondary">
-      <Siderbar />
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
 
-      <main className="bg-background rounded-2xl flex-1 my-6 px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 lg:px-10 lg:py-12">
-        {children}
-      </main>
-    </div>
+  return (
+    <SidebarProvider defaultOpen={defaultOpen}>
+      <AppSidebar />
+      <div className="py-2.5 pr-2.5 flex-1">
+        <main className="bg-background rounded-2xl min-h-full p-4 md:p-4 lg:p-6">
+          {children}
+        </main>
+      </div>
+    </SidebarProvider>
   );
 }
