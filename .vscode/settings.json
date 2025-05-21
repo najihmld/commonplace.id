@@ -13,5 +13,8 @@
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true
   },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  },
   "tailwindCSS.experimental.configFile": "src/app/globals.css"
 }

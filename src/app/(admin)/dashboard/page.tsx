@@ -4,8 +4,13 @@ export default function DashboardPage() {
   return (
     <>
       <h1>Hello Next.js! Dashboard Page</h1>
-      <div>
-        <Button>Button</Button>
+      <div className="flex gap-3">
+        <Button>default</Button>
+        <Button variant="destructive">destructive</Button>
+        <Button variant="ghost">ghost</Button>
+        <Button variant="link">link</Button>
+        <Button variant="outline">outline</Button>
+        <Button variant="secondary">secondary</Button>
       </div>
     </>
   );
