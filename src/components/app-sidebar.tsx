@@ -25,7 +25,7 @@ import {
   SidebarMenuSubItem,
   SidebarTrigger,
   useSidebar,
-} from '@/components/ui/sidebar';
+} from '@/components/common/sidebar';
 
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
@@ -33,7 +33,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from './ui/collapsible';
+} from './common/collapsible';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,7 +41,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu';
+} from './common/dropdown-menu';
 
 // Menu items.
 const items = [
