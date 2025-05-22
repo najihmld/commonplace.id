@@ -42,6 +42,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './common/dropdown-menu';
+import { ModeToggle } from './theme/mode-toggle';
 
 // Menu items.
 const items = [
@@ -97,7 +98,7 @@ export function AppSidebar() {
             priority
             height={26}
             width={116.4}
-            src={'/logo.svg'}
+            src="/logo.svg"
             alt="Sidebar Logo"
           />
         ) : (
@@ -105,7 +106,7 @@ export function AppSidebar() {
             priority
             height={26}
             width={19.1}
-            src={'/logo-cropped.svg'}
+            src="/logo-cropped.svg"
             alt="Sidebar Logo"
           />
         )}
@@ -199,7 +200,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter>
-        <SidebarTrigger />
+        <ModeToggle />
       </SidebarFooter>
     </Sidebar>
   );

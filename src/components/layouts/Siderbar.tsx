@@ -18,7 +18,7 @@ function Siderbar() {
   return (
     <aside className="w-[220px]">
       <div className="p-4">
-        <Image height={22} width={77} src={'/logo.svg'} alt="Sidebar Logo" />
+        <Image height={22} width={77} src="/logo.svg" alt="Sidebar Logo" />
       </div>
       <nav className="mt-4">
         <ul className="space-y-2">
