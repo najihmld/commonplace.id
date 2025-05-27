@@ -14,12 +14,6 @@ const eslintConfig = [
     extends: ['next/core-web-vitals', 'next/typescript', 'prettier'],
     rules: {
       'no-multiple-empty-lines': ['error', { max: 1 }],
-
-      // <Button variant={'secondary'}> ->  <Button variant="secondary">
-      'react/jsx-curly-brace-presence': [
-        'error',
-        { props: 'never', children: 'never' },
-      ],
     },
   }),
 ];
