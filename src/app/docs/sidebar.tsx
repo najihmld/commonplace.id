@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  Calendar,
-  Home,
-  Inbox,
-  Search,
-  Settings,
-  LockKeyhole,
-  UserPen,
-} from 'lucide-react';
+import { Component as ComponentIcon } from 'lucide-react';
 
 import {
   Sidebar,
@@ -23,17 +15,15 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubItem,
-  SidebarTrigger,
   useSidebar,
 } from '@/components/common/sidebar';
 
 import { usePathname } from 'next/navigation';
-import Image from 'next/image';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from './common/collapsible';
+} from '../../components/common/collapsible';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,79 +31,41 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './common/dropdown-menu';
-import { ModeToggle } from './theme/mode-toggle';
+} from '../../components/common/dropdown-menu';
+import { ModeToggle } from '../../components/theme/mode-toggle';
+import Link from 'next/link';
+
+type SubMenuItem = {
+  title: string;
+  url: string;
+  icon?: React.ComponentType;
+  submenu?: SubMenuItem[];
+};
 
 // Menu items.
-const items = [
+const items: SubMenuItem[] = [
   {
-    title: 'Dashboard',
-    url: '/dashboard',
-    icon: Home,
-  },
-  {
-    title: 'Inbox',
-    url: '/inbox',
-    icon: Inbox,
-  },
-  {
-    title: 'Calendar',
-    url: '#',
-    icon: Calendar,
-  },
-  {
-    title: 'Search',
-    url: '#',
-    icon: Search,
-  },
-  {
-    title: 'Settings',
-    url: '#',
-    icon: Settings,
-    submenu: [
-      {
-        title: 'Profile',
-        url: '/settings/profile',
-        icon: UserPen,
-      },
-      {
-        title: 'Security',
-        url: '/settings/security',
-        icon: LockKeyhole,
-      },
-    ],
+    title: 'Button',
+    url: '/docs/common/button',
   },
 ];
 
 export function AppSidebar() {
   const pathname = usePathname();
   const { open } = useSidebar();
-  console.log('AppSidebar', pathname);
 
   return (
     <Sidebar collapsible="icon" variant="inset">
       <SidebarHeader className="px-4">
-        {open ? (
-          <Image
-            priority
-            height={26}
-            width={116.4}
-            src="/logo.svg"
-            alt="Sidebar Logo"
-          />
-        ) : (
-          <Image
-            priority
-            height={26}
-            width={19.1}
-            src="/logo-cropped.svg"
-            alt="Sidebar Logo"
-          />
-        )}
+        <Link href="/">
+          <div className="text-2xl font-bold text-neutral-800">
+            {open ? <div>NextJS</div> : <div>N</div>}
+          </div>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>Common</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
@@ -124,7 +76,7 @@ export function AppSidebar() {
                         <SidebarMenuButton
                           isActive={item.url === pathname || false}
                         >
-                          <item.icon />
+                          <ComponentIcon />
                         </SidebarMenuButton>
                       </DropdownMenuTrigger>
 
@@ -134,7 +86,7 @@ export function AppSidebar() {
                         {item.submenu.map((subItem) => (
                           <DropdownMenuItem key={subItem.title} asChild>
                             <a href={subItem.url}>
-                              <subItem.icon />
+                              {subItem.icon && <subItem.icon />}
                               <span>{subItem.title}</span>
                             </a>
                           </DropdownMenuItem>
@@ -154,7 +106,7 @@ export function AppSidebar() {
                           <SidebarMenuButton
                             isActive={item.url === pathname || false}
                           >
-                            <item.icon />
+                            <ComponentIcon />
                             <span>{item.title}</span>
                           </SidebarMenuButton>
                         </CollapsibleTrigger>
@@ -168,7 +120,7 @@ export function AppSidebar() {
                                   isActive={subItem.url === pathname || false}
                                 >
                                   <a href={subItem.url}>
-                                    <subItem.icon />
+                                    <ComponentIcon />
                                     <span>{subItem.title}</span>
                                   </a>
                                 </SidebarMenuButton>
@@ -187,7 +139,7 @@ export function AppSidebar() {
                       isActive={item.url === pathname || false}
                     >
                       <a href={item.url}>
-                        <item.icon />
+                        <ComponentIcon />
                         <span>{item.title}</span>
                       </a>
                     </SidebarMenuButton>

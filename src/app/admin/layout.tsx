@@ -1,4 +1,4 @@
-import { AppSidebar } from '@/components/app-sidebar';
+import { AppSidebar } from '@/app/admin/app-sidebar';
 import { SidebarProvider, SidebarTrigger } from '@/components/common/sidebar';
 import { cookies } from 'next/headers';
 
@@ -13,9 +13,13 @@ export default async function Layout({
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar />
+
       <main>
-        <SidebarTrigger />
-        {children}
+        <header className="mb-4 flex">
+          <SidebarTrigger />
+        </header>
+
+        <div>{children}</div>
       </main>
     </SidebarProvider>
   );
