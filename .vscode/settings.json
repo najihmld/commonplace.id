@@ -16,12 +16,5 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always"
   },
-  "tailwindCSS.experimental.configFile": "src/app/globals.css",
-  "eslint.useFlatConfig": true,
-  "eslint.validate": [
-    "typescript",
-    "typescriptreact",
-    "javascript",
-    "javascriptreact"
-  ]
+  "tailwindCSS.experimental.configFile": "src/app/globals.css"
 }
