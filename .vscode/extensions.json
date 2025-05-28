@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "nize.oklch-preview",
+    "starbist.oklchanger"
+  ],
+  "unwantedRecommendations": []
+}
