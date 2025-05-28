@@ -7,10 +7,14 @@ import { z } from 'zod';
 import { Button } from '@/components/common/button';
 import { Form } from '@/components/forms/form';
 import { ControlledInput } from '@/components/forms/input';
+import { ControlledSelect } from '@/components/forms/select';
 
 const formSchema = z.object({
   username: z.string().min(2, {
     message: 'Username must be at least 2 characters.',
+  }),
+  gender: z.string().min(1, {
+    message: 'Select gender is required',
   }),
 });
 
@@ -20,6 +24,7 @@ export default function ProfileForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
+      gender: '',
     },
   });
 
@@ -34,7 +39,7 @@ export default function ProfileForm() {
     <Form
       methods={form}
       onSubmit={form.handleSubmit(onSubmit)}
-      className="space-y-8"
+      className="max-w-xl space-y-2"
     >
       <ControlledInput
         control={form.control}
@@ -43,6 +48,17 @@ export default function ProfileForm() {
         description="This is your public display name."
         placeholder="Username"
       />
+      <ControlledSelect
+        control={form.control}
+        name="gender"
+        label="Gender"
+        options={[
+          { label: 'Male', value: 'm' },
+          { label: 'Female', value: 'f' },
+        ]}
+      />
+
+      <br />
       <Button type="submit">Submit</Button>
     </Form>
   );

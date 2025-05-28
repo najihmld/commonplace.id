@@ -12,7 +12,7 @@ import { Control, FieldValues, Path } from 'react-hook-form';
 type ControlledInputProps<T extends FieldValues> = {
   control: Control<T>;
   name: Path<T>;
-  label: string;
+  label?: string;
   description?: string;
 } & React.ComponentProps<typeof Input>;
 
@@ -29,7 +29,7 @@ const ControlledInput = <T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <Input {...inputProps} {...field} />
           </FormControl>
