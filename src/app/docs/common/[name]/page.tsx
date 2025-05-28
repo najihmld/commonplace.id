@@ -5,6 +5,8 @@ import React from 'react';
 
 const CommonUI = {
   button: React.lazy(() => import('./button.mdx')),
+  input: React.lazy(() => import('./input.mdx')),
+  select: React.lazy(() => import('./select.mdx')),
 };
 
 function DocsCommonPage() {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import {
@@ -8,22 +9,54 @@ import {
 } from '@/components/common/tabs';
 import React from 'react';
 import jsxToString from 'react-element-to-jsx-string';
-import { atomOneLight, atomOneDark, CopyBlock } from 'react-code-blocks';
-import { useTheme } from 'next-themes';
+import { atomOneDark, CopyBlock, dracula } from 'react-code-blocks';
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  text?: string;
+  language?: 'jsx' | 'tsx';
+  theme?: 'dracula' | 'atomOneDark';
 }
 
-function ComponentPreview({ children }: Props) {
-  const { theme } = useTheme();
+function ComponentPreview({ children, text, language, theme }: Props) {
   const Codes = React.Children.toArray(children) as React.ReactElement[];
 
-  const jsxString = jsxToString(Codes[0], {
-    showFunctions: true,
-    functionValue: (fn) => fn.toString(),
-    useBooleanShorthandSyntax: false,
-  });
+  const jsxString =
+    text ||
+    jsxToString(Codes[0], {
+      showFunctions: true,
+      functionValue: (fn) => fn.toString(),
+      useBooleanShorthandSyntax: false,
+      displayName: (element: React.ReactNode) => {
+        if (!element || typeof element !== 'object' || !('type' in element)) {
+          return 'UnknownComponent';
+        }
+        const el = element as React.ReactElement;
+        if (typeof el.type === 'function') {
+          return (
+            (el.type as any).displayName ||
+            (el.type as any).name ||
+            'UnknownComponent'
+          );
+        }
+        if (typeof el.type === 'object' && el.type !== null) {
+          const displayName =
+            (el.type as any).displayName ||
+            (el.type as any).render?.displayName ||
+            (el.type as any).render?.name ||
+            'UnknownComponent';
+          return displayName;
+        }
+        if (typeof el.type === 'string') {
+          return el.type;
+        }
+        return 'UnknownComponent';
+      },
+      /** 🔥 Tambahkan ini: */
+      filterProps: ['methods'],
+      /** 💡 Ganti nilai prop `methods` menjadi placeholder */
+      sortProps: false,
+    });
 
   return (
     <Tabs defaultValue="preview">
@@ -39,10 +72,14 @@ function ComponentPreview({ children }: Props) {
         <TabsContent value="code" className="p-2">
           <CopyBlock
             text={jsxString}
-            language="jsx"
+            language={language || 'jsx'}
             showLineNumbers
             wrapLongLines
-            theme={theme === 'dark' ? atomOneDark : atomOneLight}
+            theme={
+              { dracula: dracula, atomOneDark: atomOneDark }[
+                theme || 'atomOneDark'
+              ]
+            }
           />
         </TabsContent>
       </div>
