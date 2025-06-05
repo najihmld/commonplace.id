@@ -52,9 +52,7 @@ function ComponentPreview({ children, text, language, theme }: Props) {
         }
         return 'UnknownComponent';
       },
-      /** 🔥 Tambahkan ini: */
       filterProps: ['methods'],
-      /** 💡 Ganti nilai prop `methods` menjadi placeholder */
       sortProps: false,
     });
 

@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  Calendar,
-  Home,
-  Inbox,
-  Search,
-  Settings,
-  LockKeyhole,
-  UserPen,
-} from 'lucide-react';
+import { Target, BookOpen, Star, Archive } from 'lucide-react';
 
 import {
   Sidebar,
@@ -43,48 +35,38 @@ import {
 import { ModeToggle } from '../../components/theme/mode-toggle';
 import Link from 'next/link';
 
+type MenuItem = {
+  title: string;
+  url: string;
+  icon: React.ReactNode;
+  submenu?: MenuItem[];
+};
+
 // Menu items.
-const items = [
+const items: MenuItem[] = [
   {
-    title: 'Dashboard',
-    url: '/dashboard',
-    icon: Home,
+    title: 'Projects',
+    url: '/projects',
+    icon: <Target className="text-projects" />,
   },
   {
-    title: 'Inbox',
-    url: '/inbox',
-    icon: Inbox,
+    title: 'Areas',
+    url: '/areas',
+    icon: <Star className="text-areas" />,
   },
   {
-    title: 'Calendar',
-    url: '#',
-    icon: Calendar,
+    title: 'Resources',
+    url: '/resources',
+    icon: <BookOpen className="text-resources" />,
   },
   {
-    title: 'Search',
-    url: '#',
-    icon: Search,
-  },
-  {
-    title: 'Settings',
-    url: '#',
-    icon: Settings,
-    submenu: [
-      {
-        title: 'Profile',
-        url: '/settings/profile',
-        icon: UserPen,
-      },
-      {
-        title: 'Security',
-        url: '/settings/security',
-        icon: LockKeyhole,
-      },
-    ],
+    title: 'Archives',
+    url: '/archives',
+    icon: <Archive className="text-archives" />,
   },
 ];
 
-export function AppSidebar() {
+export function MainSidebar() {
   const pathname = usePathname();
   const { open } = useSidebar();
 
@@ -99,18 +81,18 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>PARA SYSTEM</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
-                if (item.submenu && !open) {
+                if (item.submenu?.length && !open) {
                   return (
                     <DropdownMenu key={item.title}>
                       <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
                           isActive={item.url === pathname || false}
                         >
-                          <item.icon />
+                          {item.icon}
                         </SidebarMenuButton>
                       </DropdownMenuTrigger>
 
@@ -120,7 +102,7 @@ export function AppSidebar() {
                         {item.submenu.map((subItem) => (
                           <DropdownMenuItem key={subItem.title} asChild>
                             <a href={subItem.url}>
-                              <subItem.icon />
+                              {subItem.icon}
                               <span>{subItem.title}</span>
                             </a>
                           </DropdownMenuItem>
@@ -128,7 +110,7 @@ export function AppSidebar() {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   );
-                } else if (item.submenu) {
+                } else if (item.submenu?.length) {
                   return (
                     <Collapsible
                       key={item.title}
@@ -140,7 +122,7 @@ export function AppSidebar() {
                           <SidebarMenuButton
                             isActive={item.url === pathname || false}
                           >
-                            <item.icon />
+                            {item.icon}
                             <span>{item.title}</span>
                           </SidebarMenuButton>
                         </CollapsibleTrigger>
@@ -154,7 +136,7 @@ export function AppSidebar() {
                                   isActive={subItem.url === pathname || false}
                                 >
                                   <a href={subItem.url}>
-                                    <subItem.icon />
+                                    {subItem.icon}
                                     <span>{subItem.title}</span>
                                   </a>
                                 </SidebarMenuButton>
@@ -173,7 +155,7 @@ export function AppSidebar() {
                       isActive={item.url === pathname || false}
                     >
                       <a href={item.url}>
-                        <item.icon />
+                        {item.icon}
                         <span>{item.title}</span>
                       </a>
                     </SidebarMenuButton>

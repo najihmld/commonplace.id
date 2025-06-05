@@ -7,10 +7,15 @@ import { z } from 'zod';
 import { Button } from '@/components/common/button';
 import { Form } from '@/components/forms/form';
 import { ControlledInput } from '@/components/forms/input';
+import { InputWithIcon } from '@/components/common/input';
+import { Mail } from 'lucide-react';
 
 const formSchema = z.object({
   username: z.string().min(2, {
     message: 'Username must be at least 2 characters.',
+  }),
+  mail: z.string().email({
+    message: 'Invalid email',
   }),
 });
 
@@ -20,6 +25,7 @@ export default function ExampleForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
+      mail: '',
     },
   });
 
@@ -42,6 +48,17 @@ export default function ExampleForm() {
         label="Username"
         description="This is your public display name."
         placeholder="Username"
+      />
+
+      <ControlledInput
+        control={form.control}
+        name="mail"
+        label="Mail"
+        description="This is your public display name."
+        placeholder="Mail"
+        render={(field) => (
+          <InputWithIcon Icon={Mail} iconPosition="left" {...field} />
+        )}
       />
       <Button type="submit">Submit</Button>
     </Form>

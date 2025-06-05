@@ -1,7 +1,17 @@
-import { Input } from '@/components/common/input';
+import { Input, InputWithIcon } from '@/components/common/input';
+import { Mail } from 'lucide-react';
 
 # Input
 
 <ComponentPreview>
   <Input type="email" placeholder="Email" />
+</ComponentPreview>
+<br />
+
+# InputWithIcon
+
+<ComponentPreview
+  text={`<InputWithIcon placeholder="Email" Icon={Mail} iconPosition="right" />`}
+>
+  <InputWithIcon placeholder="Email" Icon={Mail} iconPosition="right" />
 </ComponentPreview>

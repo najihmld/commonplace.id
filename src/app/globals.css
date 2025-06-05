@@ -4,6 +4,11 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
+    --color-projects: oklch(62% 0.21 257);
+    --color-areas: oklch(65% 0.22 145);
+    --color-resources: oklch(58% 0.23 275);
+    --color-archives: oklch(68% 0.21 75);
+
     --color-background: oklch(1 0 0);
     --color-foreground: oklch(0.145 0 0) --color-card: oklch(1 0 0);
     --color-card-foreground: oklch(0.145 0 0);
@@ -115,4 +120,8 @@
     main {
         @apply bg-background text-foreground min-h-full flex-1 p-4 md:p-4 lg:p-6;
     }
+}
+
+@utility rounded-form {
+    @apply rounded-[10px];
 }
