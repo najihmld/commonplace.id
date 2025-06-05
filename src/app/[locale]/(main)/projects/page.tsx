@@ -1,13 +1,13 @@
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 
 export default function ProjectsPage() {
-  const t = useTranslations('projects');
+  const t = useTranslations('ProjectsPage');
   return (
-    <div>
-      <h1>{t('title')}</h1>
-      <h2>{t('description', { name: 'cobain' })}</h2>
-      <Link href="/areas">Areas</Link>
-    </div>
+    <>
+      <h1 className="text-text-primary text-2xl font-bold tracking-tight">
+        {t('title')}
+      </h1>
+      <h2 className="text-text-secondary">{t('description')}</h2>
+    </>
   );
 }
