@@ -23,7 +23,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '../../components/common/collapsible';
+} from '@/components/common/collapsible';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,8 +31,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../../components/common/dropdown-menu';
-import { ModeToggle } from '../../components/theme/mode-toggle';
+} from '@/components/common/dropdown-menu';
+import { ModeToggle } from '@/components/theme/mode-toggle';
 import Link from 'next/link';
 
 type SubMenuItem = {
