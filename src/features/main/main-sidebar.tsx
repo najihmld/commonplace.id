@@ -34,6 +34,7 @@ import {
 } from '@/components/common/dropdown-menu';
 import { ModeToggle } from '@/components/theme/mode-toggle';
 import Link from 'next/link';
+import { useLocale } from 'next-intl';
 
 type MenuItem = {
   title: string;
@@ -68,7 +69,16 @@ const items: MenuItem[] = [
 
 export function MainSidebar() {
   const pathname = usePathname();
+  const locale = useLocale();
   const { open } = useSidebar();
+
+  const isActiveRoute = (targetPath: string) => {
+    return (
+      pathname.substring(
+        pathname.split(locale).length > 2 ? locale.length + 1 : 0,
+      ) === targetPath
+    );
+  };
 
   return (
     <Sidebar collapsible="icon" variant="inset">
@@ -119,9 +129,7 @@ export function MainSidebar() {
                     >
                       <SidebarMenuItem>
                         <CollapsibleTrigger asChild>
-                          <SidebarMenuButton
-                            isActive={item.url === pathname || false}
-                          >
+                          <SidebarMenuButton isActive={isActiveRoute(item.url)}>
                             {item.icon}
                             <span>{item.title}</span>
                           </SidebarMenuButton>
@@ -133,7 +141,7 @@ export function MainSidebar() {
                               <SidebarMenuSubItem key={subItem.title}>
                                 <SidebarMenuButton
                                   asChild
-                                  isActive={subItem.url === pathname || false}
+                                  isActive={isActiveRoute(subItem.url)}
                                 >
                                   <a href={subItem.url}>
                                     {subItem.icon}
@@ -152,7 +160,7 @@ export function MainSidebar() {
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       asChild
-                      isActive={item.url === pathname || false}
+                      isActive={isActiveRoute(item.url)}
                     >
                       <a href={item.url}>
                         {item.icon}
