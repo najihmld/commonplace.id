@@ -1,4 +1,4 @@
-import { Input } from '../common/input';
+import { Textarea } from '../common/textarea';
 import {
   FormControl,
   FormDescription,
@@ -7,29 +7,22 @@ import {
   FormLabel,
   FormMessage,
 } from './form';
-import {
-  Control,
-  FieldValues,
-  Path,
-  ControllerRenderProps,
-} from 'react-hook-form';
+import { Control, FieldValues, Path } from 'react-hook-form';
 
-type ControlledInputProps<T extends FieldValues> = {
+type ControlledTextareaProps<T extends FieldValues> = {
   control: Control<T>;
   name: Path<T>;
   label?: string;
   description?: string;
-  render?: (field: ControllerRenderProps<T, Path<T>>) => React.ReactElement;
-} & React.ComponentProps<typeof Input>;
+} & React.ComponentProps<typeof Textarea>;
 
-const ControlledInput = <T extends FieldValues>({
+const ControlledTextarea = <T extends FieldValues>({
   control,
   name,
   label,
   description,
-  render,
   ...inputProps
-}: ControlledInputProps<T>) => {
+}: ControlledTextareaProps<T>) => {
   return (
     <FormField
       control={control}
@@ -38,7 +31,7 @@ const ControlledInput = <T extends FieldValues>({
         <FormItem>
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
-            {render ? render(field) : <Input {...inputProps} {...field} />}
+            <Textarea {...inputProps} {...field} />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
@@ -48,4 +41,4 @@ const ControlledInput = <T extends FieldValues>({
   );
 };
 
-export { ControlledInput };
+export { ControlledTextarea };

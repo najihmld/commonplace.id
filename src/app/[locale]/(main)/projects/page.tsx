@@ -4,6 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/common/dropdown-menu';
+import { NewProject } from '@/features/projects/project-form';
 import {
   Archive,
   Calendar,
@@ -68,10 +69,16 @@ export default function ProjectsPage() {
   const t = useTranslations('ProjectsPage');
   return (
     <>
-      <h1 className="text-text-primary text-2xl font-bold tracking-tight">
-        {t('title')}
-      </h1>
-      <h2 className="text-text-secondary">{t('description')}</h2>
+      <section className="flex items-center justify-between">
+        <div>
+          <h1 className="text-text-primary text-2xl font-bold tracking-tight">
+            {t('title')}
+          </h1>
+          <h2 className="text-text-secondary">{t('description')}</h2>
+        </div>
+
+        <NewProject />
+      </section>
       <br />
 
       <section className="grid grid-cols-3 gap-4">
