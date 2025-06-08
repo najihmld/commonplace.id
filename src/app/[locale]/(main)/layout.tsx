@@ -12,16 +12,40 @@ export default async function Layout({
   const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
 
   return (
-    <SidebarProvider defaultOpen={defaultOpen}>
+    <SidebarProvider
+      defaultOpen={defaultOpen}
+      className="h-dvh overflow-hidden"
+    >
       <MainSidebar />
 
-      <div className="flex-1 py-2.5 pr-2.5">
-        <div className="bg-background min-h-full rounded-xl">
-          <MainHeader />
+      <div className="flex h-full flex-1 flex-col justify-center py-2.5 pr-2.5">
+        <div className="bg-background custom-scrollbar h-[calc(100dvh-24px)] overflow-hidden overflow-y-scroll rounded-xl border">
+          <div className="bg-background sticky top-0 z-10">
+            <MainHeader />
+          </div>
 
           <main className="p-4 md:p-4 lg:p-6">{children}</main>
         </div>
       </div>
     </SidebarProvider>
   );
+
+  // return (
+  //   <SidebarProvider
+  //     defaultOpen={defaultOpen}
+  //     className="h-dvh overflow-hidden"
+  //   >
+  //     <MainSidebar />
+
+  //     <div className="custom-scrollbar flex h-full flex-1 flex-col overflow-y-scroll py-2.5 pr-2.5">
+  //       <div className="bg-background h-[calc(100dvh-24px)] overflow-hidden rounded-xl border">
+  //         <div className="bg-background sticky top-0 z-10">
+  //           <MainHeader />
+  //         </div>
+
+  //         <main className="p-4 md:p-4 lg:p-6">{children}</main>
+  //       </div>
+  //     </div>
+  //   </SidebarProvider>
+  // );
 }

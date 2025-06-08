@@ -74,9 +74,9 @@ export function MainSidebar() {
 
   const isActiveRoute = (targetPath: string) => {
     return (
-      pathname.substring(
-        pathname.split(locale).length > 2 ? locale.length + 1 : 0,
-      ) === targetPath
+      pathname
+        .substring(pathname.split(locale).length > 2 ? locale.length + 1 : 0)
+        .indexOf(targetPath) === 0
     );
   };
 
