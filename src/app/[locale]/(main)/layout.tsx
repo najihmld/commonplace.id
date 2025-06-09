@@ -2,6 +2,7 @@ import { MainSidebar } from '@/features/main/main-sidebar';
 import { SidebarProvider } from '@/components/common/sidebar';
 import { cookies } from 'next/headers';
 import { MainHeader } from '@/features/main/main-header';
+import { ScrollArea } from '@/components/common/scroll-area';
 
 export default async function Layout({
   children,
@@ -19,13 +20,13 @@ export default async function Layout({
       <MainSidebar />
 
       <div className="flex h-full flex-1 flex-col justify-center py-2.5 pr-2.5">
-        <div className="bg-background custom-scrollbar h-[calc(100dvh-24px)] overflow-hidden overflow-y-scroll rounded-xl border">
+        <ScrollArea className="bg-background h-[calc(100dvh-24px)] rounded-xl border">
           <div className="bg-background sticky top-0 z-10">
             <MainHeader />
           </div>
 
           <main className="p-4 md:p-4 lg:p-6">{children}</main>
-        </div>
+        </ScrollArea>
       </div>
     </SidebarProvider>
   );
