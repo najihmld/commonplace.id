@@ -3,6 +3,8 @@
 @custom-variant dark (&:is(.dark *));
 @plugin '@tailwindcss/typography';
 
+@import '@blocknote/mantine/style.css';
+
 @theme {
     --color-projects: oklch(62% 0.21 257);
     --color-areas: oklch(65% 0.22 145);
@@ -150,4 +152,31 @@
 
 @utility rounded-form {
     @apply rounded-[10px];
+}
+
+@layer components {
+    /* Custom style @blocknote */
+    .bn-block-content[data-content-type='heading'] > h1.bn-inline-content {
+        --level: 1.5rem !important; /* 24px */
+        font-size: var(--level) !important;
+    }
+    .bn-side-menu[data-block-type='heading'][data-level='1'] {
+        height: 42px !important;
+    }
+
+    .bn-block-content[data-content-type='heading'] > h2.bn-inline-content {
+        --level: 1.25rem !important; /* 20px */
+        font-size: var(--level) !important;
+    }
+    .bn-side-menu[data-block-type='heading'][data-level='2'] {
+        height: 36px !important;
+    }
+
+    .bn-block-content[data-content-type='heading'] > h3.bn-inline-content {
+        --level: 1rem !important; /* 16px */
+        font-size: var(--level) !important;
+    }
+    .bn-side-menu[data-block-type='heading'][data-level='3'] {
+        height: 30px !important;
+    }
 }
