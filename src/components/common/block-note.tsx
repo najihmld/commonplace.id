@@ -66,12 +66,12 @@ function BlockNote() {
   // Creates a new editor instance.
   const editor = useCreateBlockNote({
     initialContent: [
-      {
-        type: 'heading',
-        props: {
-          level: 1,
-        },
-      },
+      // {
+      //   type: 'heading',
+      //   props: {
+      //     level: 1,
+      //   },
+      // },
       {
         type: 'paragraph',
       },

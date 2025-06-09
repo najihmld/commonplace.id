@@ -10,16 +10,14 @@ import {
   DialogTrigger,
 } from '@/components/common/dialog';
 import { Form } from '@/components/forms/form';
+import { ControlledInput } from '@/components/forms/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const formSchema = z.object({
-  title: z.string().min(2, {
-    message: 'Title must be at least 3 characters.',
-  }),
-  description: z.string(),
+  title: z.string(),
 });
 
 const FormNote = ({
@@ -31,7 +29,6 @@ const FormNote = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      description: '',
     },
   });
 
@@ -41,7 +38,20 @@ const FormNote = ({
       onSubmit={form.handleSubmit(onSubmit)}
       className="space-y-2"
     >
-      <BlockNote />
+      <div className="flex flex-col-reverse">
+        <div className="-mx-6">
+          <BlockNote />
+        </div>
+        <div className="mb-4 px-4">
+          <ControlledInput
+            autoFocus={false}
+            control={form.control}
+            name="title"
+            placeholder="Title"
+            className="h-auto rounded-none border-none !text-2xl font-bold shadow-none placeholder:text-[#cfcfcf] focus-visible:ring-0"
+          />
+        </div>
+      </div>
       <br />
       <div className="px-6">
         <Button type="submit" className="w-full" variant="project">
