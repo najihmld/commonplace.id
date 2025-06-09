@@ -214,7 +214,7 @@ export default function ProjectsPage() {
             <div className="border-projects/50 bg-projects/5 card-hover h-full transform rounded-lg border p-3 transition duration-300 hover:-translate-y-1">
               <div className="flex items-center gap-x-2">
                 <div className="bg-projects h-2 w-2 rounded-sm" />
-                <div className="bg-projects/5 text-projects rounded-sm px-1 text-xs font-semibold capitalize">
+                <div className="bg-projects/5 text-projects rounded-lg px-1.5 text-xs font-semibold capitalize">
                   {project.category}
                 </div>
                 <div className="flex-1" />
@@ -254,7 +254,7 @@ export default function ProjectsPage() {
               <div className="text-text-tertiary mt-2 flex items-center justify-between">
                 <div className="inline-block gap-x-2 align-middle">
                   <Calendar size={12} className="mr-1 inline-block" />
-                  <span className="text-xs">12 Jun 2025 23:54</span>
+                  <span className="text-xs">12 Jun 2025</span>
                 </div>
 
                 <div className="inline-block gap-x-2 align-middle">
