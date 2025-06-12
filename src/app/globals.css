@@ -120,7 +120,7 @@
         @apply border-border outline-ring/50;
     }
     main {
-        @apply bg-background text-foreground min-h-full flex-1 p-4 md:p-4 lg:p-6;
+        @apply bg-background text-foreground min-h-full flex-1;
     }
 }
 
