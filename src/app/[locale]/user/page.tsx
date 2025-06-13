@@ -1,5 +1,5 @@
-import { createClient } from '@/lib/supabase/server';
-import { signOut } from '@/lib/supabase/actions';
+import { createClient } from '@/utils/supabase/server';
+import { signOut } from '@/utils/supabase/actions';
 import Link from 'next/link';
 import Image from 'next/image';
 

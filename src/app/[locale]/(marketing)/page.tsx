@@ -25,15 +25,8 @@ import {
   Globe,
 } from 'lucide-react';
 import Link from 'next/link';
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 
 export default async function LandingPage() {
-  const supabase = await createClient();
-  const session = await supabase.auth.getSession();
-
-  if (session.data.session) redirect('/projects');
-
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}

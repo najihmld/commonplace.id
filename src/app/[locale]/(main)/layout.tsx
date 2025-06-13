@@ -3,19 +3,12 @@ import { SidebarProvider } from '@/components/common/sidebar';
 import { cookies } from 'next/headers';
 import { MainHeader } from '@/features/main/main-header';
 import { ScrollArea } from '@/components/common/scroll-area';
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClient();
-  const session = await supabase.auth.getSession();
-
-  if (!session.data.session) redirect('/');
-
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
 

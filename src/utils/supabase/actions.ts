@@ -15,8 +15,6 @@ const signInWith = (provider: 'google' | 'github' | 'discord') => async () => {
     },
   });
 
-  console.log(data);
-
   if (error) {
     console.log(error);
     return;
