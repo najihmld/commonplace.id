@@ -12,8 +12,11 @@ import {
 import { Form } from '@/components/forms/form';
 import { ControlledInput } from '@/components/forms/input';
 import { ControlledTextarea } from '@/components/forms/textarea';
+import { createClient } from '@/utils/supabase/client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -64,8 +67,31 @@ const FormProject = ({
 };
 
 function NewProject() {
+  const [open, setOpen] = useState(false);
+
+  const supabase = createClient();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async (data: z.infer<typeof formSchema>) => {
+      const { error } = await supabase.from('para_groups').insert({
+        title: data.title,
+        description: data.description,
+        para_type: 'project',
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      setOpen(false);
+    },
+  });
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button asChild variant="project">
           <span>
@@ -82,12 +108,7 @@ function NewProject() {
           </DialogDescription>
         </DialogHeader>
 
-        <FormProject
-          onSubmit={(data) => {
-            console.log(data);
-            // TODO: Handle form submission
-          }}
-        />
+        <FormProject onSubmit={(data) => mutation.mutate(data)} />
       </DialogContent>
     </Dialog>
   );

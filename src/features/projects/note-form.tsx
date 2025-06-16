@@ -1,6 +1,5 @@
 'use client';
 
-import { BlockNote } from '@/components/common/block-note';
 import { Button } from '@/components/common/button';
 import {
   Dialog,
@@ -9,15 +8,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/common/dialog';
+import { ControlledBlockNote } from '@/components/forms/block-note';
 import { Form } from '@/components/forms/form';
-import { ControlledInput } from '@/components/forms/input';
+import { ControlledInputTags } from '@/components/forms/input-tags';
+import { createNoteWithTags } from '@/utils/supabase/api/note';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { stripHtml } from 'string-strip-html';
 
 const formSchema = z.object({
-  title: z.string(),
+  content: z.string().min(3, {
+    message: 'Content must be at least 3 characters.',
+  }),
+  tags: z.array(z.string()), // array of strings
 });
 
 const FormNote = ({
@@ -28,7 +36,8 @@ const FormNote = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
+      content: '',
+      tags: [],
     },
   });
 
@@ -38,24 +47,16 @@ const FormNote = ({
       onSubmit={form.handleSubmit(onSubmit)}
       className="space-y-2"
     >
-      <div className="flex flex-col-reverse">
-        <div className="-mx-6">
-          <BlockNote />
-        </div>
-        <div className="mb-4 px-4">
-          <ControlledInput
-            autoFocus={false}
-            control={form.control}
-            name="title"
-            placeholder="Title"
-            className="h-auto rounded-none border-none !text-2xl font-bold shadow-none placeholder:text-[#cfcfcf] focus-visible:ring-0"
-          />
-        </div>
+      <div className="-mx-4">
+        <ControlledBlockNote control={form.control} name="content" />
+      </div>
+      <div className="px-4">
+        <ControlledInputTags control={form.control} name="tags" />
       </div>
       <br />
-      <div className="px-6">
+      <div className="px-4">
         <Button type="submit" className="w-full" variant="project">
-          Create New Project
+          Add Note
         </Button>
       </div>
     </Form>
@@ -63,8 +64,21 @@ const FormNote = ({
 };
 
 function NewNote() {
+  const [open, setOpen] = useState(false);
+  const params = useParams();
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: createNoteWithTags,
+    onSuccess: () => {
+      // Refresh list notes per project
+      queryClient.invalidateQueries({ queryKey: ['notes'] });
+    },
+  });
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button asChild variant="project">
           <span>
@@ -80,8 +94,12 @@ function NewNote() {
 
         <FormNote
           onSubmit={(data) => {
-            console.log(data);
-            // TODO: Handle form submission
+            mutation.mutate({
+              content_html: data.content,
+              content_plain: stripHtml(data.content).result,
+              tags: data.tags,
+              para_group_id: params.id as string,
+            });
           }}
         />
       </DialogContent>
