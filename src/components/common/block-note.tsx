@@ -3,7 +3,6 @@
 import '@blocknote/core/fonts/inter.css';
 import { BlockNoteView } from '@blocknote/mantine';
 import { useCreateBlockNote } from '@blocknote/react';
-import { useEffect, useRef } from 'react';
 
 interface EditorProps {
   onChange: (value: string) => void;
@@ -13,30 +12,7 @@ interface EditorProps {
 
 function BlockNote({ onChange, initialContent, editable }: EditorProps) {
   console.log('initialContent', initialContent);
-  const editor = useCreateBlockNote({
-    initialContent: [
-      {
-        type: 'heading',
-        props: {
-          level: 1,
-        },
-      },
-      {
-        type: 'paragraph',
-      },
-    ],
-  });
-
-  const didFocus = useRef(false);
-  useEffect(() => {
-    if (didFocus.current) return;
-
-    const blocks = editor.document; // array seluruh blok
-    if (blocks.length > 1) {
-      editor.setTextCursorPosition(blocks[1], 'start'); // fokus di awal paragraph
-      didFocus.current = true;
-    }
-  }, [editor]);
+  const editor = useCreateBlockNote();
 
   return (
     <BlockNoteView

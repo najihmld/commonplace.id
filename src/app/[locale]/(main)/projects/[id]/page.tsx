@@ -8,7 +8,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/common/breadcrumb';
-import { NewNote } from '@/features/projects/note-form';
+import {
+  NewNote,
+  NoteTypeItem,
+  noteTypes,
+} from '@/features/projects/note-form';
 import { getNotesByGroup, Note } from '@/utils/supabase/api/note';
 import { useQuery } from '@tanstack/react-query';
 import { Calendar, FileText, Tag } from 'lucide-react';
@@ -16,30 +20,9 @@ import { useParams } from 'next/navigation';
 import { formatToLocalTime } from '@/utils/format-date-time';
 import DOMPurify from 'dompurify';
 
-const noteTypeConfig = {
-  idea: {
-    badge: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-    card: 'note-idea border-2',
-    icon: '💡',
-  },
-  quote: {
-    badge:
-      'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300',
-    card: 'note-quote border-2',
-    icon: '💬',
-  },
-  insight: {
-    badge:
-      'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
-    card: 'note-insight border-2',
-    icon: '⚡',
-  },
-  book_note: {
-    badge: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300',
-    card: 'note-book-note border-2',
-    icon: '📚',
-  },
-};
+const noteTypeMap = Object.fromEntries(
+  noteTypes.map(({ value, label, className }) => [value, { label, className }]),
+) as Record<string, Omit<NoteTypeItem, 'value'>>;
 
 function ProjectsNotes() {
   const params = useParams();
@@ -52,10 +35,6 @@ function ProjectsNotes() {
   });
 
   console.log('notes', notes);
-
-  const timezone = new Date().getTimezoneOffset();
-
-  console.log('timezone', timezone / 60);
 
   return (
     <>
@@ -105,7 +84,7 @@ function ProjectsNotes() {
         <div className="grid grid-cols-4 gap-4">
           {notes?.map((note) => {
             const type = note.type || 'idea';
-            const config = noteTypeConfig[type];
+            const config = noteTypeMap[type];
             const cleanHtml = DOMPurify.sanitize(note.content_html);
             return (
               <div
@@ -114,9 +93,10 @@ function ProjectsNotes() {
               >
                 <div className="flex items-center gap-x-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs">{config.icon}</span>
-                    <div className="bg-projects/5 text-projects rounded-lg px-1.5 text-xs font-semibold capitalize">
-                      {note.type || 'idea'}
+                    <div
+                      className={`rounded-lg px-1.5 text-[11px] font-semibold capitalize ${config.className}`}
+                    >
+                      {config.label}
                     </div>
                   </div>
                   <div className="text-text-secondary text-xs">
