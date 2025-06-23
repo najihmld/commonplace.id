@@ -1,6 +1,108 @@
 import { createClient } from '../client';
 
-export type NoteType = 'idea' | 'quote' | 'insight' | 'book note';
+export type NoteTypeItem = {
+  value: string;
+  label: string;
+  className: string;
+};
+
+export const noteTypes = [
+  {
+    value: 'idea',
+    label: '💡 Idea',
+    className: 'bg-yellow-100 text-yellow-800',
+  },
+  { value: 'quote', label: '💬 Quote', className: 'bg-blue-100 text-blue-800' },
+  {
+    value: 'insight',
+    label: '⚡ Insight',
+    className: 'bg-purple-100 text-purple-800',
+  },
+  {
+    value: 'book-note',
+    label: '📚 Book Note',
+    className: 'bg-indigo-100 text-indigo-800',
+  },
+  {
+    value: 'meeting',
+    label: '📝 Meeting',
+    className: 'bg-green-100 text-green-800',
+  },
+  {
+    value: 'personal',
+    label: '🧠 Personal',
+    className: 'bg-pink-100 text-pink-800',
+  },
+  {
+    value: 'reference',
+    label: '🔖 Reference',
+    className: 'bg-gray-100 text-gray-800',
+  },
+  {
+    value: 'journal',
+    label: '📔 Journal',
+    className: 'bg-orange-100 text-orange-800',
+  },
+  {
+    value: 'task',
+    label: '✅ Task',
+    className: 'bg-emerald-100 text-emerald-800',
+  },
+  {
+    value: 'dream',
+    label: '🌙 Dream',
+    className: 'bg-indigo-100 text-indigo-800',
+  },
+  {
+    value: 'learning',
+    label: '🎓 Learning',
+    className: 'bg-sky-100 text-sky-800',
+  },
+  {
+    value: 'question',
+    label: '❓ Question',
+    className: 'bg-rose-100 text-rose-800',
+  },
+  {
+    value: 'decision',
+    label: '⚖️ Decision',
+    className: 'bg-fuchsia-100 text-fuchsia-800',
+  },
+  {
+    value: 'research',
+    label: '🔬 Research',
+    className: 'bg-teal-100 text-teal-800',
+  },
+  { value: 'goal', label: '🎯 Goal', className: 'bg-red-100 text-red-800' },
+  { value: 'plan', label: '🗺️ Plan', className: 'bg-cyan-100 text-cyan-800' },
+  {
+    value: 'code-snippet',
+    label: '💻 Code Snippet',
+    className: 'bg-zinc-100 text-zinc-800',
+  },
+  {
+    value: 'gratitude',
+    label: '🙏 Gratitude',
+    className: 'bg-amber-100 text-amber-800',
+  },
+  {
+    value: 'travel',
+    label: '✈️ Travel',
+    className: 'bg-lime-100 text-lime-800',
+  },
+  { value: 'health', label: '❤️ Health', className: 'bg-red-100 text-red-800' },
+  {
+    value: 'finance',
+    label: '💰 Finance',
+    className: 'bg-green-100 text-green-800',
+  },
+];
+
+export const noteTypeMap = Object.fromEntries(
+  noteTypes.map(({ value, label, className }) => [value, { label, className }]),
+) as Record<string, Omit<NoteTypeItem, 'value'>>;
+
+export type NoteType = keyof typeof noteTypeMap;
 
 export type Note = {
   id: string;
@@ -49,7 +151,7 @@ export const createNoteWithTags = async ({
   content_plain: string;
   para_group_id: string;
   tags: string[]; // contoh: ['quotes', 'inspiration']
-  type: NoteType;
+  type?: NoteType;
 }) => {
   const supabase = createClient();
 
@@ -100,7 +202,7 @@ export const upsertNoteWithTags = async ({
   content_plain: string;
   para_group_id: string;
   tags: string[];
-  type: NoteType;
+  type?: NoteType;
 }) => {
   const supabase = createClient();
 

@@ -8,21 +8,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/common/breadcrumb';
-import {
-  NewNote,
-  NoteTypeItem,
-  noteTypes,
-} from '@/features/projects/note-form';
-import { getNotesByGroup, Note } from '@/utils/supabase/api/note';
+import { NewNote } from '@/features/projects/note-form';
+import { getNotesByGroup, Note, noteTypeMap } from '@/utils/supabase/api/note';
 import { useQuery } from '@tanstack/react-query';
 import { Calendar, FileText, Tag } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { formatToLocalTime } from '@/utils/format-date-time';
 import DOMPurify from 'dompurify';
-
-const noteTypeMap = Object.fromEntries(
-  noteTypes.map(({ value, label, className }) => [value, { label, className }]),
-) as Record<string, Omit<NoteTypeItem, 'value'>>;
 
 function ProjectsNotes() {
   const params = useParams();
