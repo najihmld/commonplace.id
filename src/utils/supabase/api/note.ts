@@ -291,3 +291,13 @@ export const getNotesByGroup = async (paraGroupId: string) => {
   if (error) throw new Error(error.message);
   return data;
 };
+
+export const deleteNote = async (noteId: string) => {
+  const supabase = createClient();
+
+  const { error } = await supabase.from('notes').delete().eq('id', noteId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+};
