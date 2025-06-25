@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/common/dropdown-menu';
 import { NewProject } from '@/features/projects/project-form';
-import { useDeleteProject } from '@/features/projects/useDeleteProject';
+import { DeleteProjectDialog } from '@/features/projects/delete-project-dialog';
 import { getProjects, type Project } from '@/utils/supabase/api/project';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { useState } from 'react';
 
 function ProjectSkeleton() {
   return (
@@ -52,7 +53,31 @@ export default function ProjectsPage() {
     queryFn: getProjects,
   });
 
-  const deleteProject = useDeleteProject();
+  const [deleteDialog, setDeleteDialog] = useState<{
+    isOpen: boolean;
+    projectId: string;
+    projectTitle: string;
+  }>({
+    isOpen: false,
+    projectId: '',
+    projectTitle: '',
+  });
+
+  const handleDeleteClick = (projectId: string, projectTitle: string) => {
+    setDeleteDialog({
+      isOpen: true,
+      projectId,
+      projectTitle,
+    });
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setDeleteDialog({
+      isOpen: false,
+      projectId: '',
+      projectTitle: '',
+    });
+  };
 
   return (
     <>
@@ -100,7 +125,7 @@ export default function ProjectsPage() {
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="text-destructive"
-                    onClick={() => deleteProject.mutate(project.id)}
+                    onClick={() => handleDeleteClick(project.id, project.title)}
                   >
                     <Trash2 className="text-destructive" />
                     <span className="text-destructive">Delete</span>
@@ -142,6 +167,13 @@ export default function ProjectsPage() {
           ))
         )}
       </section>
+
+      <DeleteProjectDialog
+        projectId={deleteDialog.projectId}
+        projectTitle={deleteDialog.projectTitle}
+        isOpen={deleteDialog.isOpen}
+        onCloseAction={handleCloseDeleteDialog}
+      />
     </>
   );
 }
