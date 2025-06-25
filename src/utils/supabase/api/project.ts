@@ -111,3 +111,11 @@ export const getProjectById = async (id: string) => {
     notes: data.notes || [],
   } as Project;
 };
+
+export const deleteProject = async (id: string) => {
+  const supabase = createClient();
+
+  const { error } = await supabase.from('para_groups').delete().eq('id', id);
+
+  if (error) throw new Error(error.message);
+};

@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/common/dropdown-menu';
 import { NewProject } from '@/features/projects/project-form';
+import { useDeleteProject } from '@/features/projects/useDeleteProject';
 import { getProjects, type Project } from '@/utils/supabase/api/project';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -51,7 +52,7 @@ export default function ProjectsPage() {
     queryFn: getProjects,
   });
 
-  console.log('projects', projects);
+  const deleteProject = useDeleteProject();
 
   return (
     <>
@@ -76,38 +77,44 @@ export default function ProjectsPage() {
           </>
         ) : (
           projects?.map((project) => (
-            <Link key={project.id} href={`/projects/${project.id}`}>
-              <div className="border-projects/50 bg-projects/5 card-hover h-full transform rounded-lg border p-3 transition duration-300 hover:-translate-y-1">
+            <div
+              key={project.id}
+              className="border-projects/50 bg-projects/5 card-hover relative h-full transform rounded-lg border p-3 transition duration-300 hover:-translate-y-1"
+            >
+              <DropdownMenu>
+                <DropdownMenuTrigger className="absolute top-2 right-2 cursor-pointer rounded-sm p-1 hover:bg-white">
+                  <Ellipsis size={16} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem disabled>
+                    <Pin />
+                    Pin
+                  </DropdownMenuItem>
+                  <DropdownMenuItem disabled>
+                    <Edit2 />
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem disabled>
+                    <Archive />
+                    Archive
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="text-destructive"
+                    onClick={() => deleteProject.mutate(project.id)}
+                  >
+                    <Trash2 className="text-destructive" />
+                    <span className="text-destructive">Delete</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <Link href={`/projects/${project.id}`}>
                 <div className="flex items-center gap-x-2">
                   <div className="bg-projects h-2 w-2 rounded-sm" />
                   <div className="bg-projects/5 text-projects rounded-lg px-1.5 text-xs font-semibold capitalize">
                     {project.para_type}
                   </div>
-                  <div className="flex-1" />
-
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="cursor-pointer rounded-sm p-1 hover:bg-white">
-                      <Ellipsis size={16} />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem>
-                        <Pin />
-                        Pin
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Edit2 />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Archive />
-                        Archive
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive">
-                        <Trash2 className="text-destructive" />
-                        <span className="text-destructive">Delete</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <div className="h-6 flex-1" />
                 </div>
 
                 <div className="text-text-primary my-2 line-clamp-2 text-base font-semibold">
@@ -130,8 +137,8 @@ export default function ProjectsPage() {
                     </span>
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </div>
           ))
         )}
       </section>
