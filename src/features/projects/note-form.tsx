@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/common/button';
 import {
   Dialog,
   DialogContent,
@@ -13,9 +12,8 @@ import { Form } from '@/components/forms/form';
 import { ControlledInputTags } from '@/components/forms/input-tags';
 import { noteTypeMap, noteTypes } from '@/utils/supabase/api/note';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Plus } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { ControlledCombobox } from '@/components/forms/combobox';
@@ -82,8 +80,28 @@ const FormNote = ({
   );
 };
 
-function NewNote() {
+function useDialogFormNoteState() {
   const [open, setOpen] = useState(false);
+
+  return {
+    props: {
+      open,
+      setOpen,
+    },
+  };
+}
+
+type DialogFormNoteProps = {
+  renderTrigger: (props: {
+    DialogTrigger: React.ElementType;
+    form: ReturnType<typeof useForm<z.infer<typeof formSchema>>>;
+    isSaving: boolean;
+  }) => React.ReactNode;
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+function DialogFormNote({ renderTrigger, open, setOpen }: DialogFormNoteProps) {
   const params = useParams();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -96,25 +114,9 @@ function NewNote() {
     enabled: open,
   });
 
-  useEffect(() => {
-    if (open)
-      form.reset({
-        content: '',
-        tags: [],
-        title: '',
-      });
-  }, [open]);
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <Button asChild variant="project" disabled={isSaving}>
-          <span>
-            <Plus />
-            New Note
-          </span>
-        </Button>
-      </DialogTrigger>
+      {renderTrigger({ DialogTrigger, form, isSaving })}
       <DialogContent className="py-4 sm:max-w-[620px]">
         <DialogHeader className="mx-6 flex flex-row items-center">
           <DialogTitle className="flex-1"></DialogTitle>
@@ -132,4 +134,4 @@ function NewNote() {
   );
 }
 
-export { FormNote, NewNote };
+export { FormNote, DialogFormNote, useDialogFormNoteState };

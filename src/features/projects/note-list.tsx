@@ -17,6 +17,7 @@ import {
 } from '@/components/common/dropdown-menu';
 import { useDeleteNote } from './useDeleteNote';
 import { useEffect, useRef, useCallback } from 'react';
+import { DialogFormNote, useDialogFormNoteState } from './note-form';
 
 // Custom hook for intersection observer
 function useInView(callback: () => void, deps: React.DependencyList = []) {
@@ -53,6 +54,7 @@ function NoteList() {
   const params = useParams();
   const paraGroupId = params.id as string;
   const deleteNote = useDeleteNote();
+  const dialogFormNoteState = useDialogFormNoteState();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
@@ -85,82 +87,108 @@ function NoteList() {
   console.log('notes', notes);
   return (
     <section>
-      <div className="grid grid-cols-4 gap-4">
-        {isLoading ? (
-          <>
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={i}
-                className="h-48 animate-pulse rounded-lg bg-gray-200"
-              />
-            ))}
-          </>
-        ) : (
-          notes?.map((note) => {
-            const type = note.type || 'idea';
-            const config = noteTypeMap[type];
-            const cleanHtml = DOMPurify.sanitize(note.content_html);
-            return (
-              <div
-                key={note.id}
-                className="card-hover relative flex h-full transform flex-col justify-between rounded-lg border bg-white p-3 transition duration-300 hover:-translate-y-1"
-              >
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="absolute top-2 right-2 cursor-pointer rounded-sm p-1">
-                    <Ellipsis size={16} />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                      className="text-destructive"
-                      onClick={() => handleDeleteNote(note.id)}
-                      disabled={deleteNote.isPending}
-                    >
-                      <Trash2 className="text-destructive" />
-                      <span className="text-destructive">
-                        {deleteNote.isPending ? 'Deleting...' : 'Delete'}
-                      </span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-                <div className="flex items-center gap-x-2">
-                  <div className="flex items-center gap-2">
+      <DialogFormNote
+        {...dialogFormNoteState.props}
+        renderTrigger={({ DialogTrigger, form, isSaving }) => {
+          return (
+            <div className="grid grid-cols-4 gap-4">
+              {isLoading ? (
+                <>
+                  {[...Array(8)].map((_, i) => (
                     <div
-                      className={`rounded-lg px-1.5 text-[11px] font-semibold capitalize ${config.className}`}
+                      key={i}
+                      className="h-48 animate-pulse rounded-lg bg-gray-200"
+                    />
+                  ))}
+                </>
+              ) : (
+                notes?.map((note) => {
+                  const type = note.type;
+                  const config = noteTypeMap[type];
+                  const cleanHtml = DOMPurify.sanitize(note.content_html);
+                  return (
+                    <div
+                      key={note.id}
+                      className="card-hover relative flex h-fit transform flex-col justify-between rounded-lg border bg-white transition duration-300 hover:-translate-y-1"
                     >
-                      {config.label}
-                    </div>
-                  </div>
-                  <div className="text-text-secondary text-xs">
-                    {formatToLocalTime(note.updated_at, 'MMM dd, yyyy')}
-                  </div>
-                  <div className="flex-1" />
-                </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger className="absolute top-2 right-2 cursor-pointer rounded-sm p-1">
+                          <Ellipsis size={16} />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem
+                            className="text-destructive"
+                            onClick={() => handleDeleteNote(note.id)}
+                            disabled={deleteNote.isPending}
+                          >
+                            <Trash2 className="text-destructive" />
+                            <span className="text-destructive">
+                              {deleteNote.isPending ? 'Deleting...' : 'Delete'}
+                            </span>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
 
-                <div className="my-4 flex-1 text-sm">
-                  <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />
-                </div>
-
-                <div>
-                  <div className="mb-2 flex items-center gap-1">
-                    {note.tags?.length ? (
-                      <Tag size={12} className="text-text-secondary" />
-                    ) : null}
-                    {note.tags?.map((tag) => (
-                      <div
-                        key={tag.name}
-                        className="text-text-secondary w-fit rounded-lg border bg-white px-1.5 text-xs"
+                      <DialogTrigger
+                        disabled={isSaving}
+                        className="w-full p-3 text-left"
+                        onClick={() => {
+                          form.reset({
+                            note_id: note.id,
+                            title: note.title,
+                            content: note.content_html,
+                            type: note.type,
+                            tags: note.tags?.map((tag) => tag.name) ?? [],
+                          });
+                        }}
                       >
-                        {tag.name}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            );
-          })
-        )}
-      </div>
+                        <div className="flex items-center gap-x-2">
+                          <div className="flex items-center gap-2">
+                            <div
+                              className={`rounded-lg px-1.5 text-[10px] font-semibold capitalize ${config?.className}`}
+                            >
+                              {config?.label}
+                            </div>
+                          </div>
+                          <div className="text-text-secondary text-xs">
+                            {formatToLocalTime(note.updated_at, 'MMM dd, yyyy')}
+                          </div>
+                          <div className="flex-1" />
+                        </div>
+
+                        <div className="my-4 flex-1 text-sm">
+                          {!!note.title && (
+                            <div className="font-bold">{note.title}</div>
+                          )}
+                          <div
+                            dangerouslySetInnerHTML={{ __html: cleanHtml }}
+                          />
+                        </div>
+
+                        <div>
+                          <div className="mb-2 flex items-center gap-1">
+                            {note.tags?.length ? (
+                              <Tag size={12} className="text-text-secondary" />
+                            ) : null}
+                            {note.tags?.map((tag) => (
+                              <div
+                                key={tag.name}
+                                className="text-text-secondary w-fit rounded-lg border bg-white px-1.5 text-xs"
+                              >
+                                {tag.name}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </DialogTrigger>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          );
+        }}
+      />
 
       {/* Intersection observer target for auto-loading */}
       {hasNextPage && (

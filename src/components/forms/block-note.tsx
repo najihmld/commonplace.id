@@ -28,13 +28,13 @@ const ControlledBlockNote = <T extends FieldValues>({
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, formState }) => (
         <FormItem>
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <BlockNote
               onChange={field.onChange}
-              initialContent={field.value}
+              initialContent={formState.defaultValues?.[name] ?? ''}
               editable={disabled}
             />
           </FormControl>

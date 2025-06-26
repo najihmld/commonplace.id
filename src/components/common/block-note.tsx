@@ -3,6 +3,7 @@
 import '@blocknote/core/fonts/inter.css';
 import { BlockNoteView } from '@blocknote/mantine';
 import { useCreateBlockNote } from '@blocknote/react';
+import { useEffect } from 'react';
 
 interface EditorProps {
   onChange: (value: string) => void;
@@ -13,6 +14,17 @@ interface EditorProps {
 function BlockNote({ onChange, initialContent, editable }: EditorProps) {
   console.log('initialContent', initialContent);
   const editor = useCreateBlockNote();
+
+  useEffect(() => {
+    const loadContent = async () => {
+      if (initialContent) {
+        const blocks = await editor.tryParseHTMLToBlocks(initialContent);
+        editor.replaceBlocks(editor.document, blocks);
+      }
+    };
+
+    loadContent();
+  }, [initialContent]);
 
   return (
     <BlockNoteView

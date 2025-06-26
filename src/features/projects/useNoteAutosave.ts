@@ -60,7 +60,13 @@ export function useNoteAutosave({
   });
 
   useEffect(() => {
-    if (enabled && form.formState.isDirty && !mutation.isPending) {
+    if (
+      enabled &&
+      form.formState.isDirty &&
+      !mutation.isPending &&
+      watchedData.content &&
+      watchedData.content.length > 3
+    ) {
       debounced();
     }
   }, [
