@@ -88,11 +88,6 @@ function NewNote() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      content: '',
-      tags: [],
-      title: '',
-    },
   });
 
   const { isSaving, isSavedRecently } = useNoteAutosave({
@@ -100,6 +95,15 @@ function NewNote() {
     paraGroupId: params.id as string,
     enabled: open,
   });
+
+  useEffect(() => {
+    if (open)
+      form.reset({
+        content: '',
+        tags: [],
+        title: '',
+      });
+  }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
