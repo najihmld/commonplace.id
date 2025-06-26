@@ -8,8 +8,8 @@ import {
 } from '@/components/common/dropdown-menu';
 import { NewProject } from '@/features/projects/project-form';
 import { DeleteProjectDialog } from '@/features/projects/delete-project-dialog';
-import { getProjects, type Project } from '@/utils/supabase/api/project';
-import { useQuery } from '@tanstack/react-query';
+import { getProjectsPaginated } from '@/utils/supabase/api/project';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import {
   Archive,
   Calendar,
@@ -22,6 +22,7 @@ import {
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useState } from 'react';
+import { Button } from '@/components/common/button';
 
 function ProjectSkeleton() {
   return (
@@ -48,10 +49,19 @@ function ProjectSkeleton() {
 
 export default function ProjectsPage() {
   const t = useTranslations('ProjectsPage');
-  const { data: projects, isLoading } = useQuery<Project[]>({
-    queryKey: ['projects'],
-    queryFn: getProjects,
-  });
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useInfiniteQuery({
+      queryKey: ['projects'],
+      queryFn: getProjectsPaginated,
+      getNextPageParam: (lastPage, allPages) => {
+        // If last page has fewer items than page size, we've reached the end
+        return lastPage.length === 12 ? allPages.length : undefined;
+      },
+      initialPageParam: 0,
+    });
+
+  const projects = data?.pages.flat() || [];
 
   const [deleteDialog, setDeleteDialog] = useState<{
     isOpen: boolean;
@@ -167,6 +177,18 @@ export default function ProjectsPage() {
           ))
         )}
       </section>
+
+      {hasNextPage && (
+        <div className="mt-8 flex justify-center">
+          <Button
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            variant="outline"
+          >
+            {isFetchingNextPage ? 'Loading more...' : 'Load More Projects'}
+          </Button>
+        </div>
+      )}
 
       <DeleteProjectDialog
         projectId={deleteDialog.projectId}

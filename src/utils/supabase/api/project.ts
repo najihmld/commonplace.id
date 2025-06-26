@@ -32,6 +32,34 @@ export const getProjects = async () => {
   return data;
 };
 
+export const getProjectsPaginated = async ({
+  pageParam = 0,
+}: {
+  pageParam?: number;
+}) => {
+  const supabase = createClient();
+  const pageSize = 12; // Number of projects per page
+
+  const { data, error } = await supabase
+    .from('para_groups')
+    .select(
+      `
+      id,
+      title,
+      description,
+      created_at,
+      para_type,
+      notes(count)
+    `,
+    )
+    .eq('para_type', 'project')
+    .order('created_at', { ascending: false })
+    .range(pageParam * pageSize, (pageParam + 1) * pageSize - 1);
+
+  if (error) throw new Error(error.message);
+  return data;
+};
+
 export const getProjectByIdServer = async (id: string) => {
   const supabase = await createServer();
 

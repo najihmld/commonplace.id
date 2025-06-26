@@ -292,6 +292,37 @@ export const getNotesByGroup = async (paraGroupId: string) => {
   return data;
 };
 
+export const getNotesByGroupPaginated = async ({
+  paraGroupId,
+  pageParam = 0,
+}: {
+  paraGroupId: string;
+  pageParam?: number;
+}) => {
+  const supabase = createClient();
+  const pageSize = 16; // Number of notes per page
+
+  const { data, error } = await supabase
+    .from('notes')
+    .select(
+      `
+      id,
+      type,
+      content_html,
+      updated_at,
+      tags (
+        name
+      )
+    `,
+    )
+    .eq('para_group_id', paraGroupId)
+    .order('created_at', { ascending: false })
+    .range(pageParam * pageSize, (pageParam + 1) * pageSize - 1);
+
+  if (error) throw new Error(error.message);
+  return data;
+};
+
 export const deleteNote = async (noteId: string) => {
   const supabase = createClient();
 
