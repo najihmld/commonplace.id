@@ -21,8 +21,38 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useState } from 'react';
-import { Button } from '@/components/common/button';
+import { useState, useRef, useCallback, useEffect } from 'react';
+
+// Custom hook for intersection observer
+function useInView(callback: () => void, deps: React.DependencyList = []) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const memoizedCallback = useCallback(callback, deps);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            memoizedCallback();
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(element);
+
+    return () => {
+      observer.unobserve(element);
+    };
+  }, [memoizedCallback]);
+
+  return ref;
+}
 
 function ProjectSkeleton() {
   return (
@@ -62,6 +92,15 @@ export default function ProjectsPage() {
     });
 
   const projects = data?.pages.flat() || [];
+
+  // Auto-load more when scroll reaches bottom
+  const loadMoreRef = useInView(
+    useCallback(() => {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]),
+  );
 
   const [deleteDialog, setDeleteDialog] = useState<{
     isOpen: boolean;
@@ -178,15 +217,18 @@ export default function ProjectsPage() {
         )}
       </section>
 
+      {/* Intersection observer target for auto-loading */}
       {hasNextPage && (
-        <div className="mt-8 flex justify-center">
-          <Button
-            onClick={() => fetchNextPage()}
-            disabled={isFetchingNextPage}
-            variant="outline"
-          >
-            {isFetchingNextPage ? 'Loading more...' : 'Load More Projects'}
-          </Button>
+        <div
+          ref={loadMoreRef}
+          className="col-span-3 mt-8 flex justify-center py-4"
+          style={{ minHeight: '100px' }}
+        >
+          {isFetchingNextPage && (
+            <div className="text-text-secondary text-sm">
+              Loading more projects...
+            </div>
+          )}
         </div>
       )}
 
