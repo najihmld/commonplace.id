@@ -164,7 +164,11 @@ function NoteList() {
 
       {/* Intersection observer target for auto-loading */}
       {hasNextPage && (
-        <div ref={loadMoreRef} className="mt-8 flex justify-center py-4">
+        <div
+          ref={loadMoreRef}
+          className="col-span-4 mt-8 flex justify-center py-4"
+          style={{ minHeight: '100px' }}
+        >
           {isFetchingNextPage && (
             <div className="text-text-secondary text-sm">
               Loading more notes...
