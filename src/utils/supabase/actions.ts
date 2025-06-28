@@ -1,10 +1,10 @@
 'use server';
 
-import { createClient } from './server';
+import { createServer } from './server';
 import { redirect } from 'next/navigation';
 
 const signInWith = (provider: 'google' | 'github' | 'discord') => async () => {
-  const supabase = await createClient();
+  const supabase = await createServer();
 
   const auth_callback_url = `${process.env.SITE_URL}/api/auth/callback`;
 
@@ -31,7 +31,7 @@ const signInWith = (provider: 'google' | 'github' | 'discord') => async () => {
 const signinWithGoogle = signInWith('google');
 
 const signOut = async () => {
-  const supabase = await createClient();
+  const supabase = await createServer();
   await supabase.auth.signOut();
 };
 
