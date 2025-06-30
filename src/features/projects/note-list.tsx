@@ -50,7 +50,7 @@ function useInView(callback: () => void, deps: React.DependencyList = []) {
   return ref;
 }
 
-function NoteList() {
+function NoteList({ selectedTags = [] }: { selectedTags?: string[] }) {
   const params = useParams();
   const paraGroupId = params.id as string;
   const deleteNote = useDeleteNote();
@@ -58,9 +58,13 @@ function NoteList() {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
-      queryKey: ['notes', paraGroupId],
+      queryKey: ['notes', paraGroupId, selectedTags],
       queryFn: ({ pageParam }) =>
-        getNotesByGroupPaginated({ paraGroupId, pageParam }),
+        getNotesByGroupPaginated({
+          paraGroupId,
+          pageParam,
+          selectedTags,
+        }),
       getNextPageParam: (lastPage, allPages) => {
         // If last page has fewer items than page size, we've reached the end
         return lastPage.length === 16 ? allPages.length : undefined;

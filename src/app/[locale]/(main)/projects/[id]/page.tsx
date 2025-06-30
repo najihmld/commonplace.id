@@ -1,4 +1,3 @@
-import NoteList from '@/features/projects/note-list';
 import { getProjectByIdServer } from '@/utils/supabase/api/project';
 import {
   dehydrate,
@@ -6,6 +5,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 import ProjectDetailClient from './ProjectDetailClient';
+import ProjectNotesSection from '@/features/projects/project-notes-section';
 
 export default async function ProjectDetailPage({
   params,
@@ -26,8 +26,7 @@ export default async function ProjectDetailPage({
         <ProjectDetailClient id={id} />
       </HydrationBoundary>
       <br />
-
-      <NoteList />
+      <ProjectNotesSection />
     </>
   );
 }

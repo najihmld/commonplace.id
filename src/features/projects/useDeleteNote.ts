@@ -10,7 +10,7 @@ export const useDeleteNote = () => {
   return useMutation({
     mutationFn: deleteNote,
     onSuccess: () => {
-      // Invalidate and refetch notes for this group
+      // Invalidate all notes queries for this group (including different tag filters)
       queryClient.invalidateQueries({
         queryKey: ['notes', paraGroupId],
       });
