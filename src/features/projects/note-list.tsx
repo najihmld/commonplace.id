@@ -95,7 +95,6 @@ function NoteList({
     deleteNote.mutate(noteId);
   };
 
-  console.log('notes', notes);
   return (
     <section>
       <DialogFormNote

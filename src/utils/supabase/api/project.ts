@@ -10,6 +10,31 @@ export type Project = {
   notes: { count: number }[];
 };
 
+export type ProjectFormData = {
+  id?: string; // Jika ada, berarti edit
+  title: string;
+  description?: string;
+  para_type: 'project' | 'area' | 'resource' | 'archive';
+};
+
+export const upsertProject = async (input: ProjectFormData) => {
+  const supabase = createClient();
+
+  const { id, ...rest } = input;
+
+  const { data, error } = await supabase
+    .from('para_groups')
+    .upsert(
+      id ? [{ id, ...rest }] : [{ ...rest }],
+      { onConflict: 'id' }, // update jika ada id yang sama
+    )
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data;
+};
+
 export const getProjects = async () => {
   const supabase = createClient();
 

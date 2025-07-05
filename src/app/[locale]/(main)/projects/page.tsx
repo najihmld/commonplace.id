@@ -6,7 +6,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/common/dropdown-menu';
-import { NewProject } from '@/features/projects/project-form';
+import {
+  DialogFormProject,
+  useDialogFormProjectState,
+} from '@/features/projects/project-form';
 import { DeleteProjectDialog } from '@/features/projects/delete-project-dialog';
 import { getProjectsPaginated } from '@/utils/supabase/api/project';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -17,11 +20,13 @@ import {
   Ellipsis,
   FileText,
   Pin,
+  Plus,
   Trash2,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { Button } from '@/components/common/button';
 
 // Custom hook for intersection observer
 function useInView(callback: () => void, deps: React.DependencyList = []) {
@@ -79,6 +84,8 @@ function ProjectSkeleton() {
 
 export default function ProjectsPage() {
   const t = useTranslations('ProjectsPage');
+  const dialogFormAddProjectState = useDialogFormProjectState();
+  const dialogFormEditProjectState = useDialogFormProjectState();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
@@ -138,83 +145,126 @@ export default function ProjectsPage() {
           <h2 className="text-text-secondary">{t('description')}</h2>
         </div>
 
-        <NewProject />
+        <DialogFormProject
+          {...dialogFormAddProjectState.props}
+          renderTrigger={({ DialogTrigger, form }) => (
+            <DialogTrigger>
+              <Button
+                asChild
+                variant="project"
+                onClick={() => {
+                  form.reset({
+                    title: '',
+                    description: '',
+                  });
+                }}
+              >
+                <span>
+                  <Plus />
+                  New Project
+                </span>
+              </Button>
+            </DialogTrigger>
+          )}
+        />
       </section>
       <br />
 
-      <section className="grid grid-cols-3 gap-4">
-        {isLoading ? (
-          <>
-            {[...Array(6)].map((_, i) => (
-              <ProjectSkeleton key={i} />
-            ))}
-          </>
-        ) : (
-          projects?.map((project) => (
-            <div
-              key={project.id}
-              className="border-projects/50 bg-projects/5 card-hover relative h-full transform rounded-lg border p-3 transition duration-300 hover:-translate-y-1"
-            >
-              <DropdownMenu>
-                <DropdownMenuTrigger className="absolute top-2 right-2 cursor-pointer rounded-sm p-1 hover:bg-white">
-                  <Ellipsis size={16} />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem disabled>
-                    <Pin />
-                    Pin
-                  </DropdownMenuItem>
-                  <DropdownMenuItem disabled>
-                    <Edit2 />
-                    Edit
-                  </DropdownMenuItem>
-                  <DropdownMenuItem disabled>
-                    <Archive />
-                    Archive
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="text-destructive"
-                    onClick={() => handleDeleteClick(project.id, project.title)}
+      <section>
+        <DialogFormProject
+          isEdit
+          {...dialogFormEditProjectState.props}
+          renderTrigger={({ DialogTrigger, form }) => (
+            <div className="grid grid-cols-3 gap-4">
+              {isLoading ? (
+                <>
+                  {[...Array(6)].map((_, i) => (
+                    <ProjectSkeleton key={i} />
+                  ))}
+                </>
+              ) : (
+                projects?.map((project) => (
+                  <div
+                    key={project.id}
+                    className="border-projects/50 bg-projects/5 card-hover relative h-full transform rounded-lg border p-3 transition duration-300 hover:-translate-y-1"
                   >
-                    <Trash2 className="text-destructive" />
-                    <span className="text-destructive">Delete</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="absolute top-2 right-2 cursor-pointer rounded-sm p-1 hover:bg-white">
+                        <Ellipsis size={16} />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem disabled>
+                          <Pin />
+                          Pin
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          asChild
+                          className="w-full"
+                          onClick={() => {
+                            form.reset({
+                              id: project.id,
+                              title: project.title,
+                              description: project.description,
+                            });
+                          }}
+                        >
+                          <DialogTrigger>
+                            <Edit2 />
+                            Edit
+                          </DialogTrigger>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem disabled>
+                          <Archive />
+                          Archive
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="text-destructive"
+                          onClick={() =>
+                            handleDeleteClick(project.id, project.title)
+                          }
+                        >
+                          <Trash2 className="text-destructive" />
+                          <span className="text-destructive">Delete</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
 
-              <Link href={`/projects/${project.id}`}>
-                <div className="flex items-center gap-x-2">
-                  <div className="bg-projects h-2 w-2 rounded-sm" />
-                  <div className="bg-projects/5 text-projects rounded-lg px-1.5 text-xs font-semibold capitalize">
-                    {project.para_type}
+                    <Link href={`/projects/${project.id}`}>
+                      <div className="flex items-center gap-x-2">
+                        <div className="bg-projects h-2 w-2 rounded-sm" />
+                        <div className="bg-projects/5 text-projects rounded-lg px-1.5 text-xs font-semibold capitalize">
+                          {project.para_type}
+                        </div>
+                        <div className="h-6 flex-1" />
+                      </div>
+
+                      <div className="text-text-primary my-2 line-clamp-2 text-base font-semibold">
+                        {project.title}
+                      </div>
+                      <div className="text-text-secondary text-sm">
+                        {project.description}
+                      </div>
+
+                      <div className="text-text-tertiary mt-2 flex items-center justify-between">
+                        <div className="inline-block gap-x-2 align-middle">
+                          <Calendar size={12} className="mr-1 inline-block" />
+                          <span className="text-xs">{project.created_at}</span>
+                        </div>
+
+                        <div className="inline-block gap-x-2 align-middle">
+                          <FileText size={12} className="mr-1 inline-block" />
+                          <span className="text-xs">
+                            {project.notes[0].count} notes
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
                   </div>
-                  <div className="h-6 flex-1" />
-                </div>
-
-                <div className="text-text-primary my-2 line-clamp-2 text-base font-semibold">
-                  {project.title}
-                </div>
-                <div className="text-text-secondary text-sm">
-                  {project.description}
-                </div>
-
-                <div className="text-text-tertiary mt-2 flex items-center justify-between">
-                  <div className="inline-block gap-x-2 align-middle">
-                    <Calendar size={12} className="mr-1 inline-block" />
-                    <span className="text-xs">{project.created_at}</span>
-                  </div>
-
-                  <div className="inline-block gap-x-2 align-middle">
-                    <FileText size={12} className="mr-1 inline-block" />
-                    <span className="text-xs">
-                      {project.notes[0].count} notes
-                    </span>
-                  </div>
-                </div>
-              </Link>
+                ))
+              )}
             </div>
-          ))
-        )}
+          )}
+        />
       </section>
 
       {/* Intersection observer target for auto-loading */}
