@@ -5,8 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { getTagsByGroupId } from '@/utils/supabase/api/tags';
 import { Badge } from '@/components/common/badge';
-import { Button } from '@/components/common/button';
-import { X } from 'lucide-react';
 
 interface NoteTagsFilterProps {
   selectedTags: string[];
@@ -35,14 +33,10 @@ function NoteTagsFilter({ selectedTags, onTagsChange }: NoteTagsFilterProps) {
     }
   };
 
-  const clearAllTags = () => {
-    onTagsChange([]);
-  };
-
   if (isLoading) {
     return (
       <section className="mb-6">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1">
           {[...Array(5)].map((_, i) => (
             <div
               key={i}
@@ -64,34 +58,11 @@ function NoteTagsFilter({ selectedTags, onTagsChange }: NoteTagsFilterProps) {
     );
   }
 
-  if (!tags || tags.length === 0) {
-    return (
-      <section className="mb-6">
-        <div className="text-sm text-gray-500">
-          No tags available for this project
-        </div>
-      </section>
-    );
-  }
+  if (!tags || tags.length === 0) return null;
 
   return (
     <section className="mb-6">
-      <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-sm font-medium text-gray-700">Filter by tags:</h3>
-        {selectedTags.length > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={clearAllTags}
-            className="h-6 px-2 text-xs text-gray-500 hover:text-gray-700"
-          >
-            <X size={12} className="mr-1" />
-            Clear all
-          </Button>
-        )}
-      </div>
-
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1">
         {tags.map((tag) => (
           <Badge
             key={tag.id}
@@ -103,7 +74,7 @@ function NoteTagsFilter({ selectedTags, onTagsChange }: NoteTagsFilterProps) {
             }`}
             onClick={() => handleTagClick(tag.name)}
           >
-            {tag.name}
+            🏷️ {tag.name}
           </Badge>
         ))}
       </div>

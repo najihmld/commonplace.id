@@ -104,8 +104,11 @@ export const noteTypes = [
 ];
 
 export const noteTypeMap = Object.fromEntries(
-  noteTypes.map(({ value, label, className }) => [value, { label, className }]),
-) as Record<string, Omit<NoteTypeItem, 'value'>>;
+  noteTypes.map(({ value, label, className }) => [
+    value,
+    { label, className, value },
+  ]),
+) as Record<string, NoteTypeItem>;
 
 export type NoteType = keyof typeof noteTypeMap;
 
@@ -301,10 +304,12 @@ export const getNotesByGroupPaginated = async ({
   paraGroupId,
   pageParam = 0,
   selectedTags = [],
+  selectedType = '',
 }: {
   paraGroupId: string;
   pageParam?: number;
   selectedTags?: string[];
+  selectedType?: string;
 }) => {
   const supabase = createClient();
   const pageSize = 16; // Number of notes per page
@@ -325,6 +330,11 @@ export const getNotesByGroupPaginated = async ({
     )
     .eq('para_group_id', paraGroupId)
     .order('created_at', { ascending: false });
+
+  // Filter by type if selectedType is provided and not empty
+  if (selectedType && selectedType !== '') {
+    query = query.eq('type', selectedType);
+  }
 
   // Filter by tags if selectedTags is provided and not empty
   if (selectedTags && selectedTags.length > 0) {
@@ -373,4 +383,18 @@ export const deleteNote = async (noteId: string) => {
   if (error) {
     throw new Error(error.message);
   }
+};
+
+export const getNoteTypesByGroupId = async (paraGroupId: string) => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('notes')
+    .select('type')
+    .eq('para_group_id', paraGroupId);
+
+  if (error) throw new Error(error.message);
+
+  const uniqueTypes = [...new Set(data.map((note) => note.type))];
+  return uniqueTypes;
 };

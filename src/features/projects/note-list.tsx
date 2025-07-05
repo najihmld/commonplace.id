@@ -50,7 +50,13 @@ function useInView(callback: () => void, deps: React.DependencyList = []) {
   return ref;
 }
 
-function NoteList({ selectedTags = [] }: { selectedTags?: string[] }) {
+function NoteList({
+  selectedTags = [],
+  selectedType = '',
+}: {
+  selectedTags?: string[];
+  selectedType?: string;
+}) {
   const params = useParams();
   const paraGroupId = params.id as string;
   const deleteNote = useDeleteNote();
@@ -58,12 +64,13 @@ function NoteList({ selectedTags = [] }: { selectedTags?: string[] }) {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
-      queryKey: ['notes', paraGroupId, selectedTags],
+      queryKey: ['notes', paraGroupId, selectedTags, selectedType],
       queryFn: ({ pageParam }) =>
         getNotesByGroupPaginated({
           paraGroupId,
           pageParam,
           selectedTags,
+          selectedType,
         }),
       getNextPageParam: (lastPage, allPages) => {
         // If last page has fewer items than page size, we've reached the end
@@ -149,7 +156,7 @@ function NoteList({ selectedTags = [] }: { selectedTags?: string[] }) {
                         <div className="flex items-center gap-x-2">
                           <div className="flex items-center gap-2">
                             <div
-                              className={`rounded-lg px-1.5 text-[10px] font-semibold capitalize ${config?.className}`}
+                              className={`rounded-sm px-1.5 text-[10px] font-semibold capitalize ${config?.className}`}
                             >
                               {config?.label}
                             </div>
@@ -170,18 +177,20 @@ function NoteList({ selectedTags = [] }: { selectedTags?: string[] }) {
                         </div>
 
                         <div>
-                          <div className="mb-2 flex items-center gap-1">
+                          <div className="flex items-center gap-1">
                             {note.tags?.length ? (
                               <Tag size={12} className="text-text-secondary" />
                             ) : null}
-                            {note.tags?.map((tag) => (
-                              <div
-                                key={tag.name}
-                                className="text-text-secondary w-fit rounded-lg border bg-white px-1.5 text-xs"
-                              >
-                                {tag.name}
-                              </div>
-                            ))}
+                            <div className="flex flex-wrap gap-0.5">
+                              {note.tags?.map((tag) => (
+                                <div
+                                  key={tag.name}
+                                  className="text-text-secondary w-fit rounded-sm border bg-white px-1.5 text-xs"
+                                >
+                                  {tag.name}
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </DialogTrigger>
