@@ -40,7 +40,7 @@ function NoteTagsFilter({ selectedTags, onTagsChange }: NoteTagsFilterProps) {
           {[...Array(5)].map((_, i) => (
             <div
               key={i}
-              className="h-8 w-20 animate-pulse rounded-full bg-gray-200"
+              className="h-[20px] w-20 animate-pulse rounded-md bg-gray-200"
             />
           ))}
         </div>
