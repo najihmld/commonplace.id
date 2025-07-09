@@ -13,30 +13,38 @@ import {
   useDialogFormNoteState,
 } from '@/features/projects/note-form';
 import { Calendar, FileText, Plus } from 'lucide-react';
-import { getProjectById } from '@/utils/supabase/api/project';
+import { getProject, ParaType } from '@/utils/supabase/api/project';
 import { useQuery } from '@tanstack/react-query';
 import { formatToLocalTime } from '@/utils/format-date-time';
 import { Button } from '@/components/common/button';
+import { useParams } from 'next/navigation';
+import { getParaTypeFromParamValue } from '@/features/projects/utils';
+import { useTranslations } from 'next-intl';
 
 export default function ProjectDetailClient({ id }: { id: string }) {
+  const params = useParams<{ paras: ParaType }>();
+  const paraType = getParaTypeFromParamValue(params.paras);
+
+  const t = useTranslations(`/${params.paras}`);
+
   const { data: project, isLoading } = useQuery({
-    queryKey: ['project', id],
-    queryFn: () => getProjectById(id),
+    queryKey: [paraType, id],
+    queryFn: () => getProject({ id, paraType }),
   });
 
   const dialogFormNoteState = useDialogFormNoteState();
 
   if (isLoading) return <p>Loading...</p>;
-  if (!project) return <p>Project not found</p>;
-
-  console.log('project', project);
+  if (!project) return <p>Not found</p>;
 
   return (
     <>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/projects">Projects</BreadcrumbLink>
+            <BreadcrumbLink href={`/${params.paras}`}>
+              {t('title')}
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -61,7 +69,7 @@ export default function ProjectDetailClient({ id }: { id: string }) {
               <DialogTrigger>
                 <Button
                   asChild
-                  variant="project"
+                  variant={paraType}
                   disabled={isSaving}
                   onClick={() =>
                     form.reset({

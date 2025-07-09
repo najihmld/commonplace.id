@@ -1,12 +1,14 @@
 import { createClient } from '../client';
 import { createServer } from '../server';
 
+export type ParaType = 'project' | 'area' | 'resource' | 'archive';
+
 export type Project = {
   id: string;
   title: string;
   description: string;
   created_at: string;
-  para_type: string;
+  para_type: ParaType;
   notes: { count: number }[];
 };
 
@@ -14,7 +16,7 @@ export type ProjectFormData = {
   id?: string; // Jika ada, berarti edit
   title: string;
   description?: string;
-  para_type: 'project' | 'area' | 'resource' | 'archive';
+  para_type: ParaType;
 };
 
 export const upsertProject = async (input: ProjectFormData) => {
@@ -59,9 +61,13 @@ export const getProjects = async () => {
 
 export const getProjectsPaginated = async ({
   pageParam = 0,
+  queryKey,
 }: {
   pageParam?: number;
+  queryKey: (string | { paraType: ParaType })[];
 }) => {
+  const paraType =
+    (queryKey[1] as { paraType: ParaType })?.paraType || 'project';
   const supabase = createClient();
   const pageSize = 12; // Number of projects per page
 
@@ -77,7 +83,7 @@ export const getProjectsPaginated = async ({
       notes(count)
     `,
     )
-    .eq('para_type', 'project')
+    .eq('para_type', paraType)
     .order('created_at', { ascending: false })
     .range(pageParam * pageSize, (pageParam + 1) * pageSize - 1);
 
@@ -85,7 +91,13 @@ export const getProjectsPaginated = async ({
   return data;
 };
 
-export const getProjectByIdServer = async (id: string) => {
+export const getProjectByServer = async ({
+  id,
+  paraType,
+}: {
+  id: string;
+  paraType: ParaType;
+}) => {
   const supabase = await createServer();
 
   const { data, error } = await supabase
@@ -101,16 +113,16 @@ export const getProjectByIdServer = async (id: string) => {
     `,
     )
     .eq('id', id)
-    .eq('para_type', 'project')
+    .eq('para_type', paraType)
     .maybeSingle();
 
   if (error) {
-    console.error('getProjectByIdServer error', error.message);
+    console.error('getProjectByServer error', error.message);
     return null;
   }
 
   if (!data) {
-    console.error('getProjectByIdServer: No project found with id', id);
+    console.error('getProjectByServer: No project found with id', id);
     return null;
   }
 
@@ -125,7 +137,13 @@ export const getProjectByIdServer = async (id: string) => {
   } as Project;
 };
 
-export const getProjectById = async (id: string) => {
+export const getProject = async ({
+  id,
+  paraType,
+}: {
+  id: string;
+  paraType: ParaType;
+}) => {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -141,16 +159,16 @@ export const getProjectById = async (id: string) => {
     `,
     )
     .eq('id', id)
-    .eq('para_type', 'project')
+    .eq('para_type', paraType)
     .maybeSingle();
 
   if (error) {
-    console.error('getProjectById error', error.message);
+    console.error('getProject error', error.message);
     return null;
   }
 
   if (!data) {
-    console.error('getProjectById: No project found with id', id);
+    console.error('getProject: No project found with id', id);
     return null;
   }
 

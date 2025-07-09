@@ -15,9 +15,11 @@ import { ControlledTextarea } from '@/components/forms/textarea';
 import { upsertProject } from '@/utils/supabase/api/project';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
+import { getParaTypeFromParamValue } from './utils';
 
 const formSchema = z.object({
   id: z.string().optional(),
@@ -94,6 +96,43 @@ function DialogFormProject({
   open,
   setOpen,
 }: DialogFormProjectProps) {
+  const params = useParams<{
+    paras: 'projects' | 'areas' | 'resources';
+  }>();
+
+  const paraContent = {
+    projects: {
+      add: {
+        title: 'Create New Project',
+        desc: 'Add a project with a clear goal and deadline to track your progress.',
+      },
+      edit: {
+        title: 'Edit Project',
+        desc: 'Update the title or description of this project.',
+      },
+    },
+    areas: {
+      add: {
+        title: 'Create New Area',
+        desc: 'Define an area of responsibility you want to consistently maintain.',
+      },
+      edit: {
+        title: 'Edit Area',
+        desc: 'Make adjustments to this area to reflect your ongoing responsibilities.',
+      },
+    },
+    resources: {
+      add: {
+        title: 'Add New Resource',
+        desc: 'Save helpful knowledge or references to revisit later.',
+      },
+      edit: {
+        title: 'Edit Resource',
+        desc: 'Update this resource to better organize your knowledge.',
+      },
+    },
+  }[params.paras];
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -103,7 +142,7 @@ function DialogFormProject({
   const mutation = useMutation({
     mutationFn: upsertProject,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      queryClient.invalidateQueries({ queryKey: [params.paras] });
       setOpen(false);
     },
   });
@@ -114,12 +153,10 @@ function DialogFormProject({
       <DialogContent className="py-4 sm:max-w-[620px]">
         <DialogHeader>
           <DialogTitle>
-            {isEdit ? 'Edit Project' : 'Create New Project'}
+            {isEdit ? paraContent.edit.title : paraContent.add.title}
           </DialogTitle>
           <DialogDescription>
-            {isEdit
-              ? 'Make changes to your existing project details in your knowledge base.'
-              : 'Add a new project to your knowledge base.'}
+            {isEdit ? paraContent.edit.desc : paraContent.add.desc}
           </DialogDescription>
         </DialogHeader>
 
@@ -131,7 +168,7 @@ function DialogFormProject({
               id: values.id,
               title: values.title,
               description: values.description,
-              para_type: 'project',
+              para_type: getParaTypeFromParamValue(params.paras),
             })
           }
         />

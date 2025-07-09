@@ -1,4 +1,4 @@
-import { getProjectByIdServer } from '@/utils/supabase/api/project';
+import { getProjectByServer, ParaType } from '@/utils/supabase/api/project';
 import {
   dehydrate,
   HydrationBoundary,
@@ -6,18 +6,20 @@ import {
 } from '@tanstack/react-query';
 import ProjectDetailClient from './ProjectDetailClient';
 import ProjectNotesSection from '@/features/projects/project-notes-section';
+import { getParaTypeFromParamValue } from '@/features/projects/utils';
 
-export default async function ProjectDetailPage({
+export default async function ParaDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: { id: string; paras: ParaType };
 }) {
-  const { id } = await params;
+  const { id, paras } = await params;
+  const paraType = getParaTypeFromParamValue(paras);
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['project', id],
-    queryFn: () => getProjectByIdServer(id),
+    queryKey: [paraType, id],
+    queryFn: () => getProjectByServer({ id, paraType }),
   });
 
   return (

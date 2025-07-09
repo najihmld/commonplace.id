@@ -11,6 +11,7 @@ import {
 import { Button } from '@/components/common/button';
 import { useDeleteProject } from './useDeleteProject';
 import { Trash2 } from 'lucide-react';
+import { useParams } from 'next/navigation';
 
 interface DeleteProjectDialogProps {
   projectId: string;
@@ -25,6 +26,12 @@ export function DeleteProjectDialog({
   isOpen,
   onCloseAction,
 }: DeleteProjectDialogProps) {
+  const params = useParams<{
+    paras: 'projects' | 'areas' | 'resources';
+  }>();
+  const title = { projects: 'Project', areas: 'Area', resources: 'Resource' }[
+    params.paras
+  ];
   const deleteProject = useDeleteProject();
 
   const handleDelete = async () => {
@@ -42,7 +49,7 @@ export function DeleteProjectDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Trash2 className="text-destructive h-5 w-5" />
-            Delete Project
+            Delete {title}
           </DialogTitle>
           <DialogDescription>
             Are you sure you want to delete &quot;
@@ -64,7 +71,7 @@ export function DeleteProjectDialog({
             onClick={handleDelete}
             disabled={deleteProject.isPending}
           >
-            {deleteProject.isPending ? 'Deleting...' : 'Delete Project'}
+            {deleteProject.isPending ? 'Deleting...' : `Delete ${title}`}
           </Button>
         </DialogFooter>
       </DialogContent>

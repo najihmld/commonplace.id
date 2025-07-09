@@ -23,8 +23,8 @@ const buttonVariants = cva(
 
         project: 'bg-projects hover:bg-projects/90 text-primary-foreground',
         area: 'bg-areas hover:bg-areas/90 text-primary-foreground',
-        resource: 'bg-resource hover:bg-resource/90 text-primary-foreground',
-        archive: 'bg-projects hover:bg-archive/90 text-primary-foreground',
+        resource: 'bg-resources hover:bg-resources/90 text-primary-foreground',
+        archive: 'bg-archives hover:bg-archives/90 text-primary-foreground',
       },
       size: {
         default: 'h-9 px-4 rounded-lg py-2 has-[>svg]:px-3',

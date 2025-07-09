@@ -27,6 +27,9 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Button } from '@/components/common/button';
+import { useParams } from 'next/navigation';
+import clsx from 'clsx';
+import { getParaTypeFromParamValue } from '@/features/projects/utils';
 
 // Custom hook for intersection observer
 function useInView(callback: () => void, deps: React.DependencyList = []) {
@@ -82,14 +85,19 @@ function ProjectSkeleton() {
   );
 }
 
-export default function ProjectsPage() {
-  const t = useTranslations('ProjectsPage');
+export default function ParasPage() {
+  const params = useParams() as {
+    paras: 'projects' | 'areas' | 'resources';
+  };
+  const paraType = getParaTypeFromParamValue(params.paras);
+
+  const t = useTranslations(`/${params.paras}`);
   const dialogFormAddProjectState = useDialogFormProjectState();
   const dialogFormEditProjectState = useDialogFormProjectState();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
-      queryKey: ['projects'],
+      queryKey: [params.paras, { paraType }],
       queryFn: getProjectsPaginated,
       getNextPageParam: (lastPage, allPages) => {
         // If last page has fewer items than page size, we've reached the end
@@ -151,7 +159,7 @@ export default function ProjectsPage() {
             <DialogTrigger>
               <Button
                 asChild
-                variant="project"
+                variant={paraType}
                 onClick={() => {
                   form.reset({
                     title: '',
@@ -159,9 +167,9 @@ export default function ProjectsPage() {
                   });
                 }}
               >
-                <span>
+                <span className="capitalize">
                   <Plus />
-                  New Project
+                  New {paraType}
                 </span>
               </Button>
             </DialogTrigger>
@@ -186,7 +194,7 @@ export default function ProjectsPage() {
                 projects?.map((project) => (
                   <div
                     key={project.id}
-                    className="border-projects/50 bg-projects/5 card-hover relative h-full transform rounded-lg border p-3 transition duration-300 hover:-translate-y-1"
+                    className={`border-${params.paras}/50 bg-${params.paras}/5 card-hover relative h-full transform rounded-lg border p-3 transition duration-300 hover:-translate-y-1`}
                   >
                     <DropdownMenu>
                       <DropdownMenuTrigger className="absolute top-2 right-2 cursor-pointer rounded-sm p-1 hover:bg-white">
@@ -229,10 +237,20 @@ export default function ProjectsPage() {
                       </DropdownMenuContent>
                     </DropdownMenu>
 
-                    <Link href={`/projects/${project.id}`}>
+                    <Link href={`/${params.paras}/${project.id}`}>
                       <div className="flex items-center gap-x-2">
-                        <div className="bg-projects h-2 w-2 rounded-sm" />
-                        <div className="bg-projects/5 text-projects rounded-lg px-1.5 text-xs font-semibold capitalize">
+                        <div
+                          className={clsx(
+                            'h-2 w-2 rounded-sm',
+                            `bg-${params.paras}`,
+                          )}
+                        />
+                        <div
+                          className={clsx(
+                            'text-projects rounded-lg px-1.5 text-xs font-semibold capitalize',
+                            `bg-${params.paras}/5`,
+                          )}
+                        >
                           {project.para_type}
                         </div>
                         <div className="h-6 flex-1" />
@@ -275,9 +293,7 @@ export default function ProjectsPage() {
           style={{ minHeight: '100px' }}
         >
           {isFetchingNextPage && (
-            <div className="text-text-secondary text-sm">
-              Loading more projects...
-            </div>
+            <div className="text-text-secondary text-sm">Loading more...</div>
           )}
         </div>
       )}

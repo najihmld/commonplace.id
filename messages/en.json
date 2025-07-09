@@ -1,13 +1,13 @@
 {
-  "ProjectsPage": {
+  "/projects": {
     "title": "Projects",
     "description": "Active projects with specific outcomes and deadlines"
   },
-  "AreasPage": {
+  "/areas": {
     "title": "Areas",
     "description": "Ongoing responsibilities and standards to maintain"
   },
-  "ResourcesPage": {
+  "/resources": {
     "title": "Resources",
     "description": "Topics of ongoing interest and reference materials"
   },
