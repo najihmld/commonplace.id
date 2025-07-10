@@ -19,7 +19,6 @@ import {
   Edit2,
   Ellipsis,
   FileText,
-  Pin,
   Plus,
   Trash2,
 } from 'lucide-react';
@@ -30,6 +29,7 @@ import { Button } from '@/components/common/button';
 import { useParams } from 'next/navigation';
 import clsx from 'clsx';
 import { getParaTypeFromParamValue } from '@/features/projects/utils';
+import { useSetParaGroupArchived } from '@/features/projects/useSetParaGroupArchived';
 
 // Custom hook for intersection observer
 function useInView(callback: () => void, deps: React.DependencyList = []) {
@@ -63,23 +63,90 @@ function useInView(callback: () => void, deps: React.DependencyList = []) {
 }
 
 function ProjectSkeleton() {
+  const params = useParams() as {
+    paras: 'projects' | 'areas' | 'resources' | 'areas';
+  };
+  if (params.paras === 'projects') {
+    return (
+      <div className="border-projects/50 bg-projects/5 h-full animate-pulse rounded-lg border p-3">
+        <div className="flex items-center gap-x-2">
+          <div className="bg-projects/20 h-2 w-2 rounded-sm" />
+          <div className="bg-projects/20 h-4 w-16 rounded-lg" />
+          <div className="flex-1" />
+          <div className="bg-projects/20 h-4 w-4 rounded-sm" />
+        </div>
+
+        <div className="my-2">
+          <div className="bg-projects/20 h-5 w-3/4 rounded" />
+          <div className="bg-projects/20 mt-1 h-4 w-1/2 rounded" />
+        </div>
+
+        <div className="mt-2 flex items-center justify-between">
+          <div className="bg-projects/20 h-3 w-20 rounded" />
+          <div className="bg-projects/20 h-3 w-16 rounded" />
+        </div>
+      </div>
+    );
+  } else if (params.paras === 'areas') {
+    return (
+      <div className="border-areas/50 bg-areas/5 h-full animate-pulse rounded-lg border p-3">
+        <div className="flex items-center gap-x-2">
+          <div className="bg-areas/20 h-2 w-2 rounded-sm" />
+          <div className="bg-areas/20 h-4 w-16 rounded-lg" />
+          <div className="flex-1" />
+          <div className="bg-areas/20 h-4 w-4 rounded-sm" />
+        </div>
+
+        <div className="my-2">
+          <div className="bg-areas/20 h-5 w-3/4 rounded" />
+          <div className="bg-areas/20 mt-1 h-4 w-1/2 rounded" />
+        </div>
+
+        <div className="mt-2 flex items-center justify-between">
+          <div className="bg-areas/20 h-3 w-20 rounded" />
+          <div className="bg-areas/20 h-3 w-16 rounded" />
+        </div>
+      </div>
+    );
+  } else if (params.paras === 'resources') {
+    return (
+      <div className="border-resources/50 bg-resources/5 h-full animate-pulse rounded-lg border p-3">
+        <div className="flex items-center gap-x-2">
+          <div className="bg-resources/20 h-2 w-2 rounded-sm" />
+          <div className="bg-resources/20 h-4 w-16 rounded-lg" />
+          <div className="flex-1" />
+          <div className="bg-resources/20 h-4 w-4 rounded-sm" />
+        </div>
+
+        <div className="my-2">
+          <div className="bg-resources/20 h-5 w-3/4 rounded" />
+          <div className="bg-resources/20 mt-1 h-4 w-1/2 rounded" />
+        </div>
+
+        <div className="mt-2 flex items-center justify-between">
+          <div className="bg-resources/20 h-3 w-20 rounded" />
+          <div className="bg-resources/20 h-3 w-16 rounded" />
+        </div>
+      </div>
+    );
+  }
   return (
-    <div className="border-projects/50 bg-projects/5 h-full animate-pulse rounded-lg border p-3">
+    <div className="border-archives/50 bg-archives/5 h-full animate-pulse rounded-lg border p-3">
       <div className="flex items-center gap-x-2">
-        <div className="bg-projects/20 h-2 w-2 rounded-sm" />
-        <div className="bg-projects/20 h-4 w-16 rounded-lg" />
+        <div className="bg-archives/20 h-2 w-2 rounded-sm" />
+        <div className="bg-archives/20 h-4 w-16 rounded-lg" />
         <div className="flex-1" />
-        <div className="bg-projects/20 h-4 w-4 rounded-sm" />
+        <div className="bg-archives/20 h-4 w-4 rounded-sm" />
       </div>
 
       <div className="my-2">
-        <div className="bg-projects/20 h-5 w-3/4 rounded" />
-        <div className="bg-projects/20 mt-1 h-4 w-1/2 rounded" />
+        <div className="bg-archives/20 h-5 w-3/4 rounded" />
+        <div className="bg-archives/20 mt-1 h-4 w-1/2 rounded" />
       </div>
 
       <div className="mt-2 flex items-center justify-between">
-        <div className="bg-projects/20 h-3 w-20 rounded" />
-        <div className="bg-projects/20 h-3 w-16 rounded" />
+        <div className="bg-archives/20 h-3 w-20 rounded" />
+        <div className="bg-archives/20 h-3 w-16 rounded" />
       </div>
     </div>
   );
@@ -107,6 +174,7 @@ export default function ParasPage() {
     });
 
   const projects = data?.pages.flat() || [];
+  console.log('projects', projects);
 
   // Auto-load more when scroll reaches bottom
   const loadMoreRef = useInView(
@@ -143,6 +211,8 @@ export default function ParasPage() {
     });
   };
 
+  const setArchived = useSetParaGroupArchived();
+
   return (
     <>
       <section className="flex items-center justify-between">
@@ -155,25 +225,28 @@ export default function ParasPage() {
 
         <DialogFormProject
           {...dialogFormAddProjectState.props}
-          renderTrigger={({ DialogTrigger, form }) => (
-            <DialogTrigger>
-              <Button
-                asChild
-                variant={paraType}
-                onClick={() => {
-                  form.reset({
-                    title: '',
-                    description: '',
-                  });
-                }}
-              >
-                <span className="capitalize">
-                  <Plus />
-                  New {paraType}
-                </span>
-              </Button>
-            </DialogTrigger>
-          )}
+          renderTrigger={({ DialogTrigger, form }) => {
+            if (paraType === 'archive') return null;
+            return (
+              <DialogTrigger>
+                <Button
+                  asChild
+                  variant={paraType}
+                  onClick={() => {
+                    form.reset({
+                      title: '',
+                      description: '',
+                    });
+                  }}
+                >
+                  <span className="capitalize">
+                    <Plus />
+                    New {paraType}
+                  </span>
+                </Button>
+              </DialogTrigger>
+            );
+          }}
         />
       </section>
       <br />
@@ -201,29 +274,44 @@ export default function ParasPage() {
                         <Ellipsis size={16} />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
-                        <DropdownMenuItem disabled>
-                          <Pin />
-                          Pin
-                        </DropdownMenuItem>
+                        {paraType !== 'archive' && (
+                          <DropdownMenuItem
+                            asChild
+                            className="w-full"
+                            onClick={() => {
+                              form.reset({
+                                id: project.id,
+                                title: project.title,
+                                description: project.description,
+                              });
+                            }}
+                          >
+                            <DialogTrigger>
+                              <Edit2 className="text-text-primary" />
+                              Edit
+                            </DialogTrigger>
+                          </DropdownMenuItem>
+                        )}
                         <DropdownMenuItem
-                          asChild
-                          className="w-full"
-                          onClick={() => {
-                            form.reset({
+                          onClick={() =>
+                            setArchived.mutate({
                               id: project.id,
-                              title: project.title,
-                              description: project.description,
-                            });
-                          }}
+                              currentParaType: project.para_type,
+                              originalParaType: project.original_para_type,
+                            })
+                          }
                         >
-                          <DialogTrigger>
-                            <Edit2 />
-                            Edit
-                          </DialogTrigger>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem disabled>
-                          <Archive />
-                          Archive
+                          {paraType === 'archive' ? (
+                            <>
+                              <Archive className="text-text-primary" />
+                              Unarchive
+                            </>
+                          ) : (
+                            <>
+                              <Archive className="text-text-primary" />
+                              Archive
+                            </>
+                          )}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-destructive"

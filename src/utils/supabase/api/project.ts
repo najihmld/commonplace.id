@@ -27,33 +27,13 @@ export const upsertProject = async (input: ProjectFormData) => {
   const { data, error } = await supabase
     .from('para_groups')
     .upsert(
-      id ? [{ id, ...rest }] : [{ ...rest }],
+      id
+        ? [{ id, ...rest }]
+        : [{ ...rest, original_para_type: rest.para_type }],
       { onConflict: 'id' }, // update jika ada id yang sama
     )
     .select()
     .single();
-
-  if (error) throw new Error(error.message);
-  return data;
-};
-
-export const getProjects = async () => {
-  const supabase = createClient();
-
-  const { data, error } = await supabase
-    .from('para_groups')
-    .select(
-      `
-      id,
-      title,
-      description,
-      created_at,
-      para_type,
-      notes(count)
-    `,
-    )
-    .eq('para_type', 'project')
-    .order('created_at', { ascending: false });
 
   if (error) throw new Error(error.message);
   return data;
@@ -80,6 +60,7 @@ export const getProjectsPaginated = async ({
       description,
       created_at,
       para_type,
+      original_para_type,
       notes(count)
     `,
     )
@@ -189,4 +170,29 @@ export const deleteProject = async (id: string) => {
   const { error } = await supabase.from('para_groups').delete().eq('id', id);
 
   if (error) throw new Error(error.message);
+};
+
+export const setParaGroupArchived = async ({
+  id,
+  currentParaType,
+  originalParaType,
+}: {
+  id: string;
+  currentParaType: ParaType;
+  originalParaType?: Omit<ParaType, 'archive'>;
+}) => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from('para_groups')
+    .update({
+      para_type: currentParaType !== 'archive' ? 'archive' : originalParaType,
+      original_para_type: originalParaType,
+    })
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data;
 };

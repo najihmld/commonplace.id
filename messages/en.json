@@ -11,7 +11,7 @@
     "title": "Resources",
     "description": "Topics of ongoing interest and reference materials"
   },
-  "ArchivesPage": {
+  "/archives": {
     "title": "Archives",
     "description": "Inactive items from other categories for future reference"
   }

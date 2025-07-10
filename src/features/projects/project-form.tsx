@@ -131,6 +131,10 @@ function DialogFormProject({
         desc: 'Update this resource to better organize your knowledge.',
       },
     },
+    archives: {
+      add: {},
+      edit: {},
+    },
   }[params.paras];
 
   const form = useForm<z.infer<typeof formSchema>>({
