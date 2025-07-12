@@ -84,8 +84,8 @@ export function MainSidebar() {
     <Sidebar collapsible="icon" variant="inset">
       <SidebarHeader className="px-4">
         <Link href="/">
-          <div className="text-2xl font-bold text-neutral-800">
-            {open ? <div>NextJS</div> : <div>N</div>}
+          <div className="text-xl font-bold text-neutral-800">
+            {open ? <div>Commonplace.id</div> : <div>C</div>}
           </div>
         </Link>
       </SidebarHeader>
