@@ -6,7 +6,7 @@ import {
 } from '@/utils/supabase/api/note';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Ellipsis, Tag, Trash2 } from 'lucide-react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { formatToLocalTime } from '@/utils/format-date-time';
 import DOMPurify from 'dompurify';
 import {
@@ -62,16 +62,16 @@ function NoteList({
   const deleteNote = useDeleteNote();
   const dialogFormNoteState = useDialogFormNoteState();
 
+  const searchParams = useSearchParams();
+  const searchKeyword = searchParams.get('q') || '';
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
-      queryKey: ['notes', paraGroupId, selectedTags, selectedType],
-      queryFn: ({ pageParam }) =>
-        getNotesByGroupPaginated({
-          paraGroupId,
-          pageParam,
-          selectedTags,
-          selectedType,
-        }),
+      queryKey: [
+        'notes',
+        { paraGroupId, selectedTags, selectedType, searchKeyword },
+      ],
+      queryFn: getNotesByGroupPaginated,
       getNextPageParam: (lastPage, allPages) => {
         // If last page has fewer items than page size, we've reached the end
         return lastPage.length === 16 ? allPages.length : undefined;
@@ -79,6 +79,8 @@ function NoteList({
       initialPageParam: 0,
       enabled: !!paraGroupId,
     });
+
+  console.log('dataa', data);
 
   const notes = data?.pages.flat() || [];
 

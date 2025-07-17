@@ -1,3 +1,4 @@
+import { QueryFunction } from '@tanstack/react-query';
 import { createClient } from '../client';
 
 export type NoteTypeItem = {
@@ -114,12 +115,13 @@ export type NoteType = keyof typeof noteTypeMap;
 
 export type Note = {
   id: string;
+  title?: string;
   // user_id: string;
   // para_group_id: string;
   content_html: string;
   // created_at: string;
   updated_at: string;
-  type?: NoteType;
+  type: NoteType;
   tags?: { name: string }[];
 };
 
@@ -300,19 +302,33 @@ export const getNotesByGroup = async (paraGroupId: string) => {
   return data;
 };
 
-export const getNotesByGroupPaginated = async ({
-  paraGroupId,
-  pageParam = 0,
-  selectedTags = [],
-  selectedType = '',
-}: {
+type GetNotesByGroupPaginatedParams = {
   paraGroupId: string;
-  pageParam?: number;
   selectedTags?: string[];
   selectedType?: string;
-}) => {
+  searchKeyword?: string;
+};
+type GetNotesByGroupPaginatedQueryKey = [
+  string,
+  GetNotesByGroupPaginatedParams,
+];
+
+// Jika hasilnya array of notes, bisa pakai any[] atau bikin type Note
+export const getNotesByGroupPaginated: QueryFunction<
+  Note[], // Ganti dengan type Note[] jika ada
+  GetNotesByGroupPaginatedQueryKey,
+  number
+> = async ({ queryKey, pageParam }) => {
+  const [, params] = queryKey;
+  const {
+    paraGroupId,
+    selectedTags = [],
+    selectedType = '',
+    searchKeyword = '',
+  } = params;
+
   const supabase = createClient();
-  const pageSize = 16; // Number of notes per page
+  const pageSize = 16;
 
   let query = supabase
     .from('notes')
@@ -331,14 +347,18 @@ export const getNotesByGroupPaginated = async ({
     .eq('para_group_id', paraGroupId)
     .order('created_at', { ascending: false });
 
-  // Filter by type if selectedType is provided and not empty
   if (selectedType && selectedType !== '') {
     query = query.eq('type', selectedType);
   }
 
-  // Filter by tags if selectedTags is provided and not empty
+  if (searchKeyword && searchKeyword.trim() !== '') {
+    const keyword = `%${searchKeyword}%`;
+
+    // Gunakan filter OR antara title dan content_html
+    query = query.or(`title.ilike.${keyword},content_html.ilike.${keyword}`);
+  }
+
   if (selectedTags && selectedTags.length > 0) {
-    // First, get the tag IDs for the selected tag names
     const { data: tagIds, error: tagError } = await supabase
       .from('tags')
       .select('id')
@@ -347,7 +367,6 @@ export const getNotesByGroupPaginated = async ({
     if (tagError) throw new Error(tagError.message);
     if (!tagIds || tagIds.length === 0) return [];
 
-    // Then, get the note IDs that have these tags
     const { data: noteIds, error: noteError } = await supabase
       .from('note_tags')
       .select('note_id')
@@ -359,7 +378,6 @@ export const getNotesByGroupPaginated = async ({
     if (noteError) throw new Error(noteError.message);
     if (!noteIds || noteIds.length === 0) return [];
 
-    // Finally, filter notes by these IDs
     query = query.in(
       'id',
       noteIds.map((note) => note.note_id),
