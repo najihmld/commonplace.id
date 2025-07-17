@@ -41,24 +41,18 @@ export function MainHeader() {
   function getPlaceholder(pathname: string) {
     // List level: root, /projects, /notes, /areas
     if (
-      pathname === '/' ||
-      (pathname.startsWith('/projects') && pathname.split('/').length === 2) ||
-      (pathname.startsWith('/notes') && pathname.split('/').length === 2) ||
-      (pathname.startsWith('/areas') && pathname.split('/').length === 2)
+      pathname.startsWith('/projects') ||
+      pathname.startsWith('/areas') ||
+      pathname.startsWith('/resources') ||
+      pathname.startsWith('/archives')
     ) {
-      return 'Search notes, projects, areas, and more...';
-    }
-    // Project detail: /projects/[id]
-    if (pathname.startsWith('/projects/') && pathname.split('/').length === 3) {
+      if (pathname.split('/').length === 2) {
+        return 'Search notes, projects, areas, and more...';
+      }
+
       return 'Search notes...';
     }
-    // Note list in project/group: /projects/[id]/notes atau /groups/[id]/notes
-    if (
-      (pathname.startsWith('/projects/') || pathname.startsWith('/groups/')) &&
-      pathname.endsWith('/notes')
-    ) {
-      return 'Search notes in this project/group...';
-    }
+
     // Default
     return 'Search...';
   }
