@@ -85,7 +85,7 @@ export function MainSidebar() {
       <SidebarHeader className="px-4">
         <Link href="/">
           <div className="text-xl font-bold text-neutral-800">
-            {open ? <div>Commonplace.id</div> : <div>C</div>}
+            {open ? <div>commonplace.id</div> : <div>C</div>}
           </div>
         </Link>
       </SidebarHeader>

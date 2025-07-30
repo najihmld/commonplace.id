@@ -80,8 +80,6 @@ function NoteList({
       enabled: !!paraGroupId,
     });
 
-  console.log('dataa', data);
-
   const notes = data?.pages.flat() || [];
 
   // Auto-load more when scroll reaches bottom
