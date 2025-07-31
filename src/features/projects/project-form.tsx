@@ -53,7 +53,7 @@ const FormProject = ({
     <Form
       methods={form}
       onSubmit={form.handleSubmit(onSubmit)}
-      className="max-w-xl space-y-2"
+      className="max-w-xl space-y-4"
     >
       <ControlledInput
         control={form.control}
