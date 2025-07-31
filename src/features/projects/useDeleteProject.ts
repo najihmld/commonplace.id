@@ -12,6 +12,7 @@ export const useDeleteProject = () => {
     onSuccess: () => {
       // Misalnya invalidate query untuk list project
       queryClient.invalidateQueries({ queryKey: [params.paras] });
+      queryClient.invalidateQueries({ queryKey: ['search-all'] });
     },
   });
 };

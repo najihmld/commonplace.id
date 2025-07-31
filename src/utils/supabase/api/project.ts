@@ -39,13 +39,22 @@ export const upsertProject = async (input: ProjectFormData) => {
   return data;
 };
 
+export type ParaGroupItem = {
+  id: string;
+  title: string;
+  description: string;
+  created_at: string;
+  para_type: ParaType;
+  original_para_type: ParaType;
+  notes: { count: number }[];
+};
 export const getProjectsPaginated = async ({
   pageParam = 0,
   queryKey,
 }: {
   pageParam?: number;
   queryKey: (string | { paraType: ParaType })[];
-}) => {
+}): Promise<ParaGroupItem[]> => {
   const paraType =
     (queryKey[1] as { paraType: ParaType })?.paraType || 'project';
   const supabase = createClient();

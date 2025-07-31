@@ -11,6 +11,13 @@ import {
 import { useSearchAll } from './use-search-all';
 import { useState } from 'react';
 import { useDebounce } from 'use-debounce';
+import ParaGroupCard from '../projects/para-group-card';
+import {
+  DialogFormProject,
+  useDialogFormProjectState,
+} from '../projects/project-form';
+import { useSetParaGroupArchived } from '../projects/useSetParaGroupArchived';
+import { DeleteProjectDialog } from '../projects/delete-project-dialog';
 
 interface Props {
   open: boolean;
@@ -22,32 +29,113 @@ function SearchDialog({ open, onOpenChange }: Props) {
   const [debouncedInput] = useDebounce(keyword, 500); // debounce selama 500ms
 
   const search = useSearchAll(debouncedInput);
+  const notes = search.data?.notes || [];
+  const paraGroups = search.data?.paraGroups || [];
+
+  const dialogFormEditProjectState = useDialogFormProjectState();
+  const setArchived = useSetParaGroupArchived();
+  const [deleteDialog, setDeleteDialog] = useState<{
+    isOpen: boolean;
+    projectId: string;
+    projectTitle: string;
+  }>({
+    isOpen: false,
+    projectId: '',
+    projectTitle: '',
+  });
+  const handleDeleteClick = (projectId: string, projectTitle: string) => {
+    setDeleteDialog({
+      isOpen: true,
+      projectId,
+      projectTitle,
+    });
+  };
 
   console.log('===search', keyword, search.data);
+
   return (
-    <CommandDialog
-      open={open}
-      onOpenChange={(b) => {
-        if (!b) setKeyword('');
-        onOpenChange(b);
-      }}
-      className="!max-w-xl"
-    >
-      <CommandInput
-        onInput={(e) => {
-          setKeyword((e.target as HTMLInputElement).value);
+    <>
+      <CommandDialog
+        open={open}
+        onOpenChange={(b) => {
+          if (!b) setKeyword('');
+          onOpenChange(b);
         }}
-        placeholder="Search notes, projects, areas, and more..."
+        className="!max-w-xl"
+      >
+        <CommandInput
+          onInput={(e) => {
+            setKeyword((e.target as HTMLInputElement).value);
+          }}
+          placeholder="Search notes, projects, areas, and more..."
+        />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+
+          {notes.length > 0 && (
+            <CommandGroup heading="Notes">
+              {notes?.map((item) => (
+                <CommandItem key={item.id}>{item.title}</CommandItem>
+              ))}
+            </CommandGroup>
+          )}
+
+          <DialogFormProject
+            isEdit
+            {...dialogFormEditProjectState.props}
+            renderTrigger={({ DialogTrigger, form }) =>
+              paraGroups.length > 0 && (
+                <CommandGroup heading="PARA Groups">
+                  {paraGroups?.map((item) => (
+                    <CommandItem
+                      key={item.id}
+                      value={`${item.title} ${item.description || ''}`}
+                      asChild
+                    >
+                      <ParaGroupCard
+                        onClick={() => onOpenChange(false)}
+                        DialogTrigger={DialogTrigger}
+                        item={item}
+                        onClickEdit={() => {
+                          form.reset({
+                            id: item.id,
+                            title: item.title,
+                            description: item.description,
+                          });
+                        }}
+                        onClickArchive={() => {
+                          setArchived.mutate({
+                            id: item.id,
+                            currentParaType: item.para_type,
+                            originalParaType: item.original_para_type,
+                          });
+                        }}
+                        onClickDelete={() => {
+                          handleDeleteClick(item.id, item.title);
+                        }}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )
+            }
+          />
+        </CommandList>
+      </CommandDialog>
+
+      <DeleteProjectDialog
+        projectId={deleteDialog.projectId}
+        projectTitle={deleteDialog.projectTitle}
+        isOpen={deleteDialog.isOpen}
+        onCloseAction={() => {
+          setDeleteDialog({
+            isOpen: false,
+            projectId: '',
+            projectTitle: '',
+          });
+        }}
       />
-      <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Suggestions">
-          {search.data?.map((item) => (
-            <CommandItem key={item.id}>{item.title}</CommandItem>
-          ))}
-        </CommandGroup>
-      </CommandList>
-    </CommandDialog>
+    </>
   );
 }
 

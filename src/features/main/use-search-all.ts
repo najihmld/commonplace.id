@@ -1,3 +1,4 @@
+import { ParaGroupItem } from '@/utils/supabase/api/project';
 import { createClient } from '@/utils/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 
@@ -13,12 +14,25 @@ export const useSearchAll = (keyword: string) => {
   return useQuery({
     queryKey: ['search-all', keyword],
     enabled: !!keyword,
-    queryFn: async (): Promise<Entity[]> => {
+    queryFn: async (): Promise<{
+      notes: Entity[];
+      paraGroups: ParaGroupItem[];
+    }> => {
       const [paraGroupsResult, notesResult] = await Promise.all([
         supabase
           .from('para_groups')
-          .select('id, title, para_type')
-          .ilike('title', `%${keyword}%`),
+          .select(
+            `
+            id,
+            title,
+            description,
+            created_at,
+            para_type,
+            original_para_type,
+            notes(count)
+          `,
+          )
+          .or(`title.ilike.%${keyword}%,description.ilike.%${keyword}%`),
 
         supabase
           .from('notes')
@@ -40,19 +54,16 @@ export const useSearchAll = (keyword: string) => {
       if (notesResult.error) throw notesResult.error;
       if (paraGroupsResult.error) throw paraGroupsResult.error;
 
-      const notes = (notesResult.data || []).map((n) => ({
-        id: n.id,
-        title: n.title,
-        type: 'note' as const,
-      }));
+      const notes =
+        (notesResult.data || []).map((n) => ({
+          id: n.id,
+          title: n.title,
+          type: 'note' as const,
+        })) || [];
 
-      const paraGroups = (paraGroupsResult.data || []).map((p) => ({
-        id: p.id,
-        title: p.title,
-        type: p.para_type as Entity['type'],
-      }));
+      const paraGroups = paraGroupsResult.data || [];
 
-      return [...notes, ...paraGroups];
+      return { notes, paraGroups };
     },
   });
 };

@@ -1,35 +1,20 @@
 'use client';
 
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/common/dropdown-menu';
-import {
   DialogFormProject,
   useDialogFormProjectState,
 } from '@/features/projects/project-form';
 import { DeleteProjectDialog } from '@/features/projects/delete-project-dialog';
 import { getProjectsPaginated } from '@/utils/supabase/api/project';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import {
-  Archive,
-  Calendar,
-  Edit2,
-  Ellipsis,
-  FileText,
-  Plus,
-  Trash2,
-} from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Button } from '@/components/common/button';
 import { useParams } from 'next/navigation';
-import clsx from 'clsx';
 import { getParaTypeFromParamValue } from '@/features/projects/utils';
 import { useSetParaGroupArchived } from '@/features/projects/useSetParaGroupArchived';
+import ParaGroupCard from '@/features/projects/para-group-card';
 
 // Custom hook for intersection observer
 function useInView(callback: () => void, deps: React.DependencyList = []) {
@@ -265,107 +250,28 @@ export default function ParasPage() {
                 </>
               ) : (
                 projects?.map((project) => (
-                  <div
+                  <ParaGroupCard
                     key={project.id}
-                    className={`border-${params.paras}/50 bg-${params.paras}/5 card-hover relative h-full transform rounded-lg border p-3 transition duration-300 hover:-translate-y-1`}
-                  >
-                    <DropdownMenu>
-                      <DropdownMenuTrigger className="absolute top-2 right-2 cursor-pointer rounded-sm p-1 hover:bg-white">
-                        <Ellipsis size={16} />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        {paraType !== 'archive' && (
-                          <DropdownMenuItem
-                            asChild
-                            className="w-full"
-                            onClick={() => {
-                              form.reset({
-                                id: project.id,
-                                title: project.title,
-                                description: project.description,
-                              });
-                            }}
-                          >
-                            <DialogTrigger>
-                              <Edit2 className="text-text-primary" />
-                              Edit
-                            </DialogTrigger>
-                          </DropdownMenuItem>
-                        )}
-                        <DropdownMenuItem
-                          onClick={() =>
-                            setArchived.mutate({
-                              id: project.id,
-                              currentParaType: project.para_type,
-                              originalParaType: project.original_para_type,
-                            })
-                          }
-                        >
-                          {paraType === 'archive' ? (
-                            <>
-                              <Archive className="text-text-primary" />
-                              Unarchive
-                            </>
-                          ) : (
-                            <>
-                              <Archive className="text-text-primary" />
-                              Archive
-                            </>
-                          )}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          className="text-destructive"
-                          onClick={() =>
-                            handleDeleteClick(project.id, project.title)
-                          }
-                        >
-                          <Trash2 className="text-destructive" />
-                          <span className="text-destructive">Delete</span>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-
-                    <Link href={`/${params.paras}/${project.id}`}>
-                      <div className="flex items-center gap-x-2">
-                        <div
-                          className={clsx(
-                            'h-2 w-2 rounded-sm',
-                            `bg-${params.paras}`,
-                          )}
-                        />
-                        <div
-                          className={clsx(
-                            'text-projects rounded-lg px-1.5 text-xs font-semibold capitalize',
-                            `bg-${params.paras}/5`,
-                          )}
-                        >
-                          {project.para_type}
-                        </div>
-                        <div className="h-6 flex-1" />
-                      </div>
-
-                      <div className="text-text-primary my-2 line-clamp-2 text-base font-semibold">
-                        {project.title}
-                      </div>
-                      <div className="text-text-secondary text-sm">
-                        {project.description}
-                      </div>
-
-                      <div className="text-text-tertiary mt-2 flex items-center justify-between">
-                        <div className="inline-block gap-x-2 align-middle">
-                          <Calendar size={12} className="mr-1 inline-block" />
-                          <span className="text-xs">{project.created_at}</span>
-                        </div>
-
-                        <div className="inline-block gap-x-2 align-middle">
-                          <FileText size={12} className="mr-1 inline-block" />
-                          <span className="text-xs">
-                            {project.notes[0].count} notes
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
+                    DialogTrigger={DialogTrigger}
+                    item={project}
+                    onClickEdit={() => {
+                      form.reset({
+                        id: project.id,
+                        title: project.title,
+                        description: project.description,
+                      });
+                    }}
+                    onClickArchive={() => {
+                      setArchived.mutate({
+                        id: project.id,
+                        currentParaType: project.para_type,
+                        originalParaType: project.original_para_type,
+                      });
+                    }}
+                    onClickDelete={() => {
+                      handleDeleteClick(project.id, project.title);
+                    }}
+                  />
                 ))
               )}
             </div>
