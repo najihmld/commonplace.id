@@ -18,6 +18,8 @@ import {
 } from '../projects/project-form';
 import { useSetParaGroupArchived } from '../projects/useSetParaGroupArchived';
 import { DeleteProjectDialog } from '../projects/delete-project-dialog';
+import { DialogFormNote, useDialogFormNoteState } from '../projects/note-form';
+import NoteItemCard from '../projects/note-item-card';
 
 interface Props {
   open: boolean;
@@ -31,6 +33,8 @@ function SearchDialog({ open, onOpenChange }: Props) {
   const search = useSearchAll(debouncedInput);
   const notes = search.data?.notes || [];
   const paraGroups = search.data?.paraGroups || [];
+
+  const dialogFormNoteState = useDialogFormNoteState();
 
   const dialogFormEditProjectState = useDialogFormProjectState();
   const setArchived = useSetParaGroupArchived();
@@ -51,8 +55,6 @@ function SearchDialog({ open, onOpenChange }: Props) {
     });
   };
 
-  console.log('===search', keyword, search.data);
-
   return (
     <>
       <CommandDialog
@@ -72,13 +74,38 @@ function SearchDialog({ open, onOpenChange }: Props) {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
 
-          {notes.length > 0 && (
-            <CommandGroup heading="Notes">
-              {notes?.map((item) => (
-                <CommandItem key={item.id}>{item.title}</CommandItem>
-              ))}
-            </CommandGroup>
-          )}
+          <DialogFormNote
+            {...dialogFormNoteState.props}
+            renderTrigger={({ DialogTrigger, form, isSaving }) =>
+              notes.length > 0 && (
+                <CommandGroup heading="Notes">
+                  {notes?.map((note) => (
+                    <CommandItem
+                      key={note.id}
+                      value={`${note.title} ${note.content_html || ''}`}
+                      asChild
+                    >
+                      <NoteItemCard
+                        key={note.id}
+                        note={note}
+                        isSaving={isSaving}
+                        onClick={() => {
+                          form.reset({
+                            note_id: note.id,
+                            title: note.title,
+                            content: note.content_html,
+                            type: note.type,
+                            tags: note.tags?.map((tag) => tag.name) ?? [],
+                          });
+                        }}
+                        DialogTrigger={DialogTrigger}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )
+            }
+          />
 
           <DialogFormProject
             isEdit

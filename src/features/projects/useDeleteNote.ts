@@ -12,7 +12,7 @@ export const useDeleteNote = () => {
     onSuccess: () => {
       // Invalidate all notes queries for this group (including different tag filters)
       queryClient.invalidateQueries({
-        queryKey: ['notes', paraGroupId],
+        queryKey: ['notes', { paraGroupId }],
       });
     },
   });

@@ -1,23 +1,11 @@
 'use client';
 
-import {
-  getNotesByGroupPaginated,
-  noteTypeMap,
-} from '@/utils/supabase/api/note';
+import { getNotesByGroupPaginated } from '@/utils/supabase/api/note';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { Ellipsis, Tag, Trash2 } from 'lucide-react';
 import { useParams, useSearchParams } from 'next/navigation';
-import { formatToLocalTime } from '@/utils/format-date-time';
-import DOMPurify from 'dompurify';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/common/dropdown-menu';
-import { useDeleteNote } from './useDeleteNote';
 import { useEffect, useRef, useCallback } from 'react';
 import { DialogFormNote, useDialogFormNoteState } from './note-form';
+import NoteItemCard from './note-item-card';
 
 // Custom hook for intersection observer
 function useInView(callback: () => void, deps: React.DependencyList = []) {
@@ -59,7 +47,6 @@ function NoteList({
 }) {
   const params = useParams();
   const paraGroupId = params.id as string;
-  const deleteNote = useDeleteNote();
   const dialogFormNoteState = useDialogFormNoteState();
 
   const searchParams = useSearchParams();
@@ -91,10 +78,6 @@ function NoteList({
     }, [hasNextPage, isFetchingNextPage, fetchNextPage]),
   );
 
-  const handleDeleteNote = (noteId: string) => {
-    deleteNote.mutate(noteId);
-  };
-
   return (
     <section>
       <DialogFormNote
@@ -112,90 +95,23 @@ function NoteList({
                   ))}
                 </>
               ) : (
-                notes?.map((note) => {
-                  const type = note.type;
-                  const config = noteTypeMap[type];
-                  const cleanHtml = DOMPurify.sanitize(note.content_html);
-                  return (
-                    <div
-                      key={note.id}
-                      className="card-hover relative flex h-fit transform flex-col justify-between rounded-lg border bg-white transition duration-300 hover:-translate-y-1"
-                    >
-                      <DropdownMenu>
-                        <DropdownMenuTrigger className="absolute top-2 right-2 cursor-pointer rounded-sm p-1">
-                          <Ellipsis size={16} />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem
-                            className="text-destructive"
-                            onClick={() => handleDeleteNote(note.id)}
-                            disabled={deleteNote.isPending}
-                          >
-                            <Trash2 className="text-destructive" />
-                            <span className="text-destructive">
-                              {deleteNote.isPending ? 'Deleting...' : 'Delete'}
-                            </span>
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-
-                      <DialogTrigger
-                        disabled={isSaving}
-                        className="w-full p-3 text-left"
-                        onClick={() => {
-                          form.reset({
-                            note_id: note.id,
-                            title: note.title,
-                            content: note.content_html,
-                            type: note.type,
-                            tags: note.tags?.map((tag) => tag.name) ?? [],
-                          });
-                        }}
-                      >
-                        <div className="flex items-center gap-x-2">
-                          <div className="flex items-center gap-2">
-                            <div
-                              className={`rounded-sm px-1.5 text-[10px] font-semibold capitalize ${config?.className}`}
-                            >
-                              {config?.label}
-                            </div>
-                          </div>
-                          <div className="text-text-secondary text-xs">
-                            {formatToLocalTime(note.updated_at, 'MMM dd, yyyy')}
-                          </div>
-                          <div className="flex-1" />
-                        </div>
-
-                        <div className="my-4 flex-1 text-sm">
-                          {!!note.title && (
-                            <div className="font-bold">{note.title}</div>
-                          )}
-                          <div
-                            dangerouslySetInnerHTML={{ __html: cleanHtml }}
-                          />
-                        </div>
-
-                        <div>
-                          <div className="flex items-center gap-1">
-                            {note.tags?.length ? (
-                              <Tag size={12} className="text-text-secondary" />
-                            ) : null}
-                            <div className="flex flex-wrap gap-0.5">
-                              {note.tags?.map((tag) => (
-                                <div
-                                  key={tag.name}
-                                  className="text-text-secondary w-fit rounded-sm border bg-white px-1.5 text-xs"
-                                >
-                                  {tag.name}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </DialogTrigger>
-                    </div>
-                  );
-                })
+                notes?.map((note) => (
+                  <NoteItemCard
+                    key={note.id}
+                    note={note}
+                    isSaving={isSaving}
+                    onClick={() => {
+                      form.reset({
+                        note_id: note.id,
+                        title: note.title,
+                        content: note.content_html,
+                        type: note.type,
+                        tags: note.tags?.map((tag) => tag.name) ?? [],
+                      });
+                    }}
+                    DialogTrigger={DialogTrigger}
+                  />
+                ))
               )}
             </div>
           );

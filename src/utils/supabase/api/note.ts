@@ -1,5 +1,6 @@
 import { QueryFunction } from '@tanstack/react-query';
 import { createClient } from '../client';
+import { ParaType } from './project';
 
 export type NoteTypeItem = {
   value: string;
@@ -113,6 +114,11 @@ export const noteTypeMap = Object.fromEntries(
 
 export type NoteType = keyof typeof noteTypeMap;
 
+type ParaGroup = {
+  title: string;
+  para_type: ParaType;
+};
+
 export type Note = {
   id: string;
   title?: string;
@@ -123,6 +129,7 @@ export type Note = {
   updated_at: string;
   type: NoteType;
   tags?: { name: string }[];
+  para_group?: ParaGroup;
 };
 
 export const createNote = async ({
@@ -318,7 +325,7 @@ export const getNotesByGroupPaginated: QueryFunction<
   Note[], // Ganti dengan type Note[] jika ada
   GetNotesByGroupPaginatedQueryKey,
   number
-> = async ({ queryKey, pageParam }) => {
+> = async ({ queryKey, pageParam }): Promise<Note[]> => {
   const [, params] = queryKey;
   const {
     paraGroupId,
