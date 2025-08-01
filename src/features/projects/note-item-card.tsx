@@ -49,16 +49,18 @@ function NoteItemCard({ note, DialogTrigger, isSaving, onClick }: Props) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <div className="mt-3 flex items-center px-2">
-        <div
-          className={`text-projects rounded-lg px-1.5 text-xs font-semibold capitalize bg-${note.para_group?.para_type}s/5`}
-        >
-          {note.para_group?.para_type}
+      {note.para_group && (
+        <div className="mt-3 flex items-center px-2">
+          <div
+            className={`text-projects rounded-lg px-1.5 text-xs font-semibold capitalize bg-${note.para_group?.para_type}s/5`}
+          >
+            {note.para_group?.para_type}
+          </div>
+          <div className="truncate text-sm text-neutral-500">
+            / {note.para_group?.title}
+          </div>
         </div>
-        <div className="truncate text-sm text-neutral-500">
-          / {note.para_group?.title}
-        </div>
-      </div>
+      )}
 
       <DialogTrigger
         disabled={isSaving}
