@@ -2,7 +2,7 @@ import React, { ComponentPropsWithoutRef } from 'react';
 import Link from 'next/link';
 import { highlight } from 'sugar-high';
 
-import ComponentPreview from './app/docs/component-preview';
+import ComponentPreview from './features/docs/component-preview';
 
 type HeadingProps = ComponentPropsWithoutRef<'h1'>;
 type ParagraphProps = ComponentPropsWithoutRef<'p'>;

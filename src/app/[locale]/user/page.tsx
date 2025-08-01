@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from '@/utils/supabase/client';
 import { signOut } from '@/utils/supabase/actions';
 import Link from 'next/link';
 import Image from 'next/image';

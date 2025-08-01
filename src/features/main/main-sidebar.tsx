@@ -35,6 +35,7 @@ import {
 import { ModeToggle } from '@/components/theme/mode-toggle';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
+import Image from 'next/image';
 
 type MenuItem = {
   title: string;
@@ -82,10 +83,29 @@ export function MainSidebar() {
 
   return (
     <Sidebar collapsible="icon" variant="inset">
-      <SidebarHeader className="px-4">
+      <SidebarHeader>
         <Link href="/">
           <div className="text-xl font-bold text-neutral-800">
-            {open ? <div>commonplace.id</div> : <div>C</div>}
+            {open ? (
+              <div className="flex flex-row items-center justify-start">
+                <Image
+                  alt="commonplace.id"
+                  src={'/logo.svg'}
+                  height={28}
+                  width={28}
+                  className="mx-2"
+                />
+                <span className="text-[#111111]">commonplace.id</span>
+              </div>
+            ) : (
+              <Image
+                alt="commonplace.id"
+                src={'/logo.svg'}
+                height={28}
+                width={28}
+                className="mx-auto"
+              />
+            )}
           </div>
         </Link>
       </SidebarHeader>

@@ -28,6 +28,5 @@
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "i18n-ally.localesPaths": ["./messages"],
-  "i18n-ally.keystyle": "nested"
+  "i18n-ally.localesPaths": ["messages", "src/i18n"]
 }

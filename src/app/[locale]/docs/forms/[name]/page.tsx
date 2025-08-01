@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import path from 'path';
-import ComponentPreview from '../../../../features/docs/component-preview';
+import ComponentPreview from '@/features/docs/component-preview';
 import React from 'react';
 
 const registed = {

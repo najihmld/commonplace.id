@@ -11,7 +11,7 @@ import { getParaTypeFromParamValue } from '@/features/projects/utils';
 export default async function ParaDetailPage({
   params,
 }: {
-  params: { id: string; paras: ParaType };
+  params: Promise<{ id: string; paras: ParaType }>;
 }) {
   const { id, paras } = await params;
   const paraType = getParaTypeFromParamValue(paras);

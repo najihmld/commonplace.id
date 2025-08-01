@@ -25,6 +25,7 @@ import {
   Globe,
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default async function LandingPage() {
   return (
@@ -34,41 +35,24 @@ export default async function LandingPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center space-x-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-                <BookOpen className="h-5 w-5 text-white" />
-              </div>
+              <Image
+                alt="commonplace.id"
+                src={'/logo.svg'}
+                height={28}
+                width={28}
+                className="mx-2"
+              />
               <span className="text-xl font-bold text-gray-900">
-                commonplace.id
+                commonplace.id{' '}
+                <span className="text-xs font-semibold text-orange-600">
+                  BETA
+                </span>
               </span>
             </div>
 
-            <Button variant="outline" size="sm" className="md:hidden">
-              Menu
+            <Button asChild size="sm" className="flex items-center gap-2">
+              <Link href="/auth">Login / Signup</Link>
             </Button>
-
-            <nav className="hidden items-center space-x-8 md:flex">
-              <Link
-                href="#features"
-                className="text-sm font-medium text-gray-600 transition-colors hover:text-gray-900"
-              >
-                Features
-              </Link>
-              <Link
-                href="#para"
-                className="text-sm font-medium text-gray-600 transition-colors hover:text-gray-900"
-              >
-                PARA System
-              </Link>
-              <Link
-                href="#pricing"
-                className="text-sm font-medium text-gray-600 transition-colors hover:text-gray-900"
-              >
-                Pricing
-              </Link>
-              <Button asChild size="sm" className="flex items-center gap-2">
-                <Link href="/auth">Login / Signup</Link>
-              </Button>
-            </nav>
           </div>
         </div>
       </header>
@@ -395,7 +379,7 @@ export default async function LandingPage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full border-white text-white hover:bg-white hover:text-blue-600 sm:w-auto"
+                  className="w-full border-white hover:bg-white hover:text-blue-600 sm:w-auto"
                 >
                   Schedule Demo
                 </Button>
@@ -414,9 +398,13 @@ export default async function LandingPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
             <div className="col-span-1 md:col-span-2">
               <div className="mb-4 flex items-center space-x-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-                  <BookOpen className="h-5 w-5 text-white" />
-                </div>
+                <Image
+                  alt="commonplace.id"
+                  src={'/logo-white.svg'}
+                  height={28}
+                  width={28}
+                  className="mx-2"
+                />
                 <span className="text-xl font-bold">commonplace.id</span>
               </div>
               <p className="max-w-md text-gray-400">
