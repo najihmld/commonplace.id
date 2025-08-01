@@ -36,6 +36,7 @@ export default async function LandingPage() {
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center space-x-2">
               <Image
+                priority
                 alt="commonplace.id"
                 src={'/logo.svg'}
                 height={28}
@@ -401,6 +402,7 @@ export default async function LandingPage() {
             <div className="col-span-1 md:col-span-2">
               <div className="mb-4 flex items-center space-x-2">
                 <Image
+                  priority
                   alt="commonplace.id"
                   src={'/logo-white.svg'}
                   height={28}

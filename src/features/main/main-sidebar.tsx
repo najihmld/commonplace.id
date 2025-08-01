@@ -89,6 +89,7 @@ export function MainSidebar() {
             {open ? (
               <div className="flex flex-row items-center justify-start">
                 <Image
+                  priority
                   alt="commonplace.id"
                   src={'/logo.svg'}
                   height={28}
@@ -99,6 +100,7 @@ export function MainSidebar() {
               </div>
             ) : (
               <Image
+                priority
                 alt="commonplace.id"
                 src={'/logo.svg'}
                 height={28}
