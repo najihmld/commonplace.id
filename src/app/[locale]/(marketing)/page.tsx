@@ -51,7 +51,9 @@ export default async function LandingPage() {
             </div>
 
             <Button asChild size="sm" className="flex items-center gap-2">
-              <Link href="/auth">Login / Signup</Link>
+              <Link href="/auth" className="dark:text-white">
+                Login / Signup
+              </Link>
             </Button>
           </div>
         </div>
