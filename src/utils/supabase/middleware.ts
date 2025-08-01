@@ -1,5 +1,14 @@
+import { locales } from '@/i18n/routing';
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+
+function stripLocalePrefix(pathname: string): string {
+  const segments = pathname.split('/');
+  if (segments[1] && locales.includes(segments[1])) {
+    return '/' + segments.slice(2).join('/');
+  }
+  return pathname;
+}
 
 // paths that don't require authentication
 const publicPaths = [
@@ -36,7 +45,7 @@ export const updateSession = async (
     data: { session },
   } = await supabase.auth.getSession();
 
-  const currentPath = request.nextUrl.pathname;
+  const currentPath = stripLocalePrefix(request.nextUrl.pathname);
 
   // Check if the current path matches any public path pattern
   const isPublicPath = publicPaths.some((path) => {
