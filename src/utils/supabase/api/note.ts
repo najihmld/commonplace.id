@@ -21,7 +21,7 @@ export const noteTypes = [
     className: 'bg-purple-100 text-purple-700',
   },
   {
-    value: 'book-note',
+    value: 'book_note',
     label: '📚 Book Note',
     className: 'bg-indigo-100 text-indigo-700',
   },
