@@ -39,7 +39,7 @@ export default function ProjectDetailClient({ id }: { id: string }) {
 
   return (
     <>
-      <Breadcrumb>
+      <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink href={`/${params.paras}`}>
@@ -52,7 +52,6 @@ export default function ProjectDetailClient({ id }: { id: string }) {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <br />
 
       <section>
         <div className="flex items-start justify-between">

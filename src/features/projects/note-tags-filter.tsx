@@ -58,7 +58,7 @@ function NoteTagsFilter({ selectedTags, onTagsChange }: NoteTagsFilterProps) {
     );
   }
 
-  if (!tags || tags.length === 0) return null;
+  if (!tags || tags.length === 0) return <div className="mb-6"></div>;
 
   return (
     <section className="mb-6">

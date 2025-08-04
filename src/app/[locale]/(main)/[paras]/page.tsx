@@ -241,7 +241,7 @@ export default function ParasPage() {
           isEdit
           {...dialogFormEditProjectState.props}
           renderTrigger={({ DialogTrigger, form }) => (
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
               {isLoading ? (
                 <>
                   {[...Array(6)].map((_, i) => (
