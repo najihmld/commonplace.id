@@ -21,13 +21,13 @@ export default async function Layout({
       >
         <MainSidebar />
 
-        <div className="flex h-full flex-1 flex-col justify-center py-2.5 pr-2.5">
-          <ScrollArea className="bg-background h-[calc(100dvh-24px)] rounded-xl border">
+        <div className="flex h-full flex-1 flex-col justify-center md:py-2.5 md:pr-2.5">
+          <ScrollArea className="bg-background h-dvh md:h-[calc(100dvh-24px)] md:rounded-xl md:border">
             <div className="bg-background sticky top-0 z-10">
               <MainHeader />
             </div>
 
-            <main className="p-4 md:p-8 lg:p-12">{children}</main>
+            <main className="p-4 md:px-8 lg:px-12">{children}</main>
           </ScrollArea>
         </div>
       </SidebarProvider>

@@ -36,6 +36,7 @@ import { ModeToggle } from '@/components/theme/mode-toggle';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import Image from 'next/image';
+import clsx from 'clsx';
 
 type MenuItem = {
   title: string;
@@ -71,7 +72,7 @@ const items: MenuItem[] = [
 export function MainSidebar() {
   const pathname = usePathname();
   const locale = useLocale();
-  const { open } = useSidebar();
+  const { open, isMobile } = useSidebar();
 
   const isActiveRoute = (targetPath: string) => {
     return (
@@ -86,28 +87,23 @@ export function MainSidebar() {
       <SidebarHeader>
         <Link href="/">
           <div className="text-xl font-bold text-neutral-800">
-            {open ? (
-              <div className="flex flex-row items-center justify-start">
-                <Image
-                  priority
-                  alt="commonplace.id"
-                  src={'/logo.svg'}
-                  height={28}
-                  width={28}
-                  className="mx-2"
-                />
-                <span className="text-[#111111]">commonplace.id</span>
-              </div>
-            ) : (
+            <div className="flex flex-row items-center justify-start">
               <Image
                 priority
                 alt="commonplace.id"
                 src={'/logo.svg'}
                 height={28}
                 width={28}
-                className="mx-auto"
+                className="mx-2"
               />
-            )}
+              <span
+                className={clsx('text-[#111111]', {
+                  hidden: !isMobile && !open,
+                })}
+              >
+                commonplace.id
+              </span>
+            </div>
           </div>
         </Link>
       </SidebarHeader>
