@@ -40,7 +40,7 @@ function NoteTagsFilter({ selectedTags, onTagsChange }: NoteTagsFilterProps) {
           {[...Array(5)].map((_, i) => (
             <div
               key={i}
-              className="h-[20px] w-20 animate-pulse rounded-md bg-gray-200"
+              className="h-[20px] w-20 animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-800"
             />
           ))}
         </div>
@@ -67,10 +67,10 @@ function NoteTagsFilter({ selectedTags, onTagsChange }: NoteTagsFilterProps) {
           <Badge
             key={tag.id}
             variant={selectedTags.includes(tag.name) ? 'default' : 'outline'}
-            className={`cursor-pointer transition-colors ${
+            className={`bg-card cursor-pointer transition-colors dark:text-white ${
               selectedTags.includes(tag.name)
-                ? 'border-blue-200 bg-blue-100 text-blue-800 hover:bg-blue-200'
-                : 'hover:bg-gray-100'
+                ? 'bg-brand text-white dark:text-black'
+                : 'hover:bg-brand/5'
             }`}
             onClick={() => handleTagClick(tag.name)}
           >
@@ -78,12 +78,6 @@ function NoteTagsFilter({ selectedTags, onTagsChange }: NoteTagsFilterProps) {
           </Badge>
         ))}
       </div>
-
-      {selectedTags.length > 0 && (
-        <div className="mt-3 text-sm text-gray-600">
-          Showing notes with tags: {selectedTags.join(', ')}
-        </div>
-      )}
     </section>
   );
 }

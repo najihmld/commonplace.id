@@ -37,7 +37,7 @@ function ParaGroupCard({
 }: Props) {
   return (
     <div
-      className={`border-${item.para_type}s/50 bg-${item.para_type}s/5 card-hover relative h-full transform rounded-lg border p-3 transition duration-300`}
+      className={`border-${item.para_type}s/50 bg-${item.para_type}s/5 card-hover relative h-full transform rounded-lg border p-3`}
     >
       <DropdownMenu>
         <DropdownMenuTrigger className="absolute top-2 right-2 cursor-pointer rounded-sm p-1 hover:bg-white">

@@ -29,7 +29,7 @@ function NoteItemCard({ note, DialogTrigger, isSaving, onClick }: Props) {
   return (
     <div
       key={note.id}
-      className="card-hover relative flex h-fit flex-col justify-between rounded-lg border bg-white"
+      className="bg-card dark:text-text-primary relative flex h-fit flex-col justify-between rounded-lg border"
     >
       <DropdownMenu>
         <DropdownMenuTrigger className="absolute top-2 right-2 cursor-pointer rounded-sm p-1">
@@ -95,7 +95,7 @@ function NoteItemCard({ note, DialogTrigger, isSaving, onClick }: Props) {
               {note.tags?.map((tag) => (
                 <div
                   key={tag.name}
-                  className="text-text-secondary w-fit rounded-sm border bg-white px-1.5 text-xs"
+                  className="text-text-secondary bg-card w-fit rounded-sm border px-1.5 text-xs"
                 >
                   {tag.name}
                 </div>
