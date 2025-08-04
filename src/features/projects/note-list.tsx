@@ -90,7 +90,7 @@ function NoteList({
                   {[...Array(8)].map((_, i) => (
                     <div
                       key={i}
-                      className="h-48 animate-pulse rounded-lg bg-gray-200"
+                      className="h-48 animate-pulse rounded-lg bg-neutral-200 dark:bg-neutral-800"
                     />
                   ))}
                 </>

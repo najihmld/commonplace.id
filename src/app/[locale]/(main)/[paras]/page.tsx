@@ -200,12 +200,14 @@ export default function ParasPage() {
 
   return (
     <>
-      <section className="flex items-center justify-between">
+      <section className="flex items-center justify-between gap-x-3">
         <div>
-          <h1 className="text-text-primary text-2xl font-bold tracking-tight">
+          <h1 className="text-text-primary text-xl font-bold tracking-tight md:text-2xl">
             {t('title')}
           </h1>
-          <h2 className="text-text-secondary">{t('description')}</h2>
+          <h2 className="text-text-secondary text-sm md:text-base">
+            {t('description')}
+          </h2>
         </div>
 
         <DialogFormProject
@@ -226,7 +228,7 @@ export default function ParasPage() {
                 >
                   <span className="capitalize">
                     <Plus />
-                    New {paraType}
+                    <span className="hidden md:block">New {paraType}</span>
                   </span>
                 </Button>
               </DialogTrigger>

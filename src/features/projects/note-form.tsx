@@ -66,12 +66,12 @@ const FormNote = ({
           control={form.control}
           name="type"
           options={noteTypes}
-          className="rounded-none border-0 shadow-none"
+          className="rounded-none border-0 shadow-none dark:bg-[#1F1F1F]"
         />
         <ControlledInputTags
           control={form.control}
           name="tags"
-          className="rounded-none border-0 shadow-none"
+          className="rounded-none border-0 shadow-none dark:bg-[#1F1F1F]"
           placeholder="Add tags (e.g., psychology, productivity, focus)"
         />
       </div>
@@ -117,7 +117,7 @@ function DialogFormNote({ renderTrigger, open, setOpen }: DialogFormNoteProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {renderTrigger({ DialogTrigger, form, isSaving })}
-      <DialogContent className="py-4 sm:max-w-[620px]">
+      <DialogContent className="py-4 md:max-w-[620px] dark:bg-[#1F1F1F]">
         <DialogHeader className="mx-6 flex flex-row items-center">
           <DialogTitle className="flex-1"></DialogTitle>
           {isSaving ? (

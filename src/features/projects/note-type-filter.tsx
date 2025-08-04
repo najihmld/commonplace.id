@@ -49,7 +49,7 @@ function NoteTypeFilter({ selectedType, onTypeChange }: NoteTypeFilterProps) {
           {[...Array(5)].map((_, i) => (
             <div
               key={i}
-              className="h-[20px] w-20 animate-pulse rounded-md bg-gray-200"
+              className="h-[20px] w-20 animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-800"
             />
           ))}
         </div>
@@ -82,10 +82,10 @@ function NoteTypeFilter({ selectedType, onTypeChange }: NoteTypeFilterProps) {
                     variant={
                       selectedType === type.value ? 'default' : 'outline'
                     }
-                    className={`cursor-pointer transition-colors ${
+                    className={`bg-card cursor-pointer transition-colors dark:text-white ${
                       selectedType === type.value
-                        ? 'border-blue-200 bg-blue-100 text-blue-800 hover:bg-blue-200'
-                        : 'hover:bg-gray-100'
+                        ? 'bg-brand text-white dark:text-black'
+                        : 'hover:bg-brand/5'
                     }`}
                     onClick={() => onTypeChange(type.value)}
                   >

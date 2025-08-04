@@ -37,6 +37,7 @@ import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import Image from 'next/image';
 import clsx from 'clsx';
+import { useTheme } from 'next-themes';
 
 type MenuItem = {
   title: string;
@@ -73,6 +74,7 @@ export function MainSidebar() {
   const pathname = usePathname();
   const locale = useLocale();
   const { open, isMobile } = useSidebar();
+  const { theme } = useTheme();
 
   const isActiveRoute = (targetPath: string) => {
     return (
@@ -94,10 +96,19 @@ export function MainSidebar() {
                 src={'/logo.svg'}
                 height={28}
                 width={28}
-                className="mx-2"
+                className="mx-2 dark:hidden"
+              />
+              <Image
+                key={theme}
+                priority
+                alt="commonplace.id"
+                src={'/logo-white.svg'}
+                height={28}
+                width={28}
+                className="mx-2 hidden dark:block"
               />
               <span
-                className={clsx('text-[#111111]', {
+                className={clsx('text-brand', {
                   hidden: !isMobile && !open,
                 })}
               >

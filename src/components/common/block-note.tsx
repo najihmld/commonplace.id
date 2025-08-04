@@ -1,8 +1,9 @@
 'use client';
 
 import '@blocknote/core/fonts/inter.css';
-import { BlockNoteView } from '@blocknote/mantine';
+import { BlockNoteView, Theme } from '@blocknote/mantine';
 import { useCreateBlockNote } from '@blocknote/react';
+import { useTheme } from 'next-themes';
 import { useEffect } from 'react';
 
 interface EditorProps {
@@ -12,7 +13,7 @@ interface EditorProps {
 }
 
 function BlockNote({ onChange, initialContent, editable }: EditorProps) {
-  console.log('initialContent', initialContent);
+  const { theme } = useTheme();
   const editor = useCreateBlockNote();
 
   useEffect(() => {
@@ -34,6 +35,10 @@ function BlockNote({ onChange, initialContent, editable }: EditorProps) {
       onChange={async (editor) => {
         const html = await editor.blocksToHTMLLossy(editor.document);
         onChange(html);
+      }}
+      theme={theme as Theme}
+      onClick={() => {
+        if (!editor.isFocused()) editor.focus();
       }}
     />
   );
