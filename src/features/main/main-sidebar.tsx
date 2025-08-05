@@ -32,12 +32,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/common/dropdown-menu';
-import { ModeToggle } from '@/components/theme/mode-toggle';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import Image from 'next/image';
 import clsx from 'clsx';
 import { useTheme } from 'next-themes';
+import { SettingsDropdown } from '@/components/layouts/settings-dropdown';
 
 type MenuItem = {
   title: string;
@@ -96,7 +96,7 @@ export function MainSidebar() {
                 src={'/logo.svg'}
                 height={28}
                 width={28}
-                className="mx-2 dark:hidden"
+                className="mx-auto dark:hidden"
               />
               <Image
                 key={theme}
@@ -105,10 +105,10 @@ export function MainSidebar() {
                 src={'/logo-white.svg'}
                 height={28}
                 width={28}
-                className="mx-2 hidden dark:block"
+                className="mx-auto hidden dark:block"
               />
               <span
-                className={clsx('text-brand', {
+                className={clsx('text-brand ml-2 flex-1', {
                   hidden: !isMobile && !open,
                 })}
               >
@@ -205,7 +205,7 @@ export function MainSidebar() {
       </SidebarContent>
 
       <SidebarFooter>
-        <ModeToggle />
+        <SettingsDropdown />
       </SidebarFooter>
     </Sidebar>
   );

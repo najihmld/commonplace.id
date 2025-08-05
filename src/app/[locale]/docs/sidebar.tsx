@@ -5,7 +5,6 @@ import { Component as ComponentIcon } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -32,7 +31,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/common/dropdown-menu';
-import { ModeToggle } from '@/components/theme/mode-toggle';
 import Link from 'next/link';
 
 type SubMenuItem = {
@@ -174,10 +172,6 @@ export function AppSidebar() {
           </SidebarGroup>
         ))}
       </SidebarContent>
-
-      <SidebarFooter>
-        <ModeToggle />
-      </SidebarFooter>
     </Sidebar>
   );
 }

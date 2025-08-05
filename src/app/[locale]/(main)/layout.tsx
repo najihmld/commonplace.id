@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { MainHeader } from '@/features/main/main-header';
 import { ScrollArea } from '@/components/common/scroll-area';
 import { Providers } from './providers';
+import { createServer } from '@/utils/supabase/server';
 
 export default async function Layout({
   children,
@@ -13,8 +14,11 @@ export default async function Layout({
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
 
+  const supabase = await createServer();
+  const session = await supabase.auth.getUser();
+
   return (
-    <Providers>
+    <Providers user={session.data.user}>
       <SidebarProvider
         defaultOpen={defaultOpen}
         className="h-dvh overflow-hidden"

@@ -1,12 +1,24 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactNode, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
+import { type User } from '@supabase/supabase-js';
 
-export function Providers({ children }: { children: ReactNode }) {
+const UserSessionContext = createContext<User | undefined | null>(null);
+export const useUserSession = () => useContext(UserSessionContext);
+
+export function Providers({
+  user,
+  children,
+}: {
+  user?: User | null;
+  children: ReactNode;
+}) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <UserSessionContext.Provider value={user}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </UserSessionContext.Provider>
   );
 }
