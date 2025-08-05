@@ -22,7 +22,7 @@ import Image from 'next/image';
 export function SettingsDropdown() {
   const { setTheme } = useTheme();
   const user = useUserSession();
-  const { avatar_url, email, name } = user?.user_metadata as {
+  const { avatar_url, email, name } = (user?.user_metadata || {}) as {
     avatar_url?: string;
     email?: string;
     name?: string;
