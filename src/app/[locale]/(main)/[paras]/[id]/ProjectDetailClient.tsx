@@ -54,12 +54,14 @@ export default function ProjectDetailClient({ id }: { id: string }) {
       </Breadcrumb>
 
       <section>
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-x-3">
           <div className="mb-4">
-            <h1 className="text-text-primary text-2xl font-bold tracking-tight">
+            <h1 className="text-text-primary text-xl font-bold tracking-tight md:text-2xl">
               {project.title}
             </h1>
-            <h2 className="text-text-secondary">{project.description}</h2>
+            <h2 className="text-text-secondary text-sm md:text-base">
+              {project.description}
+            </h2>
           </div>
 
           <DialogFormNote
@@ -80,7 +82,7 @@ export default function ProjectDetailClient({ id }: { id: string }) {
                 >
                   <span>
                     <Plus />
-                    New Note
+                    <span className="hidden md:block">New Note</span>
                   </span>
                 </Button>
               </DialogTrigger>

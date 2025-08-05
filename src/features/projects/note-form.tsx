@@ -48,7 +48,7 @@ const FormNote = ({
 
   return (
     <Form methods={form} className="space-y-2">
-      <div className="px-6">
+      <div className="md:px-6">
         <ControlledInput
           disabled={disabledTitle}
           control={form.control}
@@ -57,10 +57,10 @@ const FormNote = ({
           className="-mb-2 h-auto rounded-none border-none !text-2xl font-bold shadow-none focus-visible:ring-0"
         />
       </div>
-      <div className="-mx-4">
+      <div className="mx-4 md:mx-9">
         <ControlledBlockNote control={form.control} name="content" />
       </div>
-      <div className="px-4">
+      <div className="md:px-4">
         <ControlledCombobox
           placeholder="🗂️ Uncategorized"
           control={form.control}
@@ -117,7 +117,7 @@ function DialogFormNote({ renderTrigger, open, setOpen }: DialogFormNoteProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {renderTrigger({ DialogTrigger, form, isSaving })}
-      <DialogContent className="py-4 md:max-w-[620px] dark:bg-[#1F1F1F]">
+      <DialogContent className="max-h-dvh max-w-[calc(100vw-1rem)] overflow-y-auto py-4 md:max-w-[620px] dark:bg-[#1F1F1F]">
         <DialogHeader className="mx-6 flex flex-row items-center">
           <DialogTitle className="flex-1"></DialogTitle>
           {isSaving ? (

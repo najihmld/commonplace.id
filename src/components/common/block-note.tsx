@@ -1,5 +1,6 @@
 'use client';
 
+import { useIsMobile } from '@/hooks/use-mobile';
 import '@blocknote/core/fonts/inter.css';
 import { BlockNoteView, Theme } from '@blocknote/mantine';
 import { useCreateBlockNote } from '@blocknote/react';
@@ -14,6 +15,7 @@ interface EditorProps {
 
 function BlockNote({ onChange, initialContent, editable }: EditorProps) {
   const { theme } = useTheme();
+  const isMobile = useIsMobile();
   const editor = useCreateBlockNote();
 
   useEffect(() => {
@@ -29,6 +31,7 @@ function BlockNote({ onChange, initialContent, editable }: EditorProps) {
 
   return (
     <BlockNoteView
+      sideMenu={isMobile ? false : true}
       editor={editor}
       className="min-h-[300px]"
       editable={editable}
@@ -38,7 +41,9 @@ function BlockNote({ onChange, initialContent, editable }: EditorProps) {
       }}
       theme={theme as Theme}
       onClick={() => {
-        if (!editor.isFocused()) editor.focus();
+        if (!editor.isFocused()) {
+          editor.focus();
+        }
       }}
     />
   );

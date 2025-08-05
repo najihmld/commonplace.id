@@ -164,6 +164,11 @@
 
 @layer components {
     /* Custom style @blocknote */
+    .bn-editor {
+        outline: none;
+        padding-inline: 0px !important;
+    }
+
     .bn-block-content[data-content-type='heading'] > h1.bn-inline-content {
         --level: 1.5rem !important; /* 24px */
         font-size: var(--level) !important;
