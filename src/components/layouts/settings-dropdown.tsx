@@ -18,8 +18,10 @@ import { signOut } from '@/utils/supabase/actions';
 import { Settings, UserCircle } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export function SettingsDropdown() {
+  const router = useRouter();
   const { setTheme } = useTheme();
   const user = useUserSession();
   const { avatar_url, email, name } = (user?.user_metadata || {}) as {
@@ -86,7 +88,13 @@ export function SettingsDropdown() {
           </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={signOut}>
+        <DropdownMenuItem
+          onClick={() => {
+            signOut().then(() => {
+              router.push('/');
+            });
+          }}
+        >
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
