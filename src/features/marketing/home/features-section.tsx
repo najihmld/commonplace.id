@@ -64,9 +64,9 @@ export function FeaturesSection() {
   return (
     <section className="relative z-20 mx-auto max-w-7xl pb-10 xl:pb-20">
       <div className="px-8">
-        <h4 className="mx-auto max-w-5xl text-center text-3xl font-medium tracking-tight text-black lg:text-5xl lg:leading-tight dark:text-white">
+        <h2 className="mx-auto max-w-5xl text-center text-3xl font-medium tracking-tight text-black lg:text-5xl lg:leading-tight dark:text-white">
           Everything you need for organized thinking
-        </h4>
+        </h2>
 
         <p className="mx-auto my-4 max-w-2xl text-center text-base font-normal text-neutral-500 lg:text-lg dark:text-neutral-300">
           Powerful features designed to help you capture, organize, and retrieve

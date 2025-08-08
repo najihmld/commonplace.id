@@ -8,9 +8,9 @@ export function AboutParaSection() {
   return (
     <section className="relative z-20 mx-auto max-w-7xl py-10 xl:py-20">
       <div className="px-8">
-        <h4 className="mx-auto max-w-5xl text-center text-3xl font-medium tracking-tight text-black lg:text-5xl lg:leading-tight dark:text-white">
+        <h2 className="mx-auto max-w-5xl text-center text-3xl font-medium tracking-tight text-black lg:text-5xl lg:leading-tight dark:text-white">
           The PARA Method
-        </h4>
+        </h2>
 
         <p className="mx-auto my-4 max-w-2xl text-center text-base font-normal text-neutral-500 lg:text-lg dark:text-neutral-300">
           Created by Tiago Forte, PARA is a simple yet powerful organizational
@@ -25,8 +25,8 @@ export function AboutParaSection() {
             className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-neutral-100 to-white p-6 dark:from-neutral-900 dark:to-neutral-950"
           >
             <Grid size={20} />
-            <feature.Icon className="mb-4" />
-            <p className="relative z-20 text-base font-bold text-neutral-800 dark:text-white">
+            {feature.icon}
+            <p className="relative z-20 mt-4 text-base font-bold text-neutral-800 dark:text-white">
               {feature.title}
             </p>
             <p className="relative z-20 mt-4 text-base font-normal text-neutral-600 dark:text-neutral-400">
@@ -49,24 +49,28 @@ export function AboutParaSection() {
 const grid = [
   {
     Icon: Target,
+    icon: <Target className="text-projects" />,
     title: 'Projects',
     description:
       "Things you're working on with a deadline and specific outcome. Active work that needs your attention.",
   },
   {
     Icon: Shrub,
+    icon: <Shrub className="text-areas" />,
     title: 'Areas',
     description:
       'Ongoing responsibilities you want to manage over time. Standards you want to maintain in your life.',
   },
   {
     Icon: LibraryBig,
+    icon: <LibraryBig className="text-resources" />,
     title: 'Resources',
     description:
       'Topics or interests that may be useful in the future. Your personal knowledge library.',
   },
   {
     Icon: Archive,
+    icon: <Archive className="text-archives" />,
     title: 'Archive',
     description:
       'Inactive items from the other three categories. Keep your active workspace clean and focused.',

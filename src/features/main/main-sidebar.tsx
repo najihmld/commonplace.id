@@ -1,6 +1,6 @@
 'use client';
 
-import { Target, BookOpen, Star, Archive } from 'lucide-react';
+import { Target, Archive, Shrub, LibraryBig } from 'lucide-react';
 
 import {
   Sidebar,
@@ -56,12 +56,12 @@ const items: MenuItem[] = [
   {
     title: 'Areas',
     url: '/areas',
-    icon: <Star className="text-areas" />,
+    icon: <Shrub className="text-areas" />,
   },
   {
     title: 'Resources',
     url: '/resources',
-    icon: <BookOpen className="text-resources" />,
+    icon: <LibraryBig className="text-resources" />,
   },
   {
     title: 'Archives',
