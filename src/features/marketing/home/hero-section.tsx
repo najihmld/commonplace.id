@@ -13,7 +13,7 @@ export function HeroSection() {
 
   return (
     <section>
-      <div className="relative flex min-h-[calc(100dvh-65px)] w-full items-center justify-center bg-white dark:bg-black">
+      <div className="relative flex min-h-[calc(100vh-65px)] w-full items-center justify-center bg-white dark:bg-black">
         <div
           className={cn(
             'absolute inset-0 opacity-50',
