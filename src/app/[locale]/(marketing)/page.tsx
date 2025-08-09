@@ -5,6 +5,7 @@ import { HeroSection } from '@/features/marketing/home/hero-section';
 import { FeaturesSection } from '@/features/marketing/home/features-section';
 import { AboutParaSection } from '@/features/marketing/home/about-para-section';
 import { CoomingSoonSection } from '@/features/marketing/home/coming-soon-section';
+import FooterLocaleSwitcher from '@/features/footer-locale-switcher';
 
 export default async function LandingPage() {
   return (
@@ -125,26 +126,7 @@ export default async function LandingPage() {
             <p className="text-sm text-gray-400">
               © {new Date().getFullYear()} commonplace.id. All rights reserved.
             </p>
-            <div className="mt-4 flex space-x-4 sm:mt-0">
-              <Link
-                href="#"
-                className="text-gray-400 transition-colors hover:text-white"
-              >
-                Twitter
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-400 transition-colors hover:text-white"
-              >
-                GitHub
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-400 transition-colors hover:text-white"
-              >
-                Discord
-              </Link>
-            </div>
+            <FooterLocaleSwitcher />
           </div>
         </div>
       </footer>

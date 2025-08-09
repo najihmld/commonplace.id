@@ -1,4 +1,83 @@
 {
+  "/": {
+    "hero": {
+      "desc": "Built to grow with you — from note-taking to managing all aspects of your productive life.",
+      "start-taking-notes": "Start Taking Notes",
+      "watch-demo": "Watch Demo",
+      "users": "users",
+      "rating": "rating",
+      "privacy-first": "Privacy-first"
+    },
+    "features": {
+      "title": "Everything you need for organized thinking",
+      "desc": "Powerful features designed to help you capture, organize, and retrieve your knowledge effortlessly.",
+      "1": {
+        "title": "Capture Notes Instantly",
+        "desc": "Write down ideas, thoughts, and insights in a clean, distraction-free editor."
+      },
+      "2": {
+        "title": "PARA Organization System",
+        "desc": "Structure your knowledge using Projects, Areas, Resources, and Archives."
+      },
+      "3": {
+        "title": "Smart Tagging",
+        "desc": "Add multiple tags to your notes and filter them easily based on context."
+      },
+      "4": {
+        "title": "Powerful Search",
+        "desc": "Find notes by keywords, tags, type, or group — instantly."
+      },
+      "5": {
+        "title": "Note Types & Labels",
+        "desc": "Categorize notes as Ideas, Quotes, Insights, and more with visual icons."
+      },
+      "6": {
+        "title": "Autosave & Version Safe",
+        "desc": "Your thoughts are always saved automatically as you type."
+      },
+      "7": {
+        "title": "Cross-Platform Access",
+        "desc": "Access your knowledge base from anywhere — web or mobile."
+      },
+      "8": {
+        "title": "Private & Secure",
+        "desc": "All your notes are securely stored and only accessible to you."
+      }
+    },
+    "para-method": {
+      "title": "The PARA Method",
+      "desc": "Created by Tiago Forte, PARA is a simple yet powerful organizational system that mirrors how your brain naturally thinks.",
+      "1": {
+        "title": "Projects",
+        "desc": "Things you're working on with a deadline and specific outcome. Active work that needs your attention."
+      },
+      "2": {
+        "title": "Areas",
+        "desc": "Ongoing responsibilities you want to manage over time. Standards you want to maintain in your life."
+      },
+      "3": {
+        "title": "Resources",
+        "desc": "Topics or interests that may be useful in the future. Your personal knowledge library."
+      },
+      "4": {
+        "title": "Archive",
+        "desc": "Inactive items from the other three categories. Keep your active workspace clean and focused."
+      },
+      "learn-more": "Learn More About PARA"
+    },
+    "comming-soon": {
+      "title": "Your Complete Productivity Suite",
+      "desc": "We're building more than just a note-taking app. Get ready for integrated productivity tools.",
+      "1": {
+        "title": "Integrated Todo List",
+        "desc": "Transform your project notes into actionable tasks. Create todo lists that automatically organize within your PARA structure, with smart due dates and priority management."
+      },
+      "2": {
+        "title": "Time Tracking",
+        "desc": "Track time spent on projects and areas directly from your notes. Get insights into your productivity patterns and optimize your workflow with detailed analytics."
+      }
+    }
+  },
   "/projects": {
     "title": "Projects",
     "description": "Active projects with specific outcomes and deadlines"

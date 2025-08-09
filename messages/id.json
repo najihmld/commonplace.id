@@ -1,4 +1,83 @@
 {
+  "/": {
+    "hero": {
+      "desc": "Dibuat untuk berkembang bersama Anda — mulai dari mencatat ide hingga mengelola seluruh hal penting dalam hidup Anda.",
+      "start-taking-notes": "Mulai Mencatat",
+      "watch-demo": "Tonton Demo",
+      "users": "pengguna",
+      "rating": "penilaian",
+      "privacy-first": "Privasi Utama"
+    },
+    "features": {
+      "title": "Semua yang Anda butuhkan untuk berpikir lebih teratur",
+      "desc": "Fitur-fitur andal yang membantu Anda menangkap, mengatur, dan menemukan kembali pengetahuan dengan mudah.",
+      "1": {
+        "title": "Catat Ide dengan Cepat",
+        "desc": "Tulis ide, pikiran, dan wawasan di editor yang bersih dan bebas gangguan."
+      },
+      "2": {
+        "title": "Sistem Organisasi PARA",
+        "desc": "Atur pengetahuan Anda dengan Proyek, Area, Sumber Daya, dan Arsip."
+      },
+      "3": {
+        "title": "Penandaan Pintar",
+        "desc": "Tambahkan banyak tag pada catatan dan temukan kembali dengan mudah sesuai konteks."
+      },
+      "4": {
+        "title": "Pencarian Cepat",
+        "desc": "Temukan catatan berdasarkan kata kunci, tag, jenis, atau grup — seketika."
+      },
+      "5": {
+        "title": "Jenis & Label Catatan",
+        "desc": "Kelompokkan catatan menjadi Ide, Kutipan, Wawasan, dan lainnya dengan ikon yang jelas."
+      },
+      "6": {
+        "title": "Simpan Otomatis & Versi Aman",
+        "desc": "Semua catatan Anda tersimpan otomatis saat mengetik."
+      },
+      "7": {
+        "title": "Akses di Mana Saja",
+        "desc": "Akses catatan Anda dari web atau ponsel kapan pun."
+      },
+      "8": {
+        "title": "Privat & Aman",
+        "desc": "Catatan Anda disimpan dengan aman dan hanya dapat diakses oleh Anda."
+      }
+    },
+    "para-method": {
+      "title": "Metode PARA",
+      "desc": "Dikembangkan oleh Tiago Forte, PARA adalah sistem pengorganisasian sederhana namun kuat yang mengikuti cara alami otak berpikir.",
+      "1": {
+        "title": "Proyek",
+        "desc": "Pekerjaan yang sedang Anda kerjakan dengan tenggat waktu dan hasil yang jelas. Fokus utama yang memerlukan perhatian Anda."
+      },
+      "2": {
+        "title": "Area",
+        "desc": "Tanggung jawab berkelanjutan yang Anda kelola dari waktu ke waktu. Standar yang ingin Anda jaga dalam hidup."
+      },
+      "3": {
+        "title": "Sumber Daya",
+        "desc": "Topik atau minat yang mungkin berguna di masa depan. Perpustakaan pengetahuan pribadi Anda."
+      },
+      "4": {
+        "title": "Arsip",
+        "desc": "Item yang tidak aktif dari tiga kategori lainnya. Membantu menjaga ruang kerja tetap rapi dan fokus."
+      },
+      "learn-more": "Pelajari Lebih Lanjut Tentang PARA"
+    },
+    "comming-soon": {
+      "title": "Paket Produktivitas Lengkap untuk Anda",
+      "desc": "Kami membuat lebih dari sekadar aplikasi pencatat. Bersiaplah untuk alat produktivitas yang terintegrasi.",
+      "1": {
+        "title": "Daftar Tugas Terintegrasi",
+        "desc": "Ubah catatan proyek menjadi tugas yang dapat langsung dikerjakan. Daftar tugas otomatis mengikuti struktur PARA, lengkap dengan tenggat waktu pintar dan pengaturan prioritas."
+      },
+      "2": {
+        "title": "Pelacak Waktu",
+        "desc": "Lacak waktu yang dihabiskan untuk proyek dan area langsung dari catatan Anda. Dapatkan wawasan produktivitas dan optimalkan alur kerja dengan analisis yang mendalam."
+      }
+    }
+  },
   "/projects": {
     "title": "Projects",
     "description": "Active projects with specific outcomes and deadlines"

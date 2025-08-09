@@ -6,8 +6,11 @@ import { TextGenerateEffect } from '@/components/common/text-generate-effect';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Shield, Star, Users, Zap } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useTranslations } from 'next-intl';
 
 export function HeroSection() {
+  const t = useTranslations(`/`);
+
   return (
     <section>
       <div className="relative flex min-h-[calc(100dvh-65px)] w-full items-center justify-center bg-white dark:bg-black">
@@ -88,7 +91,7 @@ export function HeroSection() {
                   <TextGenerateEffect
                     duration={0.1}
                     className="mt-6 text-base leading-8 text-neutral-600 lg:text-lg dark:text-neutral-400"
-                    words="Built to grow with you — from note-taking to managing all aspects of your productive life."
+                    words={t('hero.desc')}
                   />
                 </div>
               </motion.span>
@@ -107,7 +110,7 @@ export function HeroSection() {
               >
                 <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                   <Button size="lg" className="w-full sm:w-auto">
-                    Start Taking Notes
+                    {t('hero.start-taking-notes')}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                   <Button
@@ -115,22 +118,22 @@ export function HeroSection() {
                     size="lg"
                     className="w-full sm:w-auto"
                   >
-                    Watch Demo
+                    {t('hero.watch-demo')}
                   </Button>
                 </div>
 
                 <div className="mt-12 flex items-center justify-center space-x-3 text-xs text-gray-500 lg:space-x-8 lg:text-sm">
                   <div className="flex items-center">
                     <Users className="mr-2 h-4 w-4" />
-                    10,000+ users
+                    10,000+ {t('hero.users')}
                   </div>
                   <div className="flex items-center">
                     <Star className="mr-2 h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    4.9/5 rating
+                    4.9/5 {t('hero.rating')}
                   </div>
                   <div className="flex items-center">
                     <Shield className="mr-2 h-4 w-4" />
-                    Privacy-first
+                    {t('hero.privacy-first')}
                   </div>
                 </div>
               </motion.div>

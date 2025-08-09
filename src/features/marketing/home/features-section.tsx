@@ -10,54 +10,35 @@ import {
   Lock,
   LucideIcon,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export function FeaturesSection() {
+  const t = useTranslations(`/`);
+
   const features = [
     {
       Icon: FileText,
-      title: 'Capture Notes Instantly',
-      description:
-        'Write down ideas, thoughts, and insights in a clean, distraction-free editor.',
     },
     {
       Icon: Folder,
-      title: 'PARA Organization System',
-      description:
-        'Structure your knowledge using Projects, Areas, Resources, and Archives.',
     },
     {
       Icon: Tag,
-      title: 'Smart Tagging',
-      description:
-        'Add multiple tags to your notes and filter them easily based on context.',
     },
     {
       Icon: Search,
-      title: 'Powerful Search',
-      description: 'Find notes by keywords, tags, type, or group — instantly.',
     },
     {
       Icon: Pin,
-      title: 'Note Types & Labels',
-      description:
-        'Categorize notes as Ideas, Quotes, Insights, and more with visual icons.',
     },
     {
       Icon: RefreshCcw,
-      title: 'Autosave & Version Safe',
-      description: 'Your thoughts are always saved automatically as you type.',
     },
     {
       Icon: Smartphone,
-      title: 'Cross-Platform Access',
-      description: 'Access your knowledge base from anywhere — web or mobile.',
-      icon: '📱',
     },
     {
       Icon: Lock,
-      title: 'Private & Secure',
-      description:
-        'All your notes are securely stored and only accessible to you.',
     },
   ];
 
@@ -65,19 +46,28 @@ export function FeaturesSection() {
     <section className="relative z-20 mx-auto max-w-7xl pb-10 xl:pb-20">
       <div className="px-8">
         <h2 className="mx-auto max-w-5xl text-center text-3xl font-medium tracking-tight text-black lg:text-5xl lg:leading-tight dark:text-white">
-          Everything you need for organized thinking
+          {t('features.title')}
         </h2>
 
         <p className="mx-auto my-4 max-w-2xl text-center text-base font-normal text-neutral-500 lg:text-lg dark:text-neutral-300">
-          Powerful features designed to help you capture, organize, and retrieve
-          your knowledge effortlessly.
+          {t('features.desc')}
         </p>
       </div>
 
       <div className="relative z-10 mx-auto mt-8 grid max-w-7xl grid-cols-1 md:grid-cols-2 lg:mt-12 lg:grid-cols-4">
-        {features.map((feature, index) => (
-          <Feature key={feature.title} {...feature} index={index} />
-        ))}
+        {features.map((feature, index) => {
+          const title = t(`features.${index + 1}.title`);
+          const desc = t(`features.${index + 1}.desc`);
+          return (
+            <Feature
+              key={title}
+              title={title}
+              description={desc}
+              {...feature}
+              index={index}
+            />
+          );
+        })}
       </div>
     </section>
   );

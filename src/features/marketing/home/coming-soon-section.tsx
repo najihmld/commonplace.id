@@ -1,8 +1,11 @@
 import { Badge } from '@/components/common/badge';
 import { Card, CardHeader } from '@/components/common/card';
 import { CheckSquare, Clock } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export function CoomingSoonSection() {
+  const t = useTranslations(`/`);
+
   return (
     <section className="relative z-20 mx-auto max-w-7xl py-10 xl:py-20">
       <div className="px-8">
@@ -12,12 +15,11 @@ export function CoomingSoonSection() {
           </Badge>
         </div>
         <h2 className="mx-auto max-w-5xl text-center text-3xl font-medium tracking-tight text-black lg:text-5xl lg:leading-tight dark:text-white">
-          Your Complete Productivity Suite
+          {t('comming-soon.title')}
         </h2>
 
         <p className="mx-auto my-4 max-w-2xl text-center text-base font-normal text-neutral-500 lg:text-lg dark:text-neutral-300">
-          We&apos;re building more than just a note-taking app. Get ready for
-          integrated productivity tools.
+          {t('comming-soon.desc')}
         </p>
       </div>
 
@@ -27,13 +29,11 @@ export function CoomingSoonSection() {
             <div className="flex items-center space-x-3">
               <CheckSquare />
               <p className="relative z-20 text-base font-bold text-neutral-800 dark:text-white">
-                Integrated Todo List
+                {t('comming-soon.1.title')}
               </p>
             </div>
             <p className="relative z-20 mt-2 text-base font-normal text-neutral-600 dark:text-neutral-400">
-              Transform your project notes into actionable tasks. Create todo
-              lists that automatically organize within your PARA structure, with
-              smart due dates and priority management.
+              {t('comming-soon.1.desc')}
             </p>
           </CardHeader>
         </Card>
@@ -43,13 +43,11 @@ export function CoomingSoonSection() {
             <div className="flex items-center space-x-3">
               <Clock />
               <p className="relative z-20 text-base font-bold text-neutral-800 dark:text-white">
-                Time Tracking
+                {t('comming-soon.2.title')}
               </p>
             </div>
             <p className="relative z-20 mt-2 text-base font-normal text-neutral-600 dark:text-neutral-400">
-              Track time spent on projects and areas directly from your notes.
-              Get insights into your productivity patterns and optimize your
-              workflow with detailed analytics.
+              {t('comming-soon.2.desc')}
             </p>
           </CardHeader>
         </Card>

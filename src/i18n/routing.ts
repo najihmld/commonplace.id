@@ -1,6 +1,17 @@
 import { defineRouting } from 'next-intl/routing';
 
-export const locales = ['en', 'id'];
+export const LOCALE_OPTIONS = [
+  {
+    label: 'English',
+    value: 'en',
+  },
+  {
+    label: 'Bahasa Indonesia',
+    value: 'id',
+  },
+];
+
+export const locales = LOCALE_OPTIONS.map(({ value }) => value);
 
 export const routing = defineRouting({
   // A list of all locales that are supported
