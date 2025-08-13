@@ -10,7 +10,7 @@ export function AboutParaSection() {
 
   return (
     <section className="relative z-20 mx-auto max-w-7xl py-10 xl:py-20">
-      <div className="px-8">
+      <div className="px-4 sm:px-6 lg:px-8">
         <h2 className="mx-auto max-w-5xl text-center text-3xl font-medium tracking-tight text-black lg:text-5xl lg:leading-tight dark:text-white">
           {t('para-method.title')}
         </h2>

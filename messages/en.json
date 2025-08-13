@@ -93,5 +93,67 @@
   "/archives": {
     "title": "Archives",
     "description": "Inactive items from other categories for future reference"
+  },
+  "/privacy-policy": {
+    "meta": {
+      "title": "Privacy Policy | Commonplace.id",
+      "description": "Learn how Commonplace.id collects, uses, and protects your personal data. We are committed to keeping your information private and secure."
+    },
+    "title": "Privacy Policy",
+    "last-updated": "Last updated: August 8, 2025",
+    "intro": {
+      "p1": "Welcome to <strong>Commonplace.id</strong>. We value your privacy and are committed to protecting the personal data you provide when using our services.",
+      "p2": "By using our services, you agree to the collection, use, and disclosure of information in accordance with this privacy policy."
+    },
+    "sections": [
+      {
+        "title": "Information We Collect",
+        "desc": "We may collect the following information:",
+        "list": [
+          "<strong>Personal Information</strong>: such as name, email address, phone number, and other data you provide directly.",
+          "<strong>Information from Third Parties</strong>: when you log in through services such as Google."
+        ]
+      },
+      {
+        "title": "How We Use Information",
+        "desc": "The information we collect is used to:",
+        "list": [
+          "Provide, operate, and maintain our services.",
+          "Improve and personalize the user experience.",
+          "Send updates, promotions, or important information related to the services.",
+          "Comply with legal obligations."
+        ]
+      },
+      {
+        "title": "How We Share Information",
+        "desc": "We do not sell or rent your personal data. We may share information:",
+        "list": [
+          "With service providers that help operate the system.",
+          "If required by law or court order.",
+          "In the event of a merger, acquisition, or sale of assets."
+        ]
+      },
+      {
+        "title": "Data Storage and Security",
+        "desc": "We use technical and organizational security measures to protect your personal information. However, no method of data transmission over the internet is 100% secure."
+      },
+      {
+        "title": "Your Rights",
+        "desc": "You have the right to:",
+        "list": [
+          "Access, update, or delete your personal data.",
+          "Withdraw consent for data usage at any time.",
+          "File a complaint with the data protection authority."
+        ]
+      },
+      {
+        "title": "Cookies and Tracking Technologies",
+        "desc": "We use cookies and similar tracking technologies to enhance the user experience. You can set your browser to refuse cookies, but this may affect the functionality of the services."
+      },
+      {
+        "title": "Changes to This Privacy Policy",
+        "desc": "We may update this privacy policy from time to time. Changes will be published on this page with the latest update date."
+      }
+    ]
   }
 }

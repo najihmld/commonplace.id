@@ -8,7 +8,7 @@ export function CoomingSoonSection() {
 
   return (
     <section className="relative z-20 mx-auto max-w-7xl py-10 xl:py-20">
-      <div className="px-8">
+      <div className="px-4 sm:px-6 lg:px-8">
         <div className="mx-auto w-fit">
           <Badge variant="secondary" className="mb-4">
             Coming Soon

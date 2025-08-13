@@ -15,6 +15,7 @@ const publicPaths = [
   '/', // Landing page
   '/auth', // Auth pages
   '/profile/:id', // Public profile pages - using path pattern
+  '/privacy-policy',
 ];
 
 export const updateSession = async (

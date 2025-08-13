@@ -93,5 +93,67 @@
   "/archives": {
     "title": "Archives",
     "description": "Inactive items from other categories for future reference"
+  },
+  "/privacy-policy": {
+    "meta": {
+      "title": "Kebijakan Privasi | Commonplace.id",
+      "description": "Pelajari bagaimana Commonplace.id mengumpulkan, menggunakan, dan melindungi data pribadi Anda. Kami berkomitmen menjaga privasi dan keamanan informasi Anda."
+    },
+    "title": "Kebijakan Privasi",
+    "last-updated": "Terakhir diperbarui: 8 Agustus 2025",
+    "intro": {
+      "p1": "Selamat datang di <strong>Commonplace.id</strong>. Kami menghargai privasi Anda dan berkomitmen untuk melindungi data pribadi yang Anda berikan saat menggunakan layanan kami.",
+      "p2": "Dengan menggunakan layanan kami, Anda menyetujui pengumpulan, penggunaan, dan pengungkapan informasi sesuai dengan kebijakan privasi ini."
+    },
+    "sections": [
+      {
+        "title": "Informasi yang Kami Kumpulkan",
+        "desc": "Kami dapat mengumpulkan informasi berikut:",
+        "list": [
+          "<strong>Informasi Pribadi</strong>: seperti nama, alamat email, nomor telepon, dan data lain yang Anda berikan secara langsung.",
+          "<strong>Informasi dari Pihak Ketiga</strong>: ketika Anda login melalui layanan seperti Google."
+        ]
+      },
+      {
+        "title": "Bagaimana Kami Menggunakan Informasi",
+        "desc": "Informasi yang kami kumpulkan digunakan untuk:",
+        "list": [
+          "Memberikan, mengoperasikan, dan memelihara layanan kami.",
+          "Meningkatkan dan mempersonalisasi pengalaman pengguna.",
+          "Mengirimkan pembaruan, promosi, atau informasi penting terkait layanan.",
+          "Memenuhi kewajiban hukum."
+        ]
+      },
+      {
+        "title": "Bagaimana Kami Membagikan Informasi",
+        "desc": "Kami tidak menjual atau menyewakan data pribadi Anda. Kami dapat membagikan informasi:",
+        "list": [
+          "Kepada penyedia layanan yang membantu pengoperasian sistem.",
+          "Jika diwajibkan oleh hukum atau perintah pengadilan.",
+          "Dalam hal terjadi merger, akuisisi, atau penjualan aset."
+        ]
+      },
+      {
+        "title": "Penyimpanan dan Keamanan Data",
+        "desc": "Kami menggunakan langkah-langkah keamanan teknis dan organisasi untuk melindungi informasi pribadi Anda. Namun, tidak ada metode transmisi data melalui internet yang 100% aman."
+      },
+      {
+        "title": "Hak Anda",
+        "desc": "Anda memiliki hak untuk:",
+        "list": [
+          "Mengakses, memperbarui, atau menghapus data pribadi Anda.",
+          "Menarik persetujuan penggunaan data kapan saja.",
+          "Mengajukan keluhan kepada otoritas perlindungan data."
+        ]
+      },
+      {
+        "title": "Cookies dan Teknologi Pelacakan",
+        "desc": "Kami menggunakan cookies dan teknologi pelacakan serupa untuk meningkatkan pengalaman pengguna. Anda dapat mengatur browser Anda untuk menolak cookies, tetapi hal ini dapat mempengaruhi fungsi layanan."
+      },
+      {
+        "title": "Perubahan pada Kebijakan Privasi",
+        "desc": "Kami dapat memperbarui kebijakan privasi ini sewaktu-waktu. Perubahan akan dipublikasikan di halaman ini dengan tanggal pembaruan terbaru."
+      }
+    ]
   }
 }
