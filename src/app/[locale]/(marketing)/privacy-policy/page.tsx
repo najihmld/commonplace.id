@@ -1,16 +1,15 @@
 import Footer from '@/features/marketing/footer';
 import Header from '@/features/marketing/header';
+import { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
-
-import type { Metadata } from 'next';
-
 import { getTranslations } from 'next-intl/server';
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: '/privacy-policy' });
 
   return {
