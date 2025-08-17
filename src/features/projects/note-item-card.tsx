@@ -81,7 +81,7 @@ function NoteItemCard({ note, DialogTrigger, isSaving, onClick }: Props) {
           <div className="flex-1" />
         </div>
 
-        <div className="my-4 flex-1 text-sm">
+        <div className="prose my-4 flex-1 text-sm">
           {!!note.title && <div className="mb-2 font-bold">{note.title}</div>}
           <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />
         </div>
