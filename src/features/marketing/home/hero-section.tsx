@@ -4,7 +4,7 @@ import { Badge } from '@/components/common/badge';
 import { Button } from '@/components/common/button';
 import { TextGenerateEffect } from '@/components/common/text-generate-effect';
 import { cn } from '@/lib/utils';
-import { ArrowRight, Shield, Star, Users, Zap } from 'lucide-react';
+import { ArrowRight, Zap } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 
@@ -122,7 +122,7 @@ export function HeroSection() {
                   </Button>
                 </div>
 
-                <div className="mt-12 flex items-center justify-center space-x-3 text-xs text-gray-500 lg:space-x-8 lg:text-sm">
+                {/* <div className="mt-12 flex items-center justify-center space-x-3 text-xs text-gray-500 lg:space-x-8 lg:text-sm">
                   <div className="flex items-center">
                     <Users className="mr-2 h-4 w-4" />
                     10,000+ {t('hero.users')}
@@ -135,7 +135,7 @@ export function HeroSection() {
                     <Shield className="mr-2 h-4 w-4" />
                     {t('hero.privacy-first')}
                   </div>
-                </div>
+                </div> */}
               </motion.div>
             </div>
           </div>

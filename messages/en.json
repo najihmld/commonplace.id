@@ -9,8 +9,6 @@
       "privacy-first": "Privacy-first"
     },
     "features": {
-      "title": "Everything you need for organized thinking",
-      "desc": "Powerful features designed to help you capture, organize, and retrieve your knowledge effortlessly.",
       "1": {
         "title": "Capture Notes Instantly",
         "desc": "Write down ideas, thoughts, and insights in a clean, distraction-free editor."
@@ -42,11 +40,11 @@
       "8": {
         "title": "Private & Secure",
         "desc": "All your notes are securely stored and only accessible to you."
-      }
+      },
+      "title": "Everything you need for organized thinking",
+      "desc": "Powerful features designed to help you capture, organize, and retrieve your knowledge effortlessly."
     },
     "para-method": {
-      "title": "The PARA Method",
-      "desc": "Created by Tiago Forte, PARA is a simple yet powerful organizational system that mirrors how your brain naturally thinks.",
       "1": {
         "title": "Projects",
         "desc": "Things you're working on with a deadline and specific outcome. Active work that needs your attention."
@@ -63,11 +61,11 @@
         "title": "Archive",
         "desc": "Inactive items from the other three categories. Keep your active workspace clean and focused."
       },
+      "title": "The PARA Method",
+      "desc": "Created by Tiago Forte, PARA is a simple yet powerful organizational system that mirrors how your brain naturally thinks.",
       "learn-more": "Learn More About PARA"
     },
     "comming-soon": {
-      "title": "Your Complete Productivity Suite",
-      "desc": "We're building more than just a note-taking app. Get ready for integrated productivity tools.",
       "1": {
         "title": "Integrated Todo List",
         "desc": "Transform your project notes into actionable tasks. Create todo lists that automatically organize within your PARA structure, with smart due dates and priority management."
@@ -75,8 +73,18 @@
       "2": {
         "title": "Time Tracking",
         "desc": "Track time spent on projects and areas directly from your notes. Get insights into your productivity patterns and optimize your workflow with detailed analytics."
-      }
+      },
+      "title": "Your Complete Productivity Suite",
+      "desc": "We're building more than just a note-taking app. Get ready for integrated productivity tools."
     }
+  },
+  "/auth": {
+    "back-to-home": "Back to Home",
+    "welcome-to-commonplace-id": "Welcome to commonplace.id",
+    "sign-in-or-create-your-account-to-start-organizing-your-notes": "Sign in or create your account to start organizing your notes. We’re new — and we’d love you to be one of our very first users.",
+    "secure-authentication-with-google": "Secure authentication with Google",
+    "continue-with-google": "Continue with Google",
+    "by-continuing-you-agree-to-our": "By continuing, you agree to our <Link>Terms of Service</Link> and <Privacy>Privacy Policy</Privacy>"
   },
   "/projects": {
     "title": "Projects",

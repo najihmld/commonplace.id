@@ -8,33 +8,30 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/common/card';
-import { BookOpen, ArrowLeft, Shield, Zap, Users } from 'lucide-react';
+import { ArrowLeft, Shield } from 'lucide-react';
 import Link from 'next/link';
 
 import { signinWithGoogle } from '@/utils/supabase/actions';
+import Logo from '@/components/common/logo';
+import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 export default function AuthPage() {
+  const t = useTranslations('/auth');
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
       <header className="w-full border-b bg-white/80 backdrop-blur-md">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-                <BookOpen className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">
-                commonplace.id
-              </span>
-            </Link>
+            <Logo />
 
             <Link
               href="/"
               className="flex items-center text-sm text-gray-600 hover:text-gray-900"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
+              {t('back-to-home')}
             </Link>
           </div>
         </div>
@@ -42,41 +39,34 @@ export default function AuthPage() {
 
       {/* Main Content */}
       <div className="flex flex-1 items-center justify-center p-4">
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-lg">
           <Card className="border-0 bg-white shadow-2xl">
-            <CardHeader className="pb-2 text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
-                <BookOpen className="h-8 w-8 text-blue-600" />
+            <CardHeader className="pb-2">
+              <div className="mx-auto mb-4">
+                <Image
+                  alt="Commonplace.id"
+                  src={'/logo.svg'}
+                  width={64}
+                  height={64}
+                  priority
+                />
               </div>
-              <CardTitle className="text-2xl font-bold">
-                Welcome to commonplace.id
+              <CardTitle className="text-center text-2xl font-bold">
+                {t('welcome-to-commonplace-id')}
               </CardTitle>
-              <CardDescription className="text-base">
-                Sign in or create your account to start organizing your notes
-                with the PARA method
+              <CardDescription className="text-center text-base">
+                {t(
+                  'sign-in-or-create-your-account-to-start-organizing-your-notes',
+                )}
               </CardDescription>
             </CardHeader>
 
             <CardContent className="space-y-6">
               {/* Benefits */}
               <div className="space-y-3">
-                <div className="flex items-center space-x-3 text-sm text-gray-600">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100">
-                    <Shield className="h-3 w-3 text-green-600" />
-                  </div>
-                  <span>Secure authentication with Google</span>
-                </div>
-                <div className="flex items-center space-x-3 text-sm text-gray-600">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-100">
-                    <Zap className="h-3 w-3 text-blue-600" />
-                  </div>
-                  <span>Instant access to PARA organization</span>
-                </div>
-                <div className="flex items-center space-x-3 text-sm text-gray-600">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-100">
-                    <Users className="h-3 w-3 text-purple-600" />
-                  </div>
-                  <span>Join 10,000+ productive users</span>
+                <div className="mx-auto flex w-fit items-center space-x-2 text-sm text-gray-600">
+                  <Shield className="h-4 w-4" />
+                  <span>{t('secure-authentication-with-google')}</span>
                 </div>
               </div>
 
@@ -104,62 +94,35 @@ export default function AuthPage() {
                       d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                     />
                   </svg>
-                  <span>Continue with Google</span>
+                  <span>{t('continue-with-google')}</span>
                 </div>
               </Button>
 
               {/* Privacy Notice */}
               <div className="text-center">
                 <p className="text-xs text-gray-500">
-                  By continuing, you agree to our{' '}
-                  <Link href="/terms" className="text-blue-600 hover:underline">
-                    Terms of Service
-                  </Link>{' '}
-                  and{' '}
-                  <Link
-                    href="/privacy"
-                    className="text-blue-600 hover:underline"
-                  >
-                    Privacy Policy
-                  </Link>
-                </p>
-              </div>
-
-              {/* Additional Info */}
-              <div className="rounded-lg bg-blue-50 p-4 text-center">
-                <p className="mb-1 text-sm font-medium text-blue-800">
-                  New to the PARA method?
-                </p>
-                <p className="text-xs text-blue-600">
-                  We&apos;ll guide you through setting up your first Projects,
-                  Areas, Resources, and Archive after you sign in.
+                  {t.rich('by-continuing-you-agree-to-our', {
+                    Link: (chunks) => (
+                      <Link
+                        href="/terms"
+                        className="text-blue-600 hover:underline"
+                      >
+                        {chunks}
+                      </Link>
+                    ),
+                    Privacy: (chunks) => (
+                      <Link
+                        href="/privacy-policy"
+                        className="text-blue-600 hover:underline"
+                      >
+                        {chunks}
+                      </Link>
+                    ),
+                  })}
                 </p>
               </div>
             </CardContent>
           </Card>
-
-          {/* Additional Features */}
-          <div className="mt-8 text-center">
-            <p className="mb-4 text-sm text-gray-600">
-              What you&apos;ll get access to:
-            </p>
-            <div className="grid grid-cols-1 gap-4 text-xs text-gray-500 sm:grid-cols-3">
-              <div>
-                <div className="font-medium text-gray-700">
-                  Smart Organization
-                </div>
-                <div>Automatic PARA categorization</div>
-              </div>
-              <div>
-                <div className="font-medium text-gray-700">Powerful Search</div>
-                <div>Find any note instantly</div>
-              </div>
-              <div>
-                <div className="font-medium text-gray-700">Cross-Platform</div>
-                <div>Access from anywhere</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

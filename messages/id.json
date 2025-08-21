@@ -78,6 +78,14 @@
       }
     }
   },
+  "/auth": {
+    "back-to-home": "Kembali ke Beranda",
+    "welcome-to-commonplace-id": "Selamat datang di commonplace.id",
+    "sign-in-or-create-your-account-to-start-organizing-your-notes": "Masuk atau buat akun untuk mulai mengatur catatan Anda. Kami masih baru — dan kami akan senang jika Anda menjadi salah satu pengguna pertama kami.",
+    "secure-authentication-with-google": "Autentikasi aman dengan Google",
+    "continue-with-google": "Lanjutkan dengan Google",
+    "by-continuing-you-agree-to-our": "Dengan melanjutkan, Anda menyetujui <Link>Ketentuan Layanan</Link> dan <Privacy>Kebijakan Privasi</Privacy>"
+  },
   "/projects": {
     "title": "Projects",
     "description": "Active projects with specific outcomes and deadlines"
