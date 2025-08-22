@@ -107,7 +107,9 @@ function NoteItemCard({ note, DialogTrigger, isSaving, onClick }: Props) {
               expanded ? 'max-h-none' : 'max-h-96'
             }`}
           >
-            {!!note.title && <div className="mb-2 font-bold">{note.title}</div>}
+            {!!note.title && (
+              <div className="mt-4 mb-2 font-bold">{note.title}</div>
+            )}
             <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />
 
             {note.tags?.length ? (
