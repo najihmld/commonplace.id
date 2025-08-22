@@ -44,7 +44,15 @@ export function useNoteAutosave({
               });
 
               if (!enabled) {
-                queryClient.invalidateQueries({ queryKey: ['notes'] });
+                queryClient.invalidateQueries({
+                  queryKey: ['notes', { paraGroupId }],
+                });
+                queryClient.invalidateQueries({
+                  queryKey: ['tags', paraGroupId],
+                });
+                queryClient.invalidateQueries({
+                  queryKey: ['types', paraGroupId],
+                });
               }
             },
           },

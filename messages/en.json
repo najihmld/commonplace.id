@@ -163,5 +163,8 @@
         "desc": "We may update this privacy policy from time to time. Changes will be published on this page with the latest update date."
       }
     ]
-  }
+  },
+  "delete": "Delete",
+  "see-more": "See more",
+  "see-less": "See less"
 }

@@ -163,5 +163,8 @@
         "desc": "Kami dapat memperbarui kebijakan privasi ini sewaktu-waktu. Perubahan akan dipublikasikan di halaman ini dengan tanggal pembaruan terbaru."
       }
     ]
-  }
+  },
+  "delete": "Hapus",
+  "see-more": "Lihat selengkapnya",
+  "see-less": "Lihat lebih sedikit"
 }
